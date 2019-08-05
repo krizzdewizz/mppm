@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>add track</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="add-track-content">
+    <ion-input placeholder="Name" [(ngModel)]="track.name"></ion-input>
+    <ion-input placeholder="Youtube URL" [(ngModel)]="track.videoUrl"></ion-input>
+    <ion-button (click)="addTrack()">{{ trackIndex === -1 ? 'Add' : 'Edit' }}</ion-button>
+  </div>
+</ion-content>

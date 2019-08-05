@@ -8,16 +8,25 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { StoreService } from './store.service';
+import { MarkerPipe } from './marker.pipe';
+import { TracksService } from './tracks.service';
+import { PlayerService } from './player.service';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MarkerPipe],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    StoreService,
+    TracksService,
+    PlayerService,
+    MarkerPipe
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
