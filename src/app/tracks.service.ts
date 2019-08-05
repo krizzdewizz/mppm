@@ -104,7 +104,7 @@ export class TracksService {
   open() {
     const sel = this.selection;
     if (sel) {
-      this.playerService.open(sel.videoUrl);
+      this.playerService.open(sel.videoUrl, this.ytplayer);
     } else {
       this.playerService.destroy();
     }

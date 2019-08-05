@@ -5,13 +5,13 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {IonicModule} from '@ionic/angular';
 
-import {TrackPage} from './track.page';
+import {MarkerDetailPage} from './marker-detail.page';
 import {MppCommonModule} from '../common/common.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: TrackPage
+        component: MarkerDetailPage
     }
 ];
 
@@ -23,7 +23,7 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes)
     ],
-    declarations: [TrackPage]
+    declarations: [MarkerDetailPage]
 })
-export class TrackPageModule {
+export class MarkerDetailPageModule {
 }

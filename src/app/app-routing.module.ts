@@ -6,6 +6,8 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { path: 'track/:index', loadChildren: './track/track.module#TrackPageModule' },
   { path: 'add-track/:index', loadChildren: './add-track/add-track.module#AddTrackPageModule' },
+  { path: 'marker-detail/:trackIndex/:markerIndex', loadChildren: './marker-detail/marker-detail.module#MarkerDetailPageModule' },
+
 ];
 
 @NgModule({

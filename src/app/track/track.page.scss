@@ -1,0 +1,68 @@
+.tools {
+  height: 40%;
+  display: grid;
+
+  & > * {
+    height: 100%;
+    margin: 0;
+  }
+}
+
+.play-pause {
+  grid-column: 1 / 4;
+  text-align: center;
+}
+
+.seek-to-start, .backward, .forward {
+  grid-row: 2;
+}
+
+.marker-tools {
+  grid-row: 3;
+  grid-column: 1 / 4;
+  display: flex;
+  padding-top: 5px;
+
+  ion-button {
+    height: 100%;
+    flex: 1;
+    margin: 0;
+  }
+}
+
+.marker-active {
+    --background: blue;
+}
+
+.markers {
+  padding: 5px;
+
+  ion-button {
+    height: 50px;
+    margin: 0;
+
+  }
+}
+
+.marker-title {
+  font-size: 9pt;
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  text-transform: initial;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.spacer {
+  flex: 1;
+}
+
+ion-button {
+  font-size: 14pt;
+  background-color: #3880ff;
+}

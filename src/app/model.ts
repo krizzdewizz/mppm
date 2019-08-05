@@ -1,42 +1,42 @@
 export enum PlayerState {
-  UNSTARTED = -1,
-  ENDED = 0,
-  PLAYING = 1,
-  PAUSED = 2,
-  BUFFERING = 3,
-  VIDEO_CUED = 5
+    UNSTARTED = -1,
+    ENDED = 0,
+    PLAYING = 1,
+    PAUSED = 2,
+    BUFFERING = 3,
+    VIDEO_CUED = 5
 }
 
 export interface Player {
-  playVideo(): void;
+    playVideo(): void;
 
-  pauseVideo(): void;
+    pauseVideo(): void;
 
-  stopVideo(): void;
+    stopVideo(): void;
 
-  getPlayerState(): PlayerState;
+    getPlayerState(): PlayerState;
 
-  getDuration(): number;
+    getDuration(): number;
 
-  getVideoUrl(): string;
+    getVideoUrl(): string;
 
-  getCurrentTime(): number;
+    getCurrentTime(): number;
 
-  seekTo(seconds: number, allowSeekAhead: boolean): void;
+    seekTo(seconds: number, allowSeekAhead: boolean): void;
 
-  destroy();
+    destroy();
 }
 
 export interface Track {
-  name: string;
-  videoUrl: string;
-  lyricsUrl?: string;
-  tabsUrl?: string;
-  links?: string;
-  markers: number[];
+    name: string;
+    videoUrl: string;
+    lyricsUrl?: string;
+    tabsUrl?: string;
+    links?: string;
+    markers: { title?: string, value: number }[];
 }
 
 export interface Mpp {
-  lastTrackIndex?: number;
-  tracks?: Track[];
+    lastTrackIndex?: number;
+    tracks?: Track[];
 }
