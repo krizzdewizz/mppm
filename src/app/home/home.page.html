@@ -6,14 +6,14 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let track of tracks; let index = index" #it>
+    <ion-item-sliding *ngFor="let track of tracks" #it>
 
       <ion-item-options side="end">
-        <ion-item-option (click)="editTrack(index, it)">Edit</ion-item-option>
-        <ion-item-option color="danger" (click)="deleteTrack(index)">Delete</ion-item-option>
+        <ion-item-option (click)="editTrack(track, it)">Edit</ion-item-option>
+        <ion-item-option color="danger" (click)="deleteTrack(track)">Delete</ion-item-option>
       </ion-item-options>
 
-      <ion-item routerLink="/track/{{index}}">
+      <ion-item routerLink="/track/{{track.index}}">
         <ion-label>{{track.name}}</ion-label>
       </ion-item>
     </ion-item-sliding>

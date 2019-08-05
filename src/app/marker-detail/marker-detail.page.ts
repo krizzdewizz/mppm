@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {TracksService} from '../tracks.service';
 import {Track} from '../model';
-import {StoreService} from '../store.service';
 import {NavController} from '@ionic/angular';
 
 @Component({
@@ -19,7 +18,6 @@ export class MarkerDetailPage implements OnInit {
 
     constructor(private activatedRoute: ActivatedRoute,
                 private tracksService: TracksService,
-                private storeService: StoreService,
                 private nav: NavController) {
     }
 
@@ -34,7 +32,7 @@ export class MarkerDetailPage implements OnInit {
 
     save() {
         this.marker.title = this.title;
-        this.storeService.save();
+        this.tracksService.saveTracks();
         this.nav.back();
     }
 }

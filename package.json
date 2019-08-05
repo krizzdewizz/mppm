@@ -1,12 +1,13 @@
 {
   "name": "mppm",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Christian Oetterli",
+  "homepage": "http://o3tt3rli.com/mppm",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --base-href /mppm/ --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

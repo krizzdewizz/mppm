@@ -122,7 +122,7 @@ export class TrackPage implements OnInit, OnDestroy {
             this.longPressTimer = setTimeout((() => {
                 this.hadMenu = true;
                 this.presentActionSheet(markerIndex);
-            }), 800);
+            }), 700);
         } else if (!this.hadMenu) {
             clearTimeout(this.longPressTimer);
             this.setActiveMarker(markerIndex);
@@ -136,14 +136,14 @@ export class TrackPage implements OnInit, OnDestroy {
             header: 'Marker',
             buttons: [
                 {
-                    text: 'Delete',
-                    icon: 'trash',
-                    handler: () => this.deleteMarker(markerIndex)
-                },
-                {
                     text: 'Annotate',
                     icon: 'create',
                     handler: () => this.nav.navigateForward(`marker-detail/${this.trackIndex}/${markerIndex}`)
+                },
+                {
+                    text: 'Delete',
+                    icon: 'trash',
+                    handler: () => this.deleteMarker(markerIndex)
                 }
             ]
         });

@@ -1,13 +1,14 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>add track</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>{{ trackIndex === -1 ? 'Add' : 'Edit' }} Track</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="add-track-content">
-    <ion-input placeholder="Name" [(ngModel)]="track.name"></ion-input>
-    <ion-input placeholder="Youtube URL" [(ngModel)]="track.videoUrl"></ion-input>
-    <ion-button (click)="addTrack()">{{ trackIndex === -1 ? 'Add' : 'Edit' }}</ion-button>
-  </div>
+    <div class="add-track-content">
+        <ion-input placeholder="Name" [(ngModel)]="track.name"></ion-input>
+        <ion-input placeholder="Youtube URL" [(ngModel)]="track.videoUrl"></ion-input>
+        <ion-button [disabled]="!track.name || !track.videoUrl"
+                    (click)="addTrack()">{{ trackIndex === -1 ? 'Add' : 'Save' }}</ion-button>
+    </div>
 </ion-content>

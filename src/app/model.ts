@@ -37,6 +37,5 @@ export interface Track {
 }
 
 export interface Mpp {
-    lastTrackIndex?: number;
     tracks?: Track[];
 }
