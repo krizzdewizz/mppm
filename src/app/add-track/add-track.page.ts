@@ -3,6 +3,7 @@ import { Track } from '../model';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { TracksService } from '../tracks.service';
+import { getSelectedVideo, setSelectedVideo } from '../yt-search/yt-search';
 
 @Component({
   selector: 'app-add-track',
@@ -29,6 +30,17 @@ export class AddTrackPage implements OnInit {
     }
   }
 
+  ionViewWillEnter() {
+    const selectedVideo = getSelectedVideo();
+    if (selectedVideo) {
+      this.track.videoUrl = selectedVideo.id.videoId;
+      if (!this.track.name) {
+        this.track.name = selectedVideo.snippet.title;
+      }
+      setSelectedVideo(undefined);
+    }
+  }
+
   addTrack() {
     if (this.trackIndex !== -1) {
       const existing = this.tracksService.tracks[this.trackIndex];
@@ -37,6 +49,7 @@ export class AddTrackPage implements OnInit {
     } else {
       this.tracksService.tracks.push({ ...this.track });
     }
+    this.tracksService.saveTracks();
     this.nav.back();
   }
 }

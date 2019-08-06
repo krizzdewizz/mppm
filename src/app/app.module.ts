@@ -12,11 +12,12 @@ import {StoreService} from './store.service';
 import {MarkerPipe} from './marker.pipe';
 import {TracksService} from './tracks.service';
 import {PlayerService} from './player.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
-    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
     providers: [
         StatusBar,
         SplashScreen,

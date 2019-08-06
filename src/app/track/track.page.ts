@@ -113,7 +113,7 @@ export class TrackPage implements OnInit, OnDestroy {
     }
 
     private sortMarkers() {
-        this.track.markers.sort((a, b) => a < b ? -1 : a > b ? 1 : 0);
+        this.track.markers.sort((a, b) => a.value < b.value ? -1 : a.value > b.value ? 1 : 0);
     }
 
     mouse(markerIndex: number, down: boolean) {

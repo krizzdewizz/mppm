@@ -9,8 +9,8 @@
     <ion-item-sliding *ngFor="let track of tracks" #it>
 
       <ion-item-options side="end">
-        <ion-item-option (click)="editTrack(track, it)">Edit</ion-item-option>
-        <ion-item-option color="danger" (click)="deleteTrack(track)">Delete</ion-item-option>
+        <ion-item-option (click)="editTrack(track, it)"><ion-icon name="create"></ion-icon></ion-item-option>
+        <ion-item-option color="danger" (click)="deleteTrack(track)"><ion-icon name="trash"></ion-icon></ion-item-option>
       </ion-item-options>
 
       <ion-item routerLink="/track/{{track.index}}">

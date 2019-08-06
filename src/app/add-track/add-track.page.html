@@ -6,11 +6,11 @@
 
 <ion-content>
     <div class="add-track-content">
-        <ion-input placeholder="Name" [(ngModel)]="track.name"></ion-input>
         <div class="video-url">
-            <ion-input placeholder="Youtube URL" [(ngModel)]="track.videoUrl"></ion-input>
+            <ion-input placeholder="YouTube URL or Video ID" [(ngModel)]="track.videoUrl"></ion-input>
             <ion-icon name="search" routerLink="/yt-search"></ion-icon>
         </div>
+        <ion-input placeholder="Name" [(ngModel)]="track.name"></ion-input>
         <ion-button [disabled]="!track.name || !track.videoUrl"
                     (click)="addTrack()">{{ trackIndex === -1 ? 'Add' : 'Save' }}</ion-button>
     </div>

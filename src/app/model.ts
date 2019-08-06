@@ -39,3 +39,17 @@ export interface Track {
 export interface Mpp {
     tracks?: Track[];
 }
+
+export interface YTVideo {
+    id: {
+        videoId: string;
+    };
+    snippet: {
+        title: string;
+        description: string;
+    };
+}
+
+export interface YTSearchResult {
+    items: YTVideo[];
+}
