@@ -2,3 +2,14 @@
   padding: 16px;
   display: grid;
 }
+
+
+.video-url {
+  display: flex;
+
+  ion-icon {
+    font-size: 20pt;
+    position: relative;
+    top: 5px;
+  }
+}
