@@ -4,14 +4,16 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [class.show-help]="showHelp">
     <div class="main-content">
         <div class="tools">
             <ion-button class="play-pause" (click)="playPause()">
                 <ion-icon [name]="playPauseIcon"></ion-icon>
+                <span class="key">space</span>
             </ion-button>
             <ion-button class="seek-to-start" (click)="seekToStart()">
                 <ion-icon name="skip-backward"></ion-icon>
+                <span class="key">return</span>
             </ion-button>
             <ion-button class="backward"
                         mppmLongClick
@@ -19,6 +21,7 @@
                         (mppmClickLong)="backwardForwardLong(true)"
                         (mppmClickEnd)="longClickEnd()">
                 <ion-icon name="rewind"></ion-icon>
+                <span class="key">left</span>
             </ion-button>
             <ion-button class="forward"
                         mppmLongClick
@@ -26,10 +29,12 @@
                         (mppmClickLong)="backwardForwardLong(false)"
                         (mppmClickEnd)="longClickEnd()">
                 <ion-icon name="fastforward"></ion-icon>
+                <span class="key">right</span>
             </ion-button>
             <div class="marker-tools">
                 <ion-button color="success" [disabled]="noActiveMarker" (click)="seekToActiveMarker()">
                     <ion-icon name="skip-backward"></ion-icon>
+                    <span class="key">backspace</span>
                 </ion-button>
                 <ion-button
                         color="success"
@@ -39,6 +44,7 @@
                         (mppmClickLong)="moveMarkerLong(true)"
                         (mppmClickEnd)="longClickEnd()">
                     <ion-icon name="rewind"></ion-icon>
+                    <span class="key">up</span>
                 </ion-button>
                 <ion-button color="success"
                             [disabled]="noActiveMarker"
@@ -47,9 +53,11 @@
                             (mppmClickLong)="moveMarkerLong(false)"
                             (mppmClickEnd)="longClickEnd()">
                     <ion-icon name="fastforward"></ion-icon>
+                    <span class="key">down</span>
                 </ion-button>
                 <ion-button color="success" [disabled]="isAtStart" (click)="addMarker()">
                     <ion-icon name="add"></ion-icon>
+                    <span class="key">a</span>
                 </ion-button>
             </div>
         </div>
@@ -63,7 +71,9 @@
                     [class.marker-active]="activeMarker===markerIndex"
                     [color]="activeMarker===markerIndex ? undefined : 'success'">
                 {{marker.value | marker}}
-                <span class="marker-title">{{marker.title}}</span></ion-button>
+                <span class="marker-title">{{marker.title}}</span>
+                <span class="key">{{markerIndex + 1}}</span>
+            </ion-button>
         </div>
 
         <div class="spacer"></div>

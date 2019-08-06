@@ -12,11 +12,12 @@ import {StoreService} from './store.service';
 import {MarkerPipe} from './common/marker.pipe';
 import {TracksService} from './tracks.service';
 import {PlayerService} from './player.service';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {XlatePipe} from './common/xlate.pipe';
+import {KeyDirective} from './common/key.directive';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, KeyDirective],
     entryComponents: [],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
     providers: [

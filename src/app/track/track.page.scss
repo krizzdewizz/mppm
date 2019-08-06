@@ -31,7 +31,7 @@
 }
 
 .marker-active {
-    --background: green;
+  --background: green;
 }
 
 .markers {
@@ -64,4 +64,18 @@
 ion-button {
   font-size: 14pt;
   margin: 2px;
+}
+
+.key {
+  color: wheat;
+  font-size: 10pt;
+  right: 5px;
+  top: 5px;
+  position: absolute;
+  text-transform: initial;
+  visibility: hidden;
+}
+
+.show-help .key {
+  visibility: visible;
 }

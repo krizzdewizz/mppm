@@ -6,6 +6,7 @@ import {incrTime, PlayerService} from '../player.service';
 import {Subscription} from 'rxjs';
 import {ActionSheetController, NavController} from '@ionic/angular';
 import {XlatePipe} from '../common/xlate.pipe';
+import {Events, MarkerAction, MarkerEvent} from '../common/events';
 
 const LONG_CLICK_SEEK_INTERVAL = 200;
 const LONG_CLICK_SEEK_SECONDS = 5;
@@ -22,6 +23,8 @@ export class TrackPage implements OnInit, OnDestroy {
     private subscription: Subscription;
     private activeMarker: number;
     private longClickInterval;
+
+    showHelp = false;
 
     @ViewChild('ytplayer', {static: true}) ytplayer: ElementRef;
     @ViewChild('header', {static: true, read: ElementRef}) header: ElementRef;
@@ -41,6 +44,26 @@ export class TrackPage implements OnInit, OnDestroy {
         this.subscription = this.playerService.playerReady.subscribe(() => {
             this.playerService.open(this.track.videoUrl, this.ytplayer, this.header.nativeElement.offsetWidth);
         });
+
+        this.subscription.add(Events.marker.subscribe((e: MarkerEvent) => {
+            switch (e.action) {
+                case MarkerAction.ADD:
+                    this.addMarker();
+                    break;
+                case MarkerAction.MOVE_ACTIVE:
+                    this.moveMarker(e.data);
+                    break;
+                case MarkerAction.SET_ACTIVE:
+                    this.setActiveMarker(e.data);
+                    break;
+                case MarkerAction.SEEK_TO_ACTIVE:
+                    this.seekToActiveMarker();
+                    break;
+                case MarkerAction.TOGGLE_HELP:
+                    this.showHelp = !this.showHelp;
+                    break;
+            }
+        }));
     }
 
     ngOnDestroy() {
@@ -109,8 +132,10 @@ export class TrackPage implements OnInit, OnDestroy {
     }
 
     setActiveMarker(index: number) {
-        this.activeMarker = index;
-        this.seekToActiveMarker();
+        if (index >= 0 && index < this.track.markers.length) {
+            this.activeMarker = index;
+            this.seekToActiveMarker();
+        }
     }
 
     moveMarker(back: boolean, amount = 1) {
