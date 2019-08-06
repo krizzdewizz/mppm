@@ -5,6 +5,10 @@ import {TracksService} from '../tracks.service';
 import {incrTime, PlayerService} from '../player.service';
 import {Subscription} from 'rxjs';
 import {ActionSheetController, NavController} from '@ionic/angular';
+import {XlatePipe} from '../common/xlate.pipe';
+
+const LONG_CLICK_SEEK_INTERVAL = 200;
+const LONG_CLICK_SEEK_SECONDS = 5;
 
 @Component({
     selector: 'app-track',
@@ -17,18 +21,18 @@ export class TrackPage implements OnInit, OnDestroy {
     private trackIndex: number;
     private subscription: Subscription;
     private activeMarker: number;
-    private longPressTimer;
+    private longClickInterval;
 
     @ViewChild('ytplayer', {static: true}) ytplayer: ElementRef;
     @ViewChild('header', {static: true, read: ElementRef}) header: ElementRef;
-    private hadMenu: boolean;
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private tracksService: TracksService,
         private playerService: PlayerService,
         public actionSheetController: ActionSheetController,
-        private nav: NavController) {
+        private nav: NavController,
+        private xlate: XlatePipe) {
     }
 
     ngOnInit() {
@@ -60,12 +64,20 @@ export class TrackPage implements OnInit, OnDestroy {
         this.playerService.seekToStart();
     }
 
-    backward() {
-        this.playerService.backwardForward(true);
+    backwardForward(back: boolean, amount = 1) {
+        this.playerService.backwardForward(back, amount);
     }
 
-    forward() {
-        this.playerService.backwardForward(false);
+    backwardForwardLong(back: boolean) {
+        this.longClickInterval = setInterval(() => this.backwardForward(back, LONG_CLICK_SEEK_SECONDS), LONG_CLICK_SEEK_INTERVAL);
+    }
+
+    longClickEnd() {
+        clearInterval(this.longClickInterval);
+    }
+
+    moveMarkerLong(back: boolean) {
+        this.longClickInterval = setInterval(() => this.moveMarker(back, LONG_CLICK_SEEK_SECONDS), LONG_CLICK_SEEK_INTERVAL);
     }
 
     seekToActiveMarker() {
@@ -101,10 +113,10 @@ export class TrackPage implements OnInit, OnDestroy {
         this.seekToActiveMarker();
     }
 
-    moveMarker(back: boolean) {
+    moveMarker(back: boolean, amount = 1) {
         const {activeMarker, track} = this;
         const {markers} = track;
-        const newMarker = incrTime(markers[activeMarker].value, back);
+        const newMarker = incrTime(markers[activeMarker].value, back, amount);
         markers[activeMarker].value = newMarker;
         this.sortMarkers();
         this.activeMarker = markers.findIndex(m => m.value === newMarker);
@@ -116,32 +128,17 @@ export class TrackPage implements OnInit, OnDestroy {
         this.track.markers.sort((a, b) => a.value < b.value ? -1 : a.value > b.value ? 1 : 0);
     }
 
-    mouse(markerIndex: number, down: boolean) {
-        if (down) {
-            this.hadMenu = false;
-            this.longPressTimer = setTimeout((() => {
-                this.hadMenu = true;
-                this.presentActionSheet(markerIndex);
-            }), 700);
-        } else if (!this.hadMenu) {
-            clearTimeout(this.longPressTimer);
-            this.setActiveMarker(markerIndex);
-        }
-
-        return false;
-    }
-
     async presentActionSheet(markerIndex: number) {
         const actionSheet = await this.actionSheetController.create({
-            header: 'Marker',
+            header: this.xlate.transform('C_MARKER'),
             buttons: [
                 {
-                    text: 'Annotate',
+                    text: this.xlate.transform('C_DESCRIPTION'),
                     icon: 'create',
                     handler: () => this.nav.navigateForward(`marker-detail/${this.trackIndex}/${markerIndex}`)
                 },
                 {
-                    text: 'Delete',
+                    text: this.xlate.transform('C_DELETE'),
                     icon: 'trash',
                     handler: () => this.deleteMarker(markerIndex)
                 }

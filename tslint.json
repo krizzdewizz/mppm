@@ -75,13 +75,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "mppm",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "app",
+      "mppm",
       "page",
       "kebab-case"
     ]

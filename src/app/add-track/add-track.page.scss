@@ -8,8 +8,10 @@
   display: flex;
 
   ion-icon {
-    font-size: 20pt;
+    font-size: 25pt;
+    color: #aaaaaa;
     position: relative;
     top: 5px;
+    cursor: pointer;
   }
 }

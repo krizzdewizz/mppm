@@ -6,8 +6,7 @@
   "description": "Musician's Practicing Player",
   "scripts": {
     "start": "ng serve",
-    "build": "ng build",
-    "build:prod": "npm run lint && ng build --base-href /mppm/ --prod",
+    "build": "npm run lint && ng build --base-href /mppm/ --prod",
     "lint": "ng lint"
   },
   "private": true,

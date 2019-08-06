@@ -24,10 +24,9 @@ export class AppComponent {
         tracksService.loadTracks();
     }
 
-    initializeApp() {
-        this.platform.ready().then(() => {
-            this.statusBar.styleDefault();
-            this.splashScreen.hide();
-        });
+    async initializeApp() {
+        await this.platform.ready();
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
     }
 }

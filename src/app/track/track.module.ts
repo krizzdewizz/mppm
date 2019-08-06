@@ -21,7 +21,7 @@ const routes: Routes = [
         MppCommonModule,
         FormsModule,
         IonicModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
     ],
     declarations: [TrackPage]
 })

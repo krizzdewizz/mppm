@@ -3,8 +3,7 @@ import {Player, PlayerState} from './model';
 import {getIdFromURL} from './url-parser';
 import {BehaviorSubject} from 'rxjs';
 
-export function incrTime(time: number, backward: boolean): number {
-    let amount = 1; // 1sec
+export function incrTime(time: number, backward: boolean, amount = 1): number {
     if (backward) {
         amount *= -1;
     }
@@ -43,8 +42,7 @@ export class PlayerService {
             videoId: getIdFromURL(url),
             width,
             height: '200',
-            host: 'https://www.youtube.com',
-            playerVars: {controls: 1, origin: 'http://localhost:4200'}
+            playerVars: {controls: 1}
         });
     }
 
@@ -68,8 +66,8 @@ export class PlayerService {
         this.player.seekTo(0, true);
     }
 
-    backwardForward(backward: boolean) {
-        this.player.seekTo(incrTime(this.player.getCurrentTime(), backward), true);
+    backwardForward(backward: boolean, amount = 1) {
+        this.player.seekTo(incrTime(this.player.getCurrentTime(), backward, amount), true);
     }
 
     seekTo(seconds: number, allowSeekAhead: boolean) {

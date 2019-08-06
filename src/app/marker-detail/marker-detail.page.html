@@ -1,12 +1,12 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Marker at {{marker?.value | marker}}</ion-title>
+        <ion-title>{{'C_MARKER' | xlate}} {{marker?.value | marker}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <div class="marker-detail-content">
-        <ion-input placeholder="Description" [(ngModel)]="title"></ion-input>
-        <ion-button (click)="save()">Save</ion-button>
+        <ion-input clear-input [placeholder]="'C_DESCRIPTION' | xlate" [(ngModel)]="title"></ion-input>
+        <ion-button (click)="save()">{{ 'C_SAVE' | xlate}}</ion-button>
     </div>
 </ion-content>

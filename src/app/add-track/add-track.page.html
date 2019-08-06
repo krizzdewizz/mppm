@@ -1,17 +1,17 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>{{ trackIndex === -1 ? 'Add' : 'Edit' }} Track</ion-title>
+        <ion-title>{{ (trackIndex < 0 ? 'C_ADD_TRACK' : 'C_EDIT_TRACK') | xlate }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <div class="add-track-content">
         <div class="video-url">
-            <ion-input placeholder="YouTube URL or Video ID" [(ngModel)]="track.videoUrl"></ion-input>
+            <ion-input clear-input [placeholder]="'C_YT_OR_VIDEO_ID' | xlate" [(ngModel)]="track.videoUrl"></ion-input>
             <ion-icon name="search" routerLink="/yt-search"></ion-icon>
         </div>
-        <ion-input placeholder="Name" [(ngModel)]="track.name"></ion-input>
+        <ion-input clear-input [placeholder]="'C_NAME' | xlate" [(ngModel)]="track.name"></ion-input>
         <ion-button [disabled]="!track.name || !track.videoUrl"
-                    (click)="addTrack()">{{ trackIndex === -1 ? 'Add' : 'Save' }}</ion-button>
+                    (click)="addTrack()">{{ (trackIndex < 0 ? 'C_ADD' : 'C_SAVE') | xlate }}</ion-button>
     </div>
 </ion-content>

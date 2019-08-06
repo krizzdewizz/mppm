@@ -33,6 +33,8 @@ export class HomePage {
         } else {
             this.tracks = tracks;
         }
+
+        this.tracks.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     onFilterChange(e) {
