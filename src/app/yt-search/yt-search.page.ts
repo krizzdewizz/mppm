@@ -5,9 +5,9 @@ import { decode } from 'he';
 import { NavController } from '@ionic/angular';
 import { setSelectedVideo } from './yt-search';
 import { YTVideo, YTSearchResult } from '../model';
+import { API_KEY } from './api';
 
 const API_URL = 'https://www.googleapis.com/youtube/v3/search';
-const API_KEY = 'AIzaSyAtDKyO9D05FvBoDMN7Oh6zLAs33HOvE0c';
 
 const EMPTY_RESULT = { items: [] };
 
