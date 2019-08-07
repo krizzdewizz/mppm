@@ -27,7 +27,7 @@
         <div class="menu-container" (click)="presentMenu()">
             <ion-icon name="menu"></ion-icon>
         </div>
-        <ion-fab-button (click)="addTrack()">
+        <ion-fab-button [class.pulse]="tracks?.length === 0" (click)="addTrack()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>
