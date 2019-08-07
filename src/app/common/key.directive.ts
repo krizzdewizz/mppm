@@ -13,7 +13,7 @@ export class KeyDirective {
     @HostListener('document:keydown', ['$event'])
     onKeyDown(e: KeyboardEvent): boolean {
 
-        if (!location.pathname.includes('/track/')) {
+        if (!location.hash.includes('/track/')) {
             return;
         }
 
