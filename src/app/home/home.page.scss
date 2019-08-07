@@ -2,12 +2,20 @@ ion-item-option {
   font-size: 15pt;
 }
 
-.menu-container {
-  cursor: pointer;
-  height: 56px;
-  display: flex;
-  position: relative;
-  top: -20px;
+ion-fab {
+  .menu-container {
+    cursor: pointer;
+    height: 56px;
+    display: flex;
+    position: relative;
+    top: -20px;
+    left: -10px;
+  }
+
+  ion-fab-button {
+    position: relative;
+    left: -10px;
+  }
 }
 
 ion-icon[name="menu"] {

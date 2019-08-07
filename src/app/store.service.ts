@@ -45,7 +45,7 @@ export class StoreService {
     }
 
     export() {
-        downloadFile('mppm.json', localStorage.getItem(MPP));
+        downloadFile('mpp.txt', localStorage.getItem(MPP));
     }
 
     load() {
