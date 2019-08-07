@@ -49,6 +49,6 @@ export class HomePage {
 
     editTrack(track: TrackWithIndex, item) {
         item.close();
-        this.nav.navigateForward(`/add-track/${track.index}`);
+        this.nav.navigateForward(['/add-track', track.index]);
     }
 }
