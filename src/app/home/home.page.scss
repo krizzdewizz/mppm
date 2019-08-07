@@ -26,7 +26,7 @@ ion-icon[name="menu"] {
   top: 10px;
 }
 
-@keyframes pulse_animation {
+@keyframes pulse-animation {
   0% { opacity: 1; }
   30% { opacity: 1; }
   40% { opacity: 0.7; }
@@ -38,7 +38,7 @@ ion-icon[name="menu"] {
 }
 
 .pulse {
-  animation-name: pulse_animation;
+  animation-name: pulse-animation;
   animation-duration: 4000ms;
   transform-origin:70% 70%;
   animation-iteration-count: infinite;
