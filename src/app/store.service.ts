@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Mpp} from './model';
+import {downloadFile, fileDialog} from './util';
 // import {TEST_TRACKS} from './test-tracks';
 
 const MPP = 'mpp';
@@ -16,6 +17,35 @@ export class StoreService {
 
     save() {
         localStorage.setItem(MPP, JSON.stringify(this.mpp));
+    }
+
+    async import() {
+
+        const files = await fileDialog();
+
+        return new Promise(resolve => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                try {
+                    const {result} = e.target as any;
+                    const mpp = JSON.parse(result);
+                    if (typeof mpp === 'object' && mpp.tracks) {
+                        localStorage.setItem(MPP, result);
+                        this.mpp = mpp;
+                        resolve(true);
+                        return;
+                    }
+                } catch {
+                    // ignore
+                }
+                resolve(false);
+            };
+            reader.readAsText(files[0]);
+        });
+    }
+
+    export() {
+        downloadFile('mppm.json', localStorage.getItem(MPP));
     }
 
     load() {

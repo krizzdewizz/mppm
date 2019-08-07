@@ -1,3 +1,19 @@
 ion-item-option {
   font-size: 15pt;
 }
+
+.menu-container {
+  cursor: pointer;
+  height: 56px;
+  display: flex;
+  position: relative;
+  top: -20px;
+}
+
+ion-icon[name="menu"] {
+  background-color: white;
+  font-size: 25pt;
+  flex: 1;
+  position: relative;
+  top: 10px;
+}

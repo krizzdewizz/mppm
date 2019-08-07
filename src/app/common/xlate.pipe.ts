@@ -13,7 +13,11 @@ const DEFAULT = {
     C_SEARCH_YT: 'Search in YouTube',
     C_DESCRIPTION: 'Description',
     C_DELETE: 'Delete',
-    C_MARKER: 'Marker'
+    C_MARKER: 'Marker',
+    C_IMPORT: 'Import Tracks',
+    C_EXPORT: 'Export Tracks',
+    C_IMPORT_ERROR: 'The file could not be imported. Maybe it\'s not a previously exported MPP file.',
+    C_INFO: 'Info'
 };
 
 const GERMAN = {
@@ -27,7 +31,11 @@ const GERMAN = {
     C_SEARCH_YT: 'In YouTube suchen',
     C_DESCRIPTION: 'Beschreibung',
     C_DELETE: 'Löschen',
-    C_MARKER: 'Marker'
+    C_MARKER: 'Marker',
+    C_IMPORT: 'Tracks Importieren',
+    C_EXPORT: 'Tracks Exportieren',
+    C_IMPORT_ERROR: 'Die Datei konnte nicht importiert werden. Vielleicht ist es keine zuvor exportierte MPP Datei.',
+    C_INFO: 'Info'
 };
 
 // end data

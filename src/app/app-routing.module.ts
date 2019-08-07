@@ -10,7 +10,8 @@ const routes: Routes = [
         path: 'marker-detail/:trackIndex/:markerIndex',
         loadChildren: './marker-detail/marker-detail.module#MarkerDetailPageModule'
     },
-    {path: 'yt-search', loadChildren: './yt-search/yt-search.module#YtSearchPageModule'},
+    {path: 'yt-search', loadChildren: './yt-search/yt-search.module#YtSearchPageModule'},  { path: 'info', loadChildren: './info/info.module#InfoPageModule' },
+
 ];
 
 @NgModule({

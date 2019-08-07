@@ -8,7 +8,7 @@
     <div class="add-track-content">
         <div class="video-url">
             <ion-input clear-input [placeholder]="'C_YT_OR_VIDEO_ID' | xlate" [(ngModel)]="track.videoUrl"></ion-input>
-            <ion-icon name="search" routerLink="/yt-search"></ion-icon>
+            <ion-icon name="search" (click)="ytSearch()"></ion-icon>
         </div>
         <ion-input clear-input [placeholder]="'C_NAME' | xlate" [(ngModel)]="track.name"></ion-input>
         <ion-button [disabled]="!track.name || !track.videoUrl"

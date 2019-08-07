@@ -6,7 +6,7 @@
   "description": "Musician's Practicing Player",
   "scripts": {
     "start": "ng serve",
-    "build": "npm run lint && ng build --base-href / --prod && node dev/build-final",
+    "build": "npm run lint && node dev/build-start && ng build --base-href /mppm/ --prod && node dev/build-final",
     "lint": "ng lint"
   },
   "private": true,
@@ -23,6 +23,7 @@
     "@ionic-native/status-bar": "5.0.0",
     "@ionic/angular": "4.7.1",
     "core-js": "2.5.4",
+    "file-dialog": "^0.0.7",
     "he": "1.2.0",
     "rxjs": "6.5.1",
     "tslib": "1.9.0",

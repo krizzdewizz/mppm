@@ -2417,6 +2417,11 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
+file-dialog@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/file-dialog/-/file-dialog-0.0.7.tgz#1cef1a10d25043bb548e2dfa5b00b423ef669f63"
+  integrity sha512-eRo8DZbV7G0ADtaUPvGAb5ZXB+jN1ehVeYanIHDt2wEokjiXTy5kzMvtiPw4nEtt08IxJqqMeeFZNP34XLNjRw==
+
 file-loader@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-4.0.0.tgz#c3570783fefb6e1bc0978a856f4bf5825b966c2a"

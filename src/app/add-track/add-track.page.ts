@@ -57,4 +57,8 @@ export class AddTrackPage implements OnInit {
             newNav.then(() => this.nav.navigateRoot([`/track`, this.tracksService.tracks.length - 1]));
         }
     }
+
+    ytSearch() {
+        this.nav.navigateForward('/yt-search');
+    }
 }
