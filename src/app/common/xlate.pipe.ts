@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-/* ts-lint:disable:max-line-length */
+// tslint:disable:max-line-length
 
 // data
 
@@ -53,8 +53,6 @@ const SUPPORTED_LANGS = {
 let cachedLang: string;
 
 function getLang(): string {
-
-  return 'de'
 
   if (cachedLang) {
     return cachedLang;

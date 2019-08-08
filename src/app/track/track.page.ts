@@ -155,12 +155,12 @@ export class TrackPage implements OnInit, OnDestroy {
 
     async presentActionSheet(markerIndex: number) {
         const actionSheet = await this.actionSheetController.create({
-            header: this.xlate.transform('C_MARKER'),
+            header: `${this.xlate.transform('C_MARKER')} ${this.track.markers[markerIndex].title || ''}`,
             buttons: [
                 {
                     text: this.xlate.transform('C_DESCRIPTION'),
                     icon: 'create',
-                    handler: () => this.nav.navigateForward(`marker-detail/${this.trackIndex}/${markerIndex}`)
+                    handler: () => this.nav.navigateForward(['/marker-detail', this.trackIndex, markerIndex])
                 },
                 {
                     text: this.xlate.transform('C_DELETE'),
