@@ -1,17 +1,15 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>{{ (trackIndex < 0 ? 'C_ADD_TRACK' : 'C_EDIT_TRACK') | xlate }}</ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>{{ (trackIndex < 0 ? 'C_ADD_TRACK' : 'C_EDIT_TRACK') | xlate }}</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div class="add-track-content">
-        <ion-input clear-input [placeholder]="'C_NAME' | xlate" [(ngModel)]="track.name"></ion-input>
-        <div class="video-url">
-            <ion-input clear-input [placeholder]="'C_YT_OR_VIDEO_ID' | xlate" [(ngModel)]="track.videoUrl"></ion-input>
-            <ion-icon name="search" (click)="ytSearch()"></ion-icon>
-        </div>
-        <ion-button class="add" [disabled]="!track.name || !track.videoUrl"
-                    (click)="addTrack()">{{ (trackIndex < 0 ? 'C_ADD' : 'C_SAVE') | xlate }}</ion-button>
-    </div>
+  <div class="add-track-content">
+    <ion-input clear-input [placeholder]="'C_NAME' | xlate" [(ngModel)]="track.name"></ion-input>
+    <ion-input clear-input [placeholder]="'C_YT_OR_VIDEO_ID' | xlate" [(ngModel)]="track.videoUrl"></ion-input>
+    <ion-icon name="search" (click)="ytSearch()"></ion-icon>
+    <ion-button class="add" [disabled]="!track.name || !track.videoUrl"
+                (click)="addTrack()">{{ (trackIndex < 0 ? 'C_ADD' : 'C_SAVE') | xlate }}</ion-button>
+  </div>
 </ion-content>

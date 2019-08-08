@@ -1,17 +1,28 @@
 .add-track-content {
   padding: 16px;
   display: grid;
-}
+  grid-template-columns: auto 35px;
 
-.video-url {
-  display: flex;
+  ion-input {
+    grid-column: 1;
+  }
+
+  ion-input:nth-child(2) {
+    color: #aaaaaa;
+  }
 
   ion-icon {
+    grid-column: 2;
+    justify-self: end;
     font-size: 25pt;
     color: #aaaaaa;
     position: relative;
-    top: 5px;
+    top: -35px;
     cursor: pointer;
+  }
+
+  ion-button {
+    grid-column: 1/3;
   }
 }
 

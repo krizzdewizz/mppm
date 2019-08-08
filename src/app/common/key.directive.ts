@@ -23,7 +23,7 @@ export class KeyDirective {
             return;
         }
 
-        const kc = e.keyCode;
+        const kc = e[`keyCode`];
         // console.log(`cc=${kc}`);
         const ZERO = 48;
         const NINE = 57;

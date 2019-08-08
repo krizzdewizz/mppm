@@ -1,13 +1,18 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-searchbar [placeholder]="'C_SEARCH_YT' | xlate" (ionInput)="onFilterChange($event)"></ion-searchbar>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [placeholder]="'C_SEARCH_YT' | xlate" (ionInput)="onFilterChange($event)"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <ion-item *ngFor="let item of searchResult.items" (click)="selectItem(item)">
-            <ion-label>{{item.snippet.title}}</ion-label>
-        </ion-item>
-    </ion-list>
+  <div class="error" *ngIf="error">{{'C_YT_SEARCH_ERROR'|xlate}}
+    <p>
+      <a (click)="visitYt()">YouTube</a>
+    </p>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let item of searchResult.items" (click)="selectItem(item)">
+      <ion-label>{{item.snippet.title}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

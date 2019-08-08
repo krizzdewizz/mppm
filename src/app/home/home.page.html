@@ -25,13 +25,13 @@
         </ion-item-sliding>
     </ion-list>
 
-    <ion-fab [vertical]="noTracks ? 'center' : 'bottom'" [horizontal]="noTracks ? 'center' : 'end'" slot="fixed">
+    <ion-fab [class.with-tracks]="!noTracks" [vertical]="noTracks ? 'center' : 'bottom'" [horizontal]="noTracks ? 'center' : 'end'" slot="fixed">
         <div class="menu-container" (click)="presentMenu()">
             <ion-icon name="menu"></ion-icon>
         </div>
         <ion-fab-button [class.pulse]="noTracks" (click)="addTrack()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
+        <div *ngIf="noTracks" class="add-track-info pulse" >{{'C_ADD_TRACK'|xlate}}</div>
     </ion-fab>
-    <div *ngIf="noTracks" class="add-track-info pulse" >{{'C_ADD_TRACK'|xlate}}</div>
 </ion-content>
