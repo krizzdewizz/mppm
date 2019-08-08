@@ -1,6 +1,9 @@
 .header {
   padding: 7px;
   background-color: white;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .tools {

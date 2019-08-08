@@ -16,9 +16,13 @@ interface TrackWithIndex extends Track {
 })
 export class HomePage {
 
-    tracks: TrackWithIndex[];
+    tracks: TrackWithIndex[] = [];
 
     private filter = '';
+
+    get noTracks(): boolean {
+        return this.tracks.length === 0;
+    }
 
     constructor(private tracksService: TracksService,
                 private nav: NavController,
@@ -59,15 +63,15 @@ export class HomePage {
         this.nav.navigateForward(['/add-track', track.index]);
     }
 
-    addTrack() {
-        this.nav.navigateForward(['/add-track', -1]);
+    async addTrack() {
+        await this.nav.navigateForward(['/add-track', -1], {animated: false});
+        await this.nav.navigateForward('/yt-search');
     }
 
     async presentMenu() {
         const actionSheet = await this.actionSheetController.create({
-            // header: this.xlate.transform('C_MARKER'),
             buttons: [
-                {
+                this.noTracks ? undefined : {
                     text: this.xlate.transform('C_EXPORT'),
                     handler: () => {
                         setTimeout(() => this.storeService.export());
@@ -96,7 +100,7 @@ export class HomePage {
                     text: this.xlate.transform('C_INFO'),
                     handler: () => this.presentInfo()
                 },
-            ]
+            ].filter(Boolean)
         });
         await actionSheet.present();
     }

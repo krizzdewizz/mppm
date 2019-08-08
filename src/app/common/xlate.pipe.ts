@@ -3,10 +3,10 @@ import {Pipe, PipeTransform} from '@angular/core';
 // data
 
 const DEFAULT = {
-    C_NAME: 'Name',
+    C_NAME: 'Title',
     C_YT_OR_VIDEO_ID: 'YouTube URL or Video ID',
-    C_EDIT_TRACK: 'Edit track',
-    C_ADD_TRACK: 'Add track',
+    C_EDIT_TRACK: 'Edit Track',
+    C_ADD_TRACK: 'Add Track',
     C_SAVE: 'Save',
     C_ADD: 'Add',
     C_SEARCH: 'Search',
@@ -21,7 +21,7 @@ const DEFAULT = {
 };
 
 const GERMAN = {
-    C_NAME: 'Name',
+    C_NAME: 'Titel',
     C_YT_OR_VIDEO_ID: 'YouTube URL oder Video ID',
     C_EDIT_TRACK: 'Track bearbeiten',
     C_ADD_TRACK: 'Track hinzufügen',

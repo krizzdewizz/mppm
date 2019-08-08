@@ -28,7 +28,7 @@ export class YtSearchPage implements OnInit {
 
     ngOnInit() {
         this.filterChange.pipe(
-            debounceTime(500),
+            debounceTime(1200),
             distinctUntilChanged(),
             flatMap(searchTerm => this.http.get(
                 `${API_URL}?q=${encodeURIComponent(searchTerm)}&key=${API_KEY}&maxResults=20&part=snippet&type=video&alt=json`))

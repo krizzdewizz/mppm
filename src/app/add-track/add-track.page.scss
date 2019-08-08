@@ -3,7 +3,6 @@
   display: grid;
 }
 
-
 .video-url {
   display: flex;
 
@@ -14,4 +13,8 @@
     top: 5px;
     cursor: pointer;
   }
+}
+
+.add {
+  margin-top: 20px;
 }
