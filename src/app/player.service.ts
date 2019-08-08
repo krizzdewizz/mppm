@@ -42,7 +42,7 @@ export class PlayerService {
             videoId: getIdFromURL(url),
             width,
             height: '200',
-            playerVars: {controls: 1}
+            playerVars: {controls: 1, playsinline: 1}
         });
     }
 
