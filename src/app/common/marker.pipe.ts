@@ -6,6 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class MarkerPipe implements PipeTransform {
 
   transform(secs: number, args?: any): any {
+    if (secs === undefined || secs === null) {
+      return secs;
+    }
     const m = Math.floor(secs / 60);
     let s: any = Math.floor(secs % 60);
     if (s < 10) {

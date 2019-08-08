@@ -6,6 +6,7 @@
             <ion-button class="play-pause" (click)="playPause()">
                 <ion-icon [name]="playPauseIcon"></ion-icon>
                 <span class="key">space</span>
+                <div class="play-position">{{playPosition}}</div>
             </ion-button>
             <ion-button class="seek-to-start" (click)="seekToStart()">
                 <ion-icon name="skip-backward"></ion-icon>

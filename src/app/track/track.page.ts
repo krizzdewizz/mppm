@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs';
 import {ActionSheetController, NavController} from '@ionic/angular';
 import {XlatePipe} from '../common/xlate.pipe';
 import {Events, MarkerAction, MarkerEvent} from '../common/events';
+import {MarkerPipe} from '../common/marker.pipe';
 
 const LONG_CLICK_SEEK_INTERVAL = 200;
 const LONG_CLICK_SEEK_SECONDS = 5;
@@ -19,12 +20,14 @@ const LONG_CLICK_SEEK_SECONDS = 5;
 export class TrackPage implements OnInit, OnDestroy {
 
     track: Track;
+    showHelp = false;
+    playPosition: string;
+
     private trackIndex: number;
     private subscription: Subscription;
     private activeMarker: number;
     private longClickInterval;
-
-    showHelp = false;
+    private playPositionTimer;
 
     @ViewChild('ytplayer', {static: true}) ytplayer: ElementRef;
     @ViewChild('header', {static: true, read: ElementRef}) header: ElementRef;
@@ -35,7 +38,8 @@ export class TrackPage implements OnInit, OnDestroy {
         private playerService: PlayerService,
         public actionSheetController: ActionSheetController,
         private nav: NavController,
-        private xlate: XlatePipe) {
+        private xlate: XlatePipe,
+        private markerPipe: MarkerPipe) {
     }
 
     ngOnInit() {
@@ -64,11 +68,14 @@ export class TrackPage implements OnInit, OnDestroy {
                     break;
             }
         }));
+
+        this.subscription.add(this.playerService.playerStateChange.subscribe(() => this.updatePlayPositionTimer()));
     }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
         this.playerService.destroy();
+        clearInterval(this.playPositionTimer);
     }
 
     get playPauseIcon() {
@@ -170,5 +177,14 @@ export class TrackPage implements OnInit, OnDestroy {
             ]
         });
         await actionSheet.present();
+    }
+
+    private updatePlayPositionTimer() {
+        if (this.playerService.isPlaying) {
+            this.playPositionTimer = setInterval(() =>
+                this.playPosition = this.markerPipe.transform(this.playerService.getCurrentTime()), 500);
+        } else {
+            clearInterval(this.playPositionTimer);
+        }
     }
 }
