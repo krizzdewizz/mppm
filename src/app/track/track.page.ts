@@ -69,7 +69,12 @@ export class TrackPage implements OnInit, OnDestroy {
             }
         }));
 
-        this.subscription.add(this.playerService.playerStateChange.subscribe(() => this.updatePlayPositionTimer()));
+        this.playPositionTimer = setInterval(() => {
+            if (!this.playPosition && !this.playerService.isPlaying) {
+                return;
+            }
+            this.playPosition = this.markerPipe.transform(this.playerService.getCurrentTime());
+        }, 500);
     }
 
     ngOnDestroy() {
@@ -177,14 +182,5 @@ export class TrackPage implements OnInit, OnDestroy {
             ]
         });
         await actionSheet.present();
-    }
-
-    private updatePlayPositionTimer() {
-        if (this.playerService.isPlaying) {
-            this.playPositionTimer = setInterval(() =>
-                this.playPosition = this.markerPipe.transform(this.playerService.getCurrentTime()), 500);
-        } else {
-            clearInterval(this.playPositionTimer);
-        }
     }
 }
