@@ -14,6 +14,7 @@ export class AddTrackPage implements OnInit {
 
     track: Track;
     trackIndex: number;
+    file: File;
 
     constructor(private activatedRoute: ActivatedRoute,
                 private tracksService: TracksService,
@@ -43,22 +44,35 @@ export class AddTrackPage implements OnInit {
     }
 
     addTrack() {
-        if (this.trackIndex !== -1) {
-            const existing = this.tracksService.tracks[this.trackIndex];
-            existing.name = this.track.name;
-            existing.videoUrl = this.track.videoUrl;
+        let openTrack = false;
+        if (this.file) {
+            openTrack = this.tracksService.addFileTrack(this.file, this.track.name).isNew;
         } else {
-            this.tracksService.tracks.push({...this.track});
+            if (this.trackIndex !== -1) {
+                const existing = this.tracksService.tracks[this.trackIndex];
+                existing.name = this.track.name;
+                existing.videoUrl = this.track.videoUrl;
+            } else {
+                openTrack = true;
+                this.tracksService.tracks.push({...this.track});
+            }
+            this.tracksService.saveTracks();
         }
-        this.tracksService.saveTracks();
 
-        const newNav = this.nav.pop();
-        if (this.trackIndex === -1) {
-            newNav.then(() => this.nav.navigateRoot([`/track`, this.tracksService.tracks.length - 1]));
-        }
+        setTimeout(() => {
+            const newNav = this.nav.pop();
+            if (openTrack) {
+                newNav.then(() => this.nav.navigateRoot([`/track`, this.tracksService.tracks.length - 1]));
+            }
+        });
     }
 
     ytSearch() {
         this.nav.navigateForward('/yt-search');
+    }
+
+    onFileChanged($event) {
+        this.file = $event.target.files[0];
+        this.track.name = this.file.name;
     }
 }

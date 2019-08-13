@@ -35,6 +35,7 @@ export interface Track {
     links?: string;
     markers: { title?: string, value: number }[];
     file?: File;
+    isFile?: boolean;
 }
 
 export interface Mpp {

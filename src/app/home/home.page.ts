@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Track} from '../model';
 import {ActionSheetController, NavController, ToastController} from '@ionic/angular';
 import {TracksService} from '../tracks.service';
@@ -15,7 +15,7 @@ interface TrackWithIndex extends Track {
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage {
 
     tracks: TrackWithIndex[] = [];
 
@@ -35,14 +35,11 @@ export class HomePage implements OnInit, OnDestroy {
 
     ionViewWillEnter() {
         this.updateTracks();
-    }
-
-    ngOnInit(): void {
         document.body.addEventListener('dragover', this.onDragOver);
         document.body.addEventListener('drop', this.onDrop);
     }
 
-    ngOnDestroy(): void {
+    ionViewWillLeave() {
         document.body.removeEventListener('dragover', this.onDragOver);
         document.body.removeEventListener('drop', this.onDrop);
     }
@@ -142,22 +139,11 @@ export class HomePage implements OnInit, OnDestroy {
             return;
         }
         const file = dt.files[0];
-        const fileName = file.name;
-        let track = this.tracksService.tracks.find(it => it.name === fileName);
-        if (!track) {
-            track = {
-                name: fileName,
-                videoUrl: '',
-                markers: [],
-            };
-            this.tracksService.tracks.push(track);
-            this.tracksService.saveTracks();
-        }
-        track.file = file;
+        const track = this.tracksService.addFileTrack(file).track;
         this.openTrack({...track, index: this.tracksService.tracks.length - 1, fileLost: false});
     }
 
-    private isFileLost({file}: Track) {
-        return file && !file.type;
+    private isFileLost({isFile, file}: Track) {
+        return isFile && file && typeof file.slice !== 'function';
     }
 }

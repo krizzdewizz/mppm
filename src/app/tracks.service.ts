@@ -28,4 +28,25 @@ export class TracksService {
         this.tracks = this.tracks.filter((it, i) => i !== index);
         this.saveTracks();
     }
+
+    addFileTrack(file: File, name?: string): { track: Track, isNew: boolean } {
+        const fileName = name || file.name;
+        let track = this.tracks.find(it => it.isFile && it.name === fileName);
+        let isNew = false;
+        if (!track) {
+            track = {
+                name: fileName,
+                videoUrl: '',
+                markers: [],
+                file,
+                isFile: true
+            };
+            this.tracks.push(track);
+            this.saveTracks();
+            isNew = true;
+        } else {
+            track.file = file;
+        }
+        return {track, isNew};
+    }
 }
