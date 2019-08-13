@@ -19,7 +19,7 @@ export class StoreService {
         localStorage.setItem(MPP, JSON.stringify(this.mpp));
     }
 
-    async import({replace}: { replace?: boolean } = {}) {
+    async import(replacer: (countTracks) => Promise<boolean>) {
 
         const files = await fileDialog();
 
@@ -30,13 +30,24 @@ export class StoreService {
                     const {result} = e.target as any;
                     const mpp = JSON.parse(result);
                     if (typeof mpp === 'object' && Array.isArray(mpp.tracks)) {
-                        if (replace) {
-                            this.mpp.tracks = mpp.tracks;
-                        } else {
-                            this.mpp.tracks.push(...mpp.tracks);
+
+                        if (this.mpp.tracks.length === 0) {
+                            replacer = () => Promise.resolve(true);
                         }
-                        this.save();
-                        resolve(true);
+
+                        replacer(mpp.tracks.length).then(replace => {
+                            if (replace === undefined) {
+                                return resolve(undefined);
+                            }
+                            if (replace) {
+                                this.mpp.tracks = mpp.tracks;
+                            } else {
+                                this.mpp.tracks.push(...mpp.tracks);
+                            }
+                            this.save();
+                            resolve(true);
+                        });
+
                         return;
                     }
                 } catch {

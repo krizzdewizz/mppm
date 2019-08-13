@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Track} from '../model';
-import {ActionSheetController, NavController, ToastController} from '@ionic/angular';
+import {ActionSheetController, AlertController, NavController, ToastController} from '@ionic/angular';
 import {TracksService} from '../tracks.service';
 import {XlatePipe} from '../common/xlate.pipe';
 import {StoreService} from '../store.service';
@@ -30,7 +30,8 @@ export class HomePage {
                 public actionSheetController: ActionSheetController,
                 private xlate: XlatePipe,
                 private storeService: StoreService,
-                private toastController: ToastController) {
+                private toastController: ToastController,
+                private alertController: AlertController) {
     }
 
     ionViewWillEnter() {
@@ -93,7 +94,10 @@ export class HomePage {
                     text: this.xlate.transform('C_IMPORT'),
                     handler: () => {
                         setTimeout(async () => {
-                            const ok = await this.storeService.import();
+                            const ok = await this.import();
+                            if (ok === undefined) {
+                                return;
+                            }
                             if (ok) {
                                 this.updateTracks();
                             } else {
@@ -115,6 +119,38 @@ export class HomePage {
             ].filter(Boolean)
         });
         await actionSheet.present();
+    }
+
+    private async import() {
+        const replacer = countTracks => new Promise<boolean>(async resolve => {
+
+            let replace: boolean;
+
+            const doIt = rep => () => {
+                replace = rep;
+                alert.dismiss();
+            };
+
+            const alert = await this.alertController.create({
+                header: this.xlate.transform('C_IMPORT_TRACKS', {countTracks}),
+                buttons: [
+                    {
+                        text: this.xlate.transform('C_REPLACE'),
+                        handler: doIt(true)
+                    },
+                    {
+                        text: this.xlate.transform('C_APPEND'),
+                        handler: doIt(false)
+                    }
+                ]
+            });
+
+            alert.onDidDismiss().then(() => resolve(replace));
+
+            await alert.present();
+        });
+
+        return this.storeService.import(replacer);
     }
 
     openTrack(track: TrackWithIndex) {
