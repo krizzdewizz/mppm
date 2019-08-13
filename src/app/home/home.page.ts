@@ -113,6 +113,13 @@ export class HomePage {
                     }
                 },
                 {
+                    text: this.xlate.transform('C_REMOVE_ALL_TRACKS'),
+                    handler: () => {
+                        this.tracksService.removeAll();
+                        this.updateTracks();
+                    }
+                },
+                {
                     text: this.xlate.transform('C_INFO'),
                     handler: () => this.presentInfo()
                 },

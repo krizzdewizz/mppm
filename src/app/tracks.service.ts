@@ -49,4 +49,9 @@ export class TracksService {
         }
         return {track, isNew};
     }
+
+    removeAll() {
+        this.storeService.mpp.tracks = [];
+        this.storeService.save();
+    }
 }
