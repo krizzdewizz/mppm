@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Track} from '../model';
 import {ActionSheetController, NavController, ToastController} from '@ionic/angular';
 import {TracksService} from '../tracks.service';
@@ -7,6 +7,7 @@ import {StoreService} from '../store.service';
 
 interface TrackWithIndex extends Track {
     index: number;
+    fileLost: boolean;
 }
 
 @Component({
@@ -14,7 +15,7 @@ interface TrackWithIndex extends Track {
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit, OnDestroy {
 
     tracks: TrackWithIndex[] = [];
 
@@ -36,8 +37,22 @@ export class HomePage {
         this.updateTracks();
     }
 
+    ngOnInit(): void {
+        document.body.addEventListener('dragover', this.onDragOver);
+        document.body.addEventListener('drop', this.onDrop);
+    }
+
+    ngOnDestroy(): void {
+        document.body.removeEventListener('dragover', this.onDragOver);
+        document.body.removeEventListener('drop', this.onDrop);
+    }
+
     private updateTracks() {
-        const tracks = this.tracksService.tracks.map((track, index) => ({...track, index}));
+        const tracks = this.tracksService.tracks.map((track, index) => ({
+            ...track,
+            index,
+            fileLost: this.isFileLost(track)
+        }));
         const filterLower = this.filter.toLowerCase().trim();
         if (filterLower) {
             this.tracks = tracks.filter(track => track.name.toLowerCase().includes(filterLower));
@@ -106,10 +121,43 @@ export class HomePage {
     }
 
     openTrack(track: TrackWithIndex) {
+        if (track.fileLost) {
+            return;
+        }
         this.nav.navigateForward(['/track', track.index]);
     }
 
     private presentInfo() {
         this.nav.navigateForward('/info');
+    }
+
+    private onDragOver = (e: DragEvent) => e.preventDefault();
+
+    private onDrop = (e: DragEvent) => {
+
+        e.preventDefault();
+
+        const dt = e.dataTransfer;
+        if (!dt.files) {
+            return;
+        }
+        const file = dt.files[0];
+        const fileName = file.name;
+        let track = this.tracksService.tracks.find(it => it.name === fileName);
+        if (!track) {
+            track = {
+                name: fileName,
+                videoUrl: '',
+                markers: [],
+            };
+            this.tracksService.tracks.push(track);
+            this.tracksService.saveTracks();
+        }
+        track.file = file;
+        this.openTrack({...track, index: this.tracksService.tracks.length - 1, fileLost: false});
+    }
+
+    private isFileLost({file}: Track) {
+        return file && !file.type;
     }
 }

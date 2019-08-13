@@ -10,12 +10,55 @@ export function incrTime(time: number, backward: boolean, amount = 1): number {
     return Math.max(0, time + amount);
 }
 
+class AudioPlayer implements Player {
+
+    constructor(private audio: HTMLAudioElement) {
+    }
+
+    playVideo(): void {
+        this.audio.play();
+    }
+
+    pauseVideo(): void {
+        this.audio.pause();
+    }
+
+    stopVideo(): void {
+        this.audio.pause();
+    }
+
+    getPlayerState(): PlayerState {
+        return this.audio.paused ? PlayerState.PAUSED : PlayerState.PLAYING;
+    }
+
+    getVideoUrl(): string {
+        return this.audio.src;
+    }
+
+    getDuration(): number {
+        return this.audio.duration;
+    }
+
+    getCurrentTime(): number {
+        return this.audio.currentTime;
+    }
+
+    seekTo(seconds: number, allowSeekAhead: boolean): void {
+        this.audio.currentTime = seconds;
+    }
+
+    destroy() {
+        this.stopVideo();
+    }
+}
+
 declare const YT;
 
 @Injectable()
 export class PlayerService {
 
     player: Player;
+    audio: HTMLAudioElement;
 
     private playerReady$ = new BehaviorSubject<boolean>(false);
     playerReady = this.playerReady$.asObservable();
@@ -36,6 +79,16 @@ export class PlayerService {
             this.player.destroy();
             this.player = undefined;
         }
+    }
+
+    openFile(file: File) {
+        this.destroy();
+        const reader = new FileReader();
+        reader.onload = e => {
+            this.audio.src = (e.target as any).result;
+            this.player = new AudioPlayer(this.audio);
+        };
+        reader.readAsDataURL(file);
     }
 
     open(url: string, playerElement: ElementRef, width: number) {

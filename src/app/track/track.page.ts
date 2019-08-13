@@ -46,7 +46,11 @@ export class TrackPage implements OnInit, OnDestroy {
         this.trackIndex = Number(this.activatedRoute.snapshot.paramMap.get('index'));
         this.track = this.tracksService.tracks[this.trackIndex];
         this.subscription = this.playerService.playerReady.subscribe(() => {
-            this.playerService.open(this.track.videoUrl, this.ytplayer, this.header.nativeElement.offsetWidth);
+            if (this.track.file) {
+                this.playerService.openFile(this.track.file);
+            } else {
+                this.playerService.open(this.track.videoUrl, this.ytplayer, this.header.nativeElement.offsetWidth);
+            }
         });
 
         this.subscription.add(Events.marker.subscribe((e: MarkerEvent) => {

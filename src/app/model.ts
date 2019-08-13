@@ -34,6 +34,7 @@ export interface Track {
     tabsUrl?: string;
     links?: string;
     markers: { title?: string, value: number }[];
+    file?: File;
 }
 
 export interface Mpp {
