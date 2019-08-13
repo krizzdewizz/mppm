@@ -113,7 +113,7 @@ export class HomePage {
                         });
                     }
                 },
-                {
+                this.noTracks ? undefined : {
                     text: this.xlate.transform('C_REMOVE_ALL_TRACKS'),
                     handler: () => {
                         this.tracksService.removeAll();
