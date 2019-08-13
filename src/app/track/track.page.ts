@@ -30,6 +30,7 @@ export class TrackPage implements OnInit, OnDestroy {
     private playPositionTimer;
 
     @ViewChild('ytplayer', {static: true}) ytplayer: ElementRef;
+    @ViewChild('audio', {static: true}) audio: ElementRef;
     @ViewChild('header', {static: true, read: ElementRef}) header: ElementRef;
 
     constructor(
@@ -47,7 +48,7 @@ export class TrackPage implements OnInit, OnDestroy {
         this.track = this.tracksService.tracks[this.trackIndex];
         this.subscription = this.playerService.playerReady.subscribe(() => {
             if (this.track.file) {
-                this.playerService.openFile(this.track.file);
+                this.playerService.openFile(this.track.file, this.audio.nativeElement);
             } else {
                 this.playerService.open(this.track.videoUrl, this.ytplayer, this.header.nativeElement.offsetWidth);
             }

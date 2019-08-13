@@ -14,8 +14,8 @@
                     (click)="addTrack()">{{ (trackIndex < 0 ? 'C_ADD' : 'C_SAVE') | xlate }}</ion-button>
 
         <div class="local-audio-file">
-            <label>Local Audio File</label>
-            <input type="file" (change)="onFileChanged($event)">
+            <label>{{'C_LOCAL_AUDIO_FILE'|xlate}}</label>
+            <input type="file" accept="audio/*" (change)="onFileChanged($event)">
         </div>
     </div>
 

@@ -4,6 +4,7 @@ import {ActionSheetController, AlertController, NavController, ToastController} 
 import {TracksService} from '../tracks.service';
 import {XlatePipe} from '../common/xlate.pipe';
 import {StoreService} from '../store.service';
+import {fileDialog} from '../util';
 
 interface TrackWithIndex extends Track {
     index: number;
@@ -132,13 +133,14 @@ export class HomePage {
         const replacer = countTracks => new Promise<boolean>(async resolve => {
 
             let replace: boolean;
+            let alert: HTMLIonAlertElement;
 
             const doIt = rep => () => {
                 replace = rep;
                 alert.dismiss();
             };
 
-            const alert = await this.alertController.create({
+            alert = await this.alertController.create({
                 header: this.xlate.transform('C_IMPORT_TRACKS', {countTracks}),
                 buttons: [
                     {
@@ -160,9 +162,10 @@ export class HomePage {
         return this.storeService.import(replacer);
     }
 
-    openTrack(track: TrackWithIndex) {
+    async openTrack(track: TrackWithIndex) {
         if (track.fileLost) {
-            return;
+            const files = await fileDialog({accept: 'audio/*'});
+            this.tracksService.tracks[track.index].file = files[0];
         }
         this.nav.navigateForward(['/track', track.index]);
     }
@@ -182,8 +185,8 @@ export class HomePage {
             return;
         }
         const file = dt.files[0];
-        const track = this.tracksService.addFileTrack(file).track;
-        this.openTrack({...track, index: this.tracksService.tracks.length - 1, fileLost: false});
+        const {track, index} = this.tracksService.addFileTrack(file);
+        this.openTrack({...track, index, fileLost: false});
     }
 
     private isFileLost({isFile, file}: Track) {

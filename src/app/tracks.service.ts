@@ -29,10 +29,9 @@ export class TracksService {
         this.saveTracks();
     }
 
-    addFileTrack(file: File, name?: string): { track: Track, isNew: boolean } {
+    addFileTrack(file: File, name?: string): { track: Track, index: number } {
         const fileName = name || file.name;
         let track = this.tracks.find(it => it.isFile && it.name === fileName);
-        let isNew = false;
         if (!track) {
             track = {
                 name: fileName,
@@ -43,11 +42,10 @@ export class TracksService {
             };
             this.tracks.push(track);
             this.saveTracks();
-            isNew = true;
         } else {
             track.file = file;
         }
-        return {track, isNew};
+        return {track, index: this.tracks.indexOf(track)};
     }
 
     removeAll() {

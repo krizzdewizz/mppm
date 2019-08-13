@@ -58,7 +58,6 @@ declare const YT;
 export class PlayerService {
 
     player: Player;
-    audio: HTMLAudioElement;
 
     private playerReady$ = new BehaviorSubject<boolean>(false);
     playerReady = this.playerReady$.asObservable();
@@ -81,14 +80,10 @@ export class PlayerService {
         }
     }
 
-    openFile(file: File) {
+    openFile(file: File, audio: HTMLAudioElement) {
         this.destroy();
-        const reader = new FileReader();
-        reader.onload = e => {
-            this.audio.src = (e.target as any).result;
-            this.player = new AudioPlayer(this.audio);
-        };
-        reader.readAsDataURL(file);
+        audio.src = URL.createObjectURL(file);
+        this.player = new AudioPlayer(audio);
     }
 
     open(url: string, playerElement: ElementRef, width: number) {

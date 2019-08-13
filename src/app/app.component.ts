@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
@@ -12,8 +12,6 @@ import {PlayerService} from './player.service';
     styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-
-    @ViewChild('audio', {static: true}) audio: ElementRef;
 
     constructor(
         private platform: Platform,
@@ -32,7 +30,6 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.playerService.audio = this.audio.nativeElement;
         this.playerService.init();
         this.tracksService.loadTracks();
     }

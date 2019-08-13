@@ -75,6 +75,7 @@
 
         <div class="spacer"></div>
 
-        <div #ytplayer></div>
+        <audio [hidden]="!this.track.isFile" #audio controls></audio>
+        <div [hidden]="this.track.isFile" #ytplayer></div>
     </div>
 </ion-content>

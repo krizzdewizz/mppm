@@ -13,39 +13,27 @@ export function downloadFile(file: string, content: string) {
 }
 
 // https://github.com/alnorris/file-dialog/blob/master/index.js
-export function fileDialog(...args): Promise<FileList> {
+export function fileDialog({multiple, accept}: { multiple?: boolean, accept?: string } = {}): Promise<FileList> {
     const input = document.createElement('input');
 
-    // Set config
-    if (typeof args[0] === 'object') {
-        if (args[0].multiple === true) {
-            input.setAttribute('multiple', '');
-        }
-        if (args[0].accept !== undefined) {
-            input.setAttribute('accept', args[0].accept);
-        }
+    if (multiple) {
+        input.setAttribute('multiple', '');
+    }
+    if (accept) {
+        input.setAttribute('accept', accept);
     }
     input.setAttribute('type', 'file');
 
-    // IE10/11 Addition
     input.style.display = 'none';
-    input.setAttribute('id', 'hidden-file');
     document.body.appendChild(input);
 
-    // Return promise/callvack
-    return new Promise((resolve, reject) => {
-        input.addEventListener('change', e => {
+    return new Promise(resolve => {
+        input.addEventListener('change', () => {
             resolve(input.files);
-            const lastArg = args[args.length - 1];
-            if (typeof lastArg === 'function') {
-                lastArg(input.files);
-            }
-
-            // IE10/11 Addition
             document.body.removeChild(input);
         });
 
-        // Simluate click event
+        // Simulate click event
         const evt = document.createEvent('MouseEvents');
         evt.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
         input.dispatchEvent(evt);

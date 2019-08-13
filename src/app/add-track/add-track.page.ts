@@ -46,7 +46,8 @@ export class AddTrackPage implements OnInit {
     addTrack() {
         let openTrack = false;
         if (this.file) {
-            openTrack = this.tracksService.addFileTrack(this.file, this.track.name).isNew;
+            this.tracksService.addFileTrack(this.file, this.track.name);
+            openTrack = true;
         } else {
             if (this.trackIndex !== -1) {
                 const existing = this.tracksService.tracks[this.trackIndex];
