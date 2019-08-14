@@ -25,7 +25,15 @@ const DEFAULT = {
     C_YT_SEARCH_ERROR: 'An error occurred while searching. Please try again later or visit YouTube and copy the video url manually.',
     C_APPEND: 'Append',
     C_REPLACE: 'Replace',
-    C_LOCAL_AUDIO_FILE: 'Local Audio File'
+    C_LOCAL_AUDIO_FILE: 'Local Audio File',
+    C_HELP_PLAY_PAUSE: 'Play / Pause',
+    C_HELP_TO_START: 'To Beginning',
+    C_HELP_BACKWARD: 'Backward',
+    C_HELP_FORWARD: 'Forward',
+    C_HELP_TO_MARKER: 'To Marker',
+    C_HELP_PLAY_MARKER_BACKWARD: 'Marker Backward',
+    C_HELP_MARKER_FORWARD: 'Marker Forward',
+    C_HELP_ADD_MARKER: 'Add Marker'
 };
 
 const GERMAN = {
@@ -49,7 +57,15 @@ const GERMAN = {
     C_YT_SEARCH_ERROR: 'Bei der Suche ist ein Fehler aufgetreten. Bitte versuche es später nochmals oder gehe zu YouTube und kopiere die Video Url manuell.',
     C_APPEND: 'Anhängen',
     C_REPLACE: 'Ersetzen',
-    C_LOCAL_AUDIO_FILE: 'Lokale Audio Datei'
+    C_LOCAL_AUDIO_FILE: 'Lokale Audio Datei',
+    C_HELP_PLAY_PAUSE: 'Wiedergabe / Pause',
+    C_HELP_TO_START: 'Zum Anfang',
+    C_HELP_BACKWARD: 'Zurück',
+    C_HELP_FORWARD: 'Vorwärts',
+    C_HELP_TO_MARKER: 'Zum Marker',
+    C_HELP_PLAY_MARKER_BACKWARD: 'Marker zurück',
+    C_HELP_MARKER_FORWARD: 'Marker vorwärts',
+    C_HELP_ADD_MARKER: 'Marker hinzufügen'
 };
 
 // end data

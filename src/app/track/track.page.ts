@@ -21,6 +21,7 @@ export class TrackPage implements OnInit, OnDestroy {
 
     track: Track;
     showHelp = false;
+    showKeyHelp = false;
     playPosition: string;
 
     private trackIndex: number;
@@ -69,7 +70,7 @@ export class TrackPage implements OnInit, OnDestroy {
                     this.seekToActiveMarker();
                     break;
                 case MarkerAction.TOGGLE_HELP:
-                    this.showHelp = !this.showHelp;
+                    this.showKeyHelp = !this.showKeyHelp;
                     break;
             }
         }));

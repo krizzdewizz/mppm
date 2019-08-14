@@ -1,10 +1,15 @@
 .header {
   padding: 7px;
-  padding-bottom: 3px;
   background-color: white;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+
+  ion-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+  }
 }
 
 .tools {
@@ -37,11 +42,8 @@
   ion-button {
     height: 100%;
     flex: 1;
+    --background: darkcyan;
   }
-}
-
-.marker-active {
-  --background: green;
 }
 
 .markers {
@@ -50,6 +52,11 @@
   ion-button {
     height: 50px;
     margin: 2px;
+    --background: darkseagreen;
+
+    &.marker-active {
+      --background: darkcyan;
+    }
   }
 }
 
@@ -76,17 +83,31 @@ ion-button {
   margin: 2px;
 }
 
-.key {
-  color: wheat;
+.key, .help {
   font-size: 10pt;
-  right: 5px;
-  top: 5px;
   position: absolute;
   text-transform: initial;
   visibility: hidden;
+  color: wheat;
 }
 
-.show-help .key {
+.key {
+  right: 5px;
+  bottom: 5px;
+}
+
+.help {
+  left: 5px;
+  top: 5px;
+  white-space: initial;
+  text-align: left;
+}
+
+.show-help .help {
+  visibility: visible;
+}
+
+.show-key-help .key {
   visibility: visible;
 }
 
@@ -98,7 +119,7 @@ ion-button {
 }
 
 audio {
-  margin-bottom: 80px;
+  margin-bottom: 60px;
   width: 100%;
   padding: 5px;
 }
