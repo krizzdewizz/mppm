@@ -2,6 +2,7 @@ import {ElementRef, EventEmitter, Injectable} from '@angular/core';
 import {Player, PlayerState} from './model';
 import {getIdFromURL} from './url-parser';
 import {BehaviorSubject} from 'rxjs';
+import {ScrewAudioPlayer} from './pitch/screw-audio-player';
 
 export function incrTime(time: number, backward: boolean, amount = 1): number {
     if (backward) {
@@ -58,6 +59,7 @@ declare const YT;
 export class PlayerService {
 
     player: Player;
+    p: ScrewAudioPlayer;
 
     private playerReady$ = new BehaviorSubject<boolean>(false);
     playerReady = this.playerReady$.asObservable();
@@ -83,7 +85,28 @@ export class PlayerService {
     openFile(file: File, audio: HTMLAudioElement) {
         this.destroy();
         audio.src = URL.createObjectURL(file);
-        this.player = new AudioPlayer(audio);
+        const player = new ScrewAudioPlayer(new AudioContext());
+        this.p = player;
+        this.player = player;
+
+        const reader = new FileReader();
+        reader.onload = async (event: any) => {
+            // this.emitter.emit('status', 'Playing file...');
+            try {
+                const buffer = await player.decodeAudioData(event.target.result);
+                player.setBuffer(buffer);
+            } catch (err) {
+                // this.emitter.emit('state', {
+                //     error: {
+                //         message: err.message,
+                //         type: 'Decoding error',
+                //     },
+                // });
+                console.error('error while decoding', err);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+        // this.player = new AudioPlayer(audio);
     }
 
     open(url: string, playerElement: ElementRef, width: number) {
@@ -97,6 +120,7 @@ export class PlayerService {
                 onStateChange: () => this.playerStateChange.next()
             }
         });
+        window[`q`] = this.player;
     }
 
     get isPlaying(): boolean {

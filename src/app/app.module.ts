@@ -15,6 +15,7 @@ import {PlayerService} from './player.service';
 import {HttpClientModule} from '@angular/common/http';
 import {XlatePipe} from './common/xlate.pipe';
 import {KeyDirective} from './common/key.directive';
+import { YtDownloadService } from './yt/yt-download.service';
 
 @NgModule({
     declarations: [AppComponent, KeyDirective],
@@ -28,6 +29,7 @@ import {KeyDirective} from './common/key.directive';
         TracksService,
         PlayerService,
         MarkerPipe,
+        YtDownloadService,
         XlatePipe
     ],
     bootstrap: [AppComponent]

@@ -13,6 +13,9 @@
                 <ion-item-option color="danger" (click)="deleteTrack(track)">
                     <ion-icon name="trash"></ion-icon>
                 </ion-item-option>
+                <ion-item-option *ngIf="!track.isFile" (click)="downloadTrack(track, it)">
+                    <ion-icon name="download"></ion-icon>
+                </ion-item-option>
                 <ion-item-option *ngIf="!track.isFile" (click)="editTrack(track, it)">
                     <ion-icon name="create"></ion-icon>
                 </ion-item-option>

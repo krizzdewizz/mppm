@@ -22,6 +22,7 @@ export class TrackPage implements OnInit, OnDestroy {
     track: Track;
     showHelp = false;
     showKeyHelp = false;
+    showSettings = false;
     playPosition: string;
 
     private trackIndex: number;
@@ -188,5 +189,37 @@ export class TrackPage implements OnInit, OnDestroy {
             ]
         });
         await actionSheet.present();
+    }
+
+    get pitch() {
+        return this.playerService.p ? this.playerService.p.pitch : 1;
+    }
+
+    get tempo() {
+        return this.playerService.p ? this.playerService.p.tempo : 1;
+    }
+
+    resetPitch() {
+        this.playerService.p.pitch = 1;
+    }
+
+    resetTempo() {
+        this.playerService.p.tempo = 1;
+    }
+
+    onPitch(decr: boolean, amount = 0.01) {
+        this.playerService.p.pitch = incrTime(this.pitch || 1, decr, amount);
+    }
+
+    onPitchLong(decr: boolean) {
+        this.longClickInterval = setInterval(() => this.onPitch(decr, 0.05), LONG_CLICK_SEEK_INTERVAL);
+    }
+
+    onTempo(decr: boolean, amount = 0.01) {
+        this.playerService.p.tempo = incrTime(this.tempo || 1, decr, amount);
+    }
+
+    onTempoLong(decr: boolean) {
+        this.longClickInterval = setInterval(() => this.onTempo(decr, 0.05), LONG_CLICK_SEEK_INTERVAL);
     }
 }

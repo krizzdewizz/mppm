@@ -4,6 +4,8 @@ import {NavController} from '@ionic/angular';
 import {ActivatedRoute} from '@angular/router';
 import {TracksService} from '../tracks.service';
 import {getSelectedVideo, setSelectedVideo} from '../yt-search/yt-search';
+import { YtDownloadService } from '../yt/yt-download.service';
+import { getIdFromURL } from '../url-parser';
 
 @Component({
     selector: 'app-add-track',
@@ -18,7 +20,8 @@ export class AddTrackPage implements OnInit {
 
     constructor(private activatedRoute: ActivatedRoute,
                 private tracksService: TracksService,
-                private nav: NavController) {
+                private nav: NavController,
+                private ytDownloadService: YtDownloadService) {
     }
 
     ngOnInit() {
@@ -75,5 +78,11 @@ export class AddTrackPage implements OnInit {
     onFileChanged($event) {
         this.file = $event.target.files[0];
         this.track.name = this.file.name;
+    }
+
+    ytDownload(videoUrl: string) {
+        this.ytDownloadService.initateDownload(getIdFromURL(videoUrl)).subscribe(ok => {
+            console.log('okokokokoko', ok);
+        });
     }
 }

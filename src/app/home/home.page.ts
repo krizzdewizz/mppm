@@ -1,10 +1,12 @@
-import {Component} from '@angular/core';
-import {Track} from '../model';
-import {ActionSheetController, AlertController, NavController, ToastController} from '@ionic/angular';
-import {TracksService} from '../tracks.service';
-import {XlatePipe} from '../common/xlate.pipe';
-import {StoreService} from '../store.service';
-import {fileDialog} from '../util';
+import { Component } from '@angular/core';
+import { Track } from '../model';
+import { ActionSheetController, AlertController, NavController, ToastController } from '@ionic/angular';
+import { TracksService } from '../tracks.service';
+import { XlatePipe } from '../common/xlate.pipe';
+import { StoreService } from '../store.service';
+import { fileDialog } from '../util';
+import { YtDownloadService } from '../yt/yt-download.service';
+import { getIdFromURL } from '../url-parser';
 
 interface TrackWithIndex extends Track {
     index: number;
@@ -27,12 +29,13 @@ export class HomePage {
     }
 
     constructor(private tracksService: TracksService,
-                private nav: NavController,
-                public actionSheetController: ActionSheetController,
-                private xlate: XlatePipe,
-                private storeService: StoreService,
-                private toastController: ToastController,
-                private alertController: AlertController) {
+        private nav: NavController,
+        public actionSheetController: ActionSheetController,
+        private xlate: XlatePipe,
+        private storeService: StoreService,
+        private toastController: ToastController,
+        private alertController: AlertController,
+        private ytDownloadService: YtDownloadService) {
     }
 
     ionViewWillEnter() {
@@ -77,8 +80,15 @@ export class HomePage {
         this.nav.navigateForward(['/add-track', track.index]);
     }
 
+    downloadTrack(track: TrackWithIndex, item) {
+        item.close();
+        this.ytDownloadService.initateDownload(getIdFromURL(track.videoUrl)).subscribe(ok => {
+            console.log('okokokokoko', ok);
+        });
+    }
+
     async addTrack() {
-        await this.nav.navigateForward(['/add-track', -1], {animated: false});
+        await this.nav.navigateForward(['/add-track', -1], { animated: false });
         await this.nav.navigateForward('/yt-search');
     }
 
@@ -141,7 +151,7 @@ export class HomePage {
             };
 
             alert = await this.alertController.create({
-                header: this.xlate.transform('C_IMPORT_TRACKS', {countTracks}),
+                header: this.xlate.transform('C_IMPORT_TRACKS', { countTracks }),
                 buttons: [
                     {
                         text: this.xlate.transform('C_REPLACE'),
@@ -164,7 +174,7 @@ export class HomePage {
 
     async openTrack(track: TrackWithIndex) {
         if (track.fileLost) {
-            const files = await fileDialog({accept: 'audio/*'});
+            const files = await fileDialog({ accept: 'audio/*' });
             this.tracksService.tracks[track.index].file = files[0];
         }
         this.nav.navigateForward(['/track', track.index]);
@@ -185,11 +195,11 @@ export class HomePage {
             return;
         }
         const file = dt.files[0];
-        const {track, index} = this.tracksService.addFileTrack(file);
-        this.openTrack({...track, index, fileLost: false});
+        const { track, index } = this.tracksService.addFileTrack(file);
+        this.openTrack({ ...track, index, fileLost: false });
     }
 
-    private isFileLost({isFile, file}: Track) {
+    private isFileLost({ isFile, file }: Track) {
         return isFile && file && typeof file.slice !== 'function';
     }
 }
