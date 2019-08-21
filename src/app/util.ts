@@ -12,6 +12,15 @@ export function downloadFile(file: string, content: string) {
     document.body.removeChild(a);
 }
 
+export function downloadUrl(url: string) {
+    const a = document.createElement('a');
+    a.href = url;
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
 // https://github.com/alnorris/file-dialog/blob/master/index.js
 export function fileDialog({multiple, accept}: { multiple?: boolean, accept?: string } = {}): Promise<FileList> {
     const input = document.createElement('input');

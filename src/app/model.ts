@@ -22,7 +22,7 @@ export interface Player {
 
     getCurrentTime(): number;
 
-    seekTo(seconds: number, allowSeekAhead: boolean): void;
+    seekTo(seconds: number): void;
 
     destroy();
 }
@@ -36,6 +36,8 @@ export interface Track {
     markers: { title?: string, value: number }[];
     file?: File;
     isFile?: boolean;
+    pitch?: number;
+    tempo?: number;
 }
 
 export interface Mpp {

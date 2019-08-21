@@ -15,10 +15,35 @@
     grid-column: 2;
     justify-self: end;
     font-size: 25pt;
-    color: #aaaaaa;
     position: relative;
     top: -35px;
     cursor: pointer;
+  }
+
+  .progress {
+    grid-column: 2;
+    justify-self: end;
+    position: relative;
+    top: -35px;
+
+    &.hidden {
+      visibility: hidden;
+    }
+  }
+
+  ion-icon[name="search"] {
+    color: #aaaaaa;
+  }
+
+  ion-icon[name="download"] {
+    position: relative;
+    top: -37px;
+    color: var(--ion-color-primary);
+    cursor: pointer;
+
+    &.hidden {
+      visibility: hidden;
+    }
   }
 
   ion-button {

@@ -1,13 +1,13 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Track} from '../model';
-import {TracksService} from '../tracks.service';
-import {incrTime, PlayerService} from '../player.service';
-import {Subscription} from 'rxjs';
-import {ActionSheetController, NavController} from '@ionic/angular';
-import {XlatePipe} from '../common/xlate.pipe';
-import {Events, MarkerAction, MarkerEvent} from '../common/events';
-import {MarkerPipe} from '../common/marker.pipe';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ActionSheetController, NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { Events, MarkerAction, MarkerEvent } from '../common/events';
+import { MarkerPipe } from '../common/marker.pipe';
+import { XlatePipe } from '../common/xlate.pipe';
+import { Track } from '../model';
+import { incrTime, PlayerService } from '../player.service';
+import { TracksService } from '../tracks.service';
 
 const LONG_CLICK_SEEK_INTERVAL = 200;
 const LONG_CLICK_SEEK_SECONDS = 5;
@@ -24,16 +24,17 @@ export class TrackPage implements OnInit, OnDestroy {
     showKeyHelp = false;
     showSettings = false;
     playPosition: string;
+    playPositionNumber: number;
 
     private trackIndex: number;
     private subscription: Subscription;
     private activeMarker: number;
     private longClickInterval;
     private playPositionTimer;
+    private saveTimer;
 
-    @ViewChild('ytplayer', {static: true}) ytplayer: ElementRef;
-    @ViewChild('audio', {static: true}) audio: ElementRef;
-    @ViewChild('header', {static: true, read: ElementRef}) header: ElementRef;
+    @ViewChild('ytplayer', { static: true }) ytplayer: ElementRef;
+    @ViewChild('header', { static: true, read: ElementRef }) header: ElementRef;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -50,7 +51,9 @@ export class TrackPage implements OnInit, OnDestroy {
         this.track = this.tracksService.tracks[this.trackIndex];
         this.subscription = this.playerService.playerReady.subscribe(() => {
             if (this.track.file) {
-                this.playerService.openFile(this.track.file, this.audio.nativeElement);
+                this.playerService.openFile(this.track.file);
+                this.playerService.p.pitch = this.track.pitch || 1;
+                this.playerService.p.tempo = this.track.tempo || 1;
             } else {
                 this.playerService.open(this.track.videoUrl, this.ytplayer, this.header.nativeElement.offsetWidth);
             }
@@ -80,7 +83,8 @@ export class TrackPage implements OnInit, OnDestroy {
             if (!this.playPosition && !this.playerService.isPlaying) {
                 return;
             }
-            this.playPosition = this.markerPipe.transform(this.playerService.getCurrentTime());
+            this.playPositionNumber = this.playerService.getCurrentTime();
+            this.playPosition = this.markerPipe.transform(this.playPositionNumber);
         }, 500);
     }
 
@@ -94,6 +98,10 @@ export class TrackPage implements OnInit, OnDestroy {
         return this.playerService.isPlaying ? 'pause' : 'play';
     }
 
+    get isPlaying() {
+        return this.playerService.isPlaying;
+    }
+
     get markers() {
         return this.track.markers;
     }
@@ -104,6 +112,10 @@ export class TrackPage implements OnInit, OnDestroy {
 
     seekToStart() {
         this.playerService.seekToStart();
+    }
+
+    seekTo(seconds: number) {
+        this.playerService.seekTo(seconds);
     }
 
     backwardForward(back: boolean, amount = 1) {
@@ -123,7 +135,7 @@ export class TrackPage implements OnInit, OnDestroy {
     }
 
     seekToActiveMarker() {
-        this.playerService.seekTo(this.track.markers[this.activeMarker].value, true);
+        this.playerService.seekTo(this.track.markers[this.activeMarker].value);
     }
 
     get noActiveMarker() {
@@ -137,7 +149,7 @@ export class TrackPage implements OnInit, OnDestroy {
     addMarker() {
         const currentTime = this.playerService.getCurrentTime();
         if (currentTime) {
-            this.track.markers.push({value: currentTime});
+            this.track.markers.push({ value: currentTime });
             this.sortMarkers();
             this.activeMarker = this.track.markers.findIndex(m => m.value === currentTime);
             this.tracksService.saveTracks();
@@ -158,8 +170,8 @@ export class TrackPage implements OnInit, OnDestroy {
     }
 
     moveMarker(back: boolean, amount = 1) {
-        const {activeMarker, track} = this;
-        const {markers} = track;
+        const { activeMarker, track } = this;
+        const { markers } = track;
         const newMarker = incrTime(markers[activeMarker].value, back, amount);
         markers[activeMarker].value = newMarker;
         this.sortMarkers();
@@ -199,6 +211,10 @@ export class TrackPage implements OnInit, OnDestroy {
         return this.playerService.p ? this.playerService.p.tempo : 1;
     }
 
+    get duration() {
+        return this.playerService.player ? this.playerService.player.getDuration() : undefined;
+    }
+
     resetPitch() {
         this.playerService.p.pitch = 1;
     }
@@ -208,7 +224,8 @@ export class TrackPage implements OnInit, OnDestroy {
     }
 
     onPitch(decr: boolean, amount = 0.01) {
-        this.playerService.p.pitch = incrTime(this.pitch || 1, decr, amount);
+        this.track.pitch = this.playerService.p.pitch = incrTime(this.pitch || 1, decr, amount);
+        this.save();
     }
 
     onPitchLong(decr: boolean) {
@@ -216,7 +233,13 @@ export class TrackPage implements OnInit, OnDestroy {
     }
 
     onTempo(decr: boolean, amount = 0.01) {
-        this.playerService.p.tempo = incrTime(this.tempo || 1, decr, amount);
+        this.track.tempo = this.playerService.p.tempo = incrTime(this.tempo || 1, decr, amount);
+        this.save();
+    }
+
+    private save() {
+        clearTimeout(this.saveTimer);
+        this.saveTimer = setTimeout(() => this.tracksService.saveTracks(), 1000);
     }
 
     onTempoLong(decr: boolean) {

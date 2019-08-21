@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Track} from '../model';
-import {NavController} from '@ionic/angular';
-import {ActivatedRoute} from '@angular/router';
-import {TracksService} from '../tracks.service';
-import {getSelectedVideo, setSelectedVideo} from '../yt-search/yt-search';
+import { Component, OnInit } from '@angular/core';
+import { Track } from '../model';
+import { NavController, ToastController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { TracksService } from '../tracks.service';
+import { getSelectedVideo, setSelectedVideo } from '../yt-search/yt-search';
 import { YtDownloadService } from '../yt/yt-download.service';
 import { getIdFromURL } from '../url-parser';
+import { XlatePipe } from '../common/xlate.pipe';
 
 @Component({
     selector: 'app-add-track',
@@ -17,16 +18,20 @@ export class AddTrackPage implements OnInit {
     track: Track;
     trackIndex: number;
     file: File;
+    downloading: boolean;
 
-    constructor(private activatedRoute: ActivatedRoute,
-                private tracksService: TracksService,
-                private nav: NavController,
-                private ytDownloadService: YtDownloadService) {
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private tracksService: TracksService,
+        private nav: NavController,
+        private toastController: ToastController,
+        private xlate: XlatePipe,
+        private ytDownloadService: YtDownloadService) {
     }
 
     ngOnInit() {
         this.trackIndex = Number(this.activatedRoute.snapshot.paramMap.get('index'));
-        this.track = {name: '', videoUrl: '', markers: []};
+        this.track = { name: '', videoUrl: '', markers: [] };
 
         if (this.trackIndex !== -1) {
             const existing = this.tracksService.tracks[this.trackIndex];
@@ -58,7 +63,7 @@ export class AddTrackPage implements OnInit {
                 existing.videoUrl = this.track.videoUrl;
             } else {
                 openTrack = true;
-                this.tracksService.tracks.push({...this.track});
+                this.tracksService.tracks.push({ ...this.track });
             }
             this.tracksService.saveTracks();
         }
@@ -80,9 +85,22 @@ export class AddTrackPage implements OnInit {
         this.track.name = this.file.name;
     }
 
-    ytDownload(videoUrl: string) {
-        this.ytDownloadService.initateDownload(getIdFromURL(videoUrl)).subscribe(ok => {
-            console.log('okokokokoko', ok);
-        });
+    async ytDownload(videoUrl: string) {
+        if (this.downloading) {
+            return;
+        }
+
+        this.downloading = true;
+        const ok = await this.ytDownloadService.initateDownload(getIdFromURL(videoUrl));
+        if (!ok) {
+            const toast = await this.toastController.create({
+                message: this.xlate.transform('C_YT_DOWNLOAD_ERROR'),
+                showCloseButton: true,
+                closeButtonText: '✖',
+                duration: 4000,
+            });
+            toast.present();
+        }
+        this.downloading = false;
     }
 }

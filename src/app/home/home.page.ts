@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { Track } from '../model';
 import { ActionSheetController, AlertController, NavController, ToastController } from '@ionic/angular';
-import { TracksService } from '../tracks.service';
 import { XlatePipe } from '../common/xlate.pipe';
+import { Track } from '../model';
 import { StoreService } from '../store.service';
+import { TracksService } from '../tracks.service';
 import { fileDialog } from '../util';
-import { YtDownloadService } from '../yt/yt-download.service';
-import { getIdFromURL } from '../url-parser';
 
 interface TrackWithIndex extends Track {
     index: number;
@@ -28,14 +26,14 @@ export class HomePage {
         return this.tracks.length === 0;
     }
 
-    constructor(private tracksService: TracksService,
+    constructor(
+        private tracksService: TracksService,
         private nav: NavController,
         public actionSheetController: ActionSheetController,
         private xlate: XlatePipe,
         private storeService: StoreService,
         private toastController: ToastController,
-        private alertController: AlertController,
-        private ytDownloadService: YtDownloadService) {
+        private alertController: AlertController) {
     }
 
     ionViewWillEnter() {
@@ -78,13 +76,6 @@ export class HomePage {
     editTrack(track: TrackWithIndex, item) {
         item.close();
         this.nav.navigateForward(['/add-track', track.index]);
-    }
-
-    downloadTrack(track: TrackWithIndex, item) {
-        item.close();
-        this.ytDownloadService.initateDownload(getIdFromURL(track.videoUrl)).subscribe(ok => {
-            console.log('okokokokoko', ok);
-        });
     }
 
     async addTrack() {

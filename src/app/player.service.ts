@@ -1,56 +1,14 @@
-import {ElementRef, EventEmitter, Injectable} from '@angular/core';
-import {Player, PlayerState} from './model';
-import {getIdFromURL} from './url-parser';
-import {BehaviorSubject} from 'rxjs';
-import {ScrewAudioPlayer} from './pitch/screw-audio-player';
+import { ElementRef, EventEmitter, Injectable } from '@angular/core';
+import { Player, PlayerState } from './model';
+import { getIdFromURL } from './url-parser';
+import { BehaviorSubject } from 'rxjs';
+import { ScrewAudioPlayer } from './pitch/screw-audio-player';
 
 export function incrTime(time: number, backward: boolean, amount = 1): number {
     if (backward) {
         amount *= -1;
     }
     return Math.max(0, time + amount);
-}
-
-class AudioPlayer implements Player {
-
-    constructor(private audio: HTMLAudioElement) {
-    }
-
-    playVideo(): void {
-        this.audio.play();
-    }
-
-    pauseVideo(): void {
-        this.audio.pause();
-    }
-
-    stopVideo(): void {
-        this.audio.pause();
-    }
-
-    getPlayerState(): PlayerState {
-        return this.audio.paused ? PlayerState.PAUSED : PlayerState.PLAYING;
-    }
-
-    getVideoUrl(): string {
-        return this.audio.src;
-    }
-
-    getDuration(): number {
-        return this.audio.duration;
-    }
-
-    getCurrentTime(): number {
-        return this.audio.currentTime;
-    }
-
-    seekTo(seconds: number, allowSeekAhead: boolean): void {
-        this.audio.currentTime = seconds;
-    }
-
-    destroy() {
-        this.stopVideo();
-    }
 }
 
 declare const YT;
@@ -82,31 +40,22 @@ export class PlayerService {
         }
     }
 
-    openFile(file: File, audio: HTMLAudioElement) {
+    openFile(file: File) {
         this.destroy();
-        audio.src = URL.createObjectURL(file);
         const player = new ScrewAudioPlayer(new AudioContext());
         this.p = player;
         this.player = player;
 
         const reader = new FileReader();
         reader.onload = async (event: any) => {
-            // this.emitter.emit('status', 'Playing file...');
             try {
                 const buffer = await player.decodeAudioData(event.target.result);
                 player.setBuffer(buffer);
             } catch (err) {
-                // this.emitter.emit('state', {
-                //     error: {
-                //         message: err.message,
-                //         type: 'Decoding error',
-                //     },
-                // });
                 console.error('error while decoding', err);
             }
         };
         reader.readAsArrayBuffer(file);
-        // this.player = new AudioPlayer(audio);
     }
 
     open(url: string, playerElement: ElementRef, width: number) {
@@ -115,12 +64,11 @@ export class PlayerService {
             videoId: getIdFromURL(url),
             width,
             height: '200',
-            playerVars: {controls: 1, playsinline: 1},
+            playerVars: { controls: 1, playsinline: 1 },
             events: {
                 onStateChange: () => this.playerStateChange.next()
             }
         });
-        window[`q`] = this.player;
     }
 
     get isPlaying(): boolean {
@@ -140,15 +88,15 @@ export class PlayerService {
     }
 
     seekToStart() {
-        this.player.seekTo(0, true);
+        this.player.seekTo(0);
     }
 
     backwardForward(backward: boolean, amount = 1) {
-        this.player.seekTo(incrTime(this.player.getCurrentTime(), backward, amount), true);
+        this.player.seekTo(incrTime(this.player.getCurrentTime(), backward, amount));
     }
 
-    seekTo(seconds: number, allowSeekAhead: boolean) {
-        this.player.seekTo(seconds, allowSeekAhead);
+    seekTo(seconds: number) {
+        this.player.seekTo(seconds);
     }
 
     get ready(): boolean {

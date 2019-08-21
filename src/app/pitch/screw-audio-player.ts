@@ -1,5 +1,5 @@
-import {SimpleFilter, SoundTouch} from './vendor/soundtouch';
-import {Player, PlayerState} from '../model';
+import { SimpleFilter, SoundTouch } from './vendor/soundtouch';
+import { Player, PlayerState } from '../model';
 
 const BUFFER_SIZE = 4096;
 
@@ -32,8 +32,8 @@ export class ScrewAudioPlayer implements Player {
         };
 
         this.soundTouch = new SoundTouch();
-        this.pitch = 0.8;
-        this.tempo = 0.8;
+        this.pitch = 1;
+        this.tempo = 1;
 
         this.duration = undefined;
     }
@@ -56,11 +56,11 @@ export class ScrewAudioPlayer implements Player {
         this.soundTouch.tempo = tempo;
     }
 
-    decodeAudioData(data) {
+    decodeAudioData(data): Promise<AudioBuffer> {
         return this.context.decodeAudioData(data);
     }
 
-    setBuffer(buffer) {
+    setBuffer(buffer: AudioBuffer) {
         const bufferSource = this.context.createBufferSource();
         bufferSource.buffer = buffer;
 
@@ -80,7 +80,6 @@ export class ScrewAudioPlayer implements Player {
         this.simpleFilter = new SimpleFilter(this.source, this.soundTouch);
 
         this.duration = buffer.duration;
-        // this.emitter.emit('state', {duration: buffer.duration});
     }
 
     play() {
@@ -101,7 +100,7 @@ export class ScrewAudioPlayer implements Player {
         }
     }
 
-// qq
+    // qq
     playVideo(): void {
         this.play();
     }
@@ -119,7 +118,7 @@ export class ScrewAudioPlayer implements Player {
     }
 
     getDuration(): number {
-        return 100000;
+        return this.duration;
     }
 
     getVideoUrl(): string {
@@ -127,15 +126,19 @@ export class ScrewAudioPlayer implements Player {
     }
 
     getCurrentTime(): number {
-        return 0;
+        return this.simpleFilter ? this.simpleFilter.sourcePosition / this.context.sampleRate : undefined;
     }
 
-    seekTo(seconds: number, allowSeekAhead: boolean): void {
-
+    seekTo(seconds: number): void {
+        this.simpleFilter.sourcePosition = Math.round(seconds * this.context.sampleRate);
     }
 
     destroy() {
-
+        try {
+            this.stopVideo();
+        } catch {
+            // ignore
+        }
     }
 }
 

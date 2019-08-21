@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, filter } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { downloadUrl } from '../util';
 
 function ytUrl(action: string, videoId) {
     return `https://agile-lake-41388.herokuapp.com/${action}?vid=${videoId}`;
 }
 
-export function downloadFile(videoId: string) {
-    const frame = document.getElementById('ytreadyframe') as HTMLFrameElement;
-    frame.src = ytUrl('ytget', videoId);
+function timed(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 @Injectable()
@@ -17,48 +15,43 @@ export class YtDownloadService {
     constructor(private http: HttpClient) {
     }
 
-    initateDownload(videoId: string): Observable<boolean> {
-        return Observable.create(resolve => {
-            this.http.get(ytUrl('yt', videoId))
-                .subscribe(result => {
-                    console.log('yt job successful', result);
+    async initateDownload(videoId: string): Promise<boolean> {
+        let jobResult;
+        try {
+            jobResult = await this.http.get(ytUrl('yt', videoId)).toPromise();
+        } catch (err) {
+            console.log('yt job error', err);
+            return false;
+        }
 
-                    let maxTries = 3;
-                    let downloaded = false;
-                    const RETRY_TIMEOUT = 8000;
+        console.log('yt job successful', jobResult);
 
-                    const doIt = () => {
-                        console.log('trying...');
+        const MAX_TRIES = 5;
+        const RETRY_TIMEOUT = 8000;
 
-                        this.http.get(ytUrl('ytready', videoId))
-                            .pipe(
-                                catchError(err => {
-                                    console.log('not there yet', err);
-                                    maxTries--;
-                                    if (maxTries === 0) {
-                                        console.log('abort ', videoId);
-                                        resolve.next(false);
-                                    } else {
-                                        setTimeout(doIt, RETRY_TIMEOUT);
-                                    }
-                                    return of(false);
-                                }),
-                                filter(ok => ok !== false)
-                            )
-                            .subscribe(() => {
-                                if (downloaded) {
-                                    return;
-                                }
-                                downloaded = true;
-                                console.log('downloading', videoId);
-                                downloadFile(videoId);
-                                resolve.next(true);
-                            });
-                    };
+        let ready = false;
 
-                    setTimeout(doIt, RETRY_TIMEOUT);
+        for (let i = 0; i < MAX_TRIES; i++) {
 
-                }, () => resolve.next(false));
-        });
+            await timed(i === 0 ? 2000 : RETRY_TIMEOUT);
+
+            try {
+                console.log('trying...');
+                const ret: any = await this.http.get(ytUrl('ytready', videoId)).toPromise();
+                ready = !ret.ytError;
+                break;
+            } catch (err) {
+                console.log('not there yet', err);
+            }
+        }
+
+        if (ready) {
+            console.log('downloading', videoId);
+            downloadUrl(ytUrl('ytget', videoId));
+        } else {
+            console.log(`stream not ready`, videoId);
+        }
+
+        return ready;
     }
 }
