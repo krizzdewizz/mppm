@@ -1,5 +1,5 @@
 <div class="header" #header>{{track?.name}}
-    <ion-icon (click)="showSettings = !showSettings" name="settings" [class.settings-visible]="showSettings"></ion-icon>
+    <ion-icon [hidden]="!this.track.isFile" (click)="showSettings = !showSettings" name="settings" [class.settings-visible]="showSettings"></ion-icon>
     <ion-icon (click)="showHelp = !showHelp" name="help"></ion-icon>
 </div>
 
@@ -67,7 +67,7 @@
 
         <div class="spacer"></div>
 
-        <div class="audio-player">
+        <div [hidden]="!this.track.isFile" class="audio-player">
             <span>{{(playPositionNumber || 0)|marker}} / {{duration|marker}}</span>
             <mppm-audio [position]="playPositionNumber" (seek)="seekTo($event)" [duration]="duration"></mppm-audio>
         </div>

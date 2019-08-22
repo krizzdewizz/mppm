@@ -212,7 +212,7 @@ export class TrackPage implements OnInit, OnDestroy {
     }
 
     get duration() {
-        return this.playerService.player ? this.playerService.player.getDuration() : undefined;
+        return this.playerService.player && this.playerService.player.getDuration ? this.playerService.player.getDuration() : undefined;
     }
 
     resetPitch() {
