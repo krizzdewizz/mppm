@@ -91,7 +91,7 @@ export class AddTrackPage implements OnInit {
         }
 
         this.downloading = true;
-        const ok = await this.ytDownloadService.initateDownload(getIdFromURL(videoUrl));
+        const ok = await this.ytDownloadService.initiateDownload(getIdFromURL(videoUrl), this.track.name);
         if (!ok) {
             const toast = await this.toastController.create({
                 message: this.xlate.transform('C_YT_DOWNLOAD_ERROR'),

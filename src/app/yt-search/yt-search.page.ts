@@ -5,10 +5,8 @@ import {decode} from 'he';
 import {NavController} from '@ionic/angular';
 import {setSelectedVideo} from './yt-search';
 import {YTSearchResult, YTVideo} from '../model';
-import {API_KEY} from './api';
 import {of} from 'rxjs';
-
-const API_URL = 'https://www.googleapis.com/youtube/v3/search';
+import {MPPM_Q_BASE_URL} from '../yt/yt-download.service';
 
 const EMPTY_RESULT = {items: []};
 
@@ -33,7 +31,7 @@ export class YtSearchPage implements OnInit {
             distinctUntilChanged(),
             tap(() => delete this.error),
             flatMap(searchTerm => {
-                const url = `${API_URL}?q=${encodeURIComponent(searchTerm)}&key=${API_KEY}&maxResults=20&part=snippet&type=video&alt=json`;
+                const url = `${MPPM_Q_BASE_URL}/ytsearch?q=${encodeURIComponent(searchTerm)}`;
                 return this.http.get(url)
                     .pipe(
                         catchError(() => {
