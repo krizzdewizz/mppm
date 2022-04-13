@@ -1,5 +1,5 @@
-<div class="header" #header>{{track?.name}}
-  <ion-icon (click)="showSettings = !showSettings" name="settings"
+<div class="header" #headerElement>{{track?.name}}
+  <ion-icon (click)="showSettings = !showSettings; $event.cancelBubble = true" name="settings"
             [class.settings-visible]="showSettings"></ion-icon>
   <ion-icon (click)="showHelp = !showHelp" name="help"></ion-icon>
 </div>
@@ -74,7 +74,9 @@
     </div>
     <div [hidden]="track.isFile" #ytplayer></div>
 
-    <div *ngIf="showSettings" class="settings">
+    <div [hidden]="!showSettings" class="settings-backdrop" (click)="showSettings = false"></div>
+
+    <div #settingsElement [hidden]="!showSettings" class="settings">
       <div class="card">
         <label (click)="resetVolume()">Volume</label>
         <span>{{volume|number:'1.2-2'}}</span>

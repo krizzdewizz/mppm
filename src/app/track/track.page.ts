@@ -34,7 +34,8 @@ export class TrackPage implements OnInit, OnDestroy {
   private saveTimer;
 
   @ViewChild('ytplayer', { static: true }) ytplayer: ElementRef;
-  @ViewChild('header', { static: true, read: ElementRef }) header: ElementRef;
+  @ViewChild('headerElement', { static: true, read: ElementRef }) headerEl: ElementRef;
+  @ViewChild('settingsElement', { static: true, read: ElementRef }) settingsEl: ElementRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -57,7 +58,7 @@ export class TrackPage implements OnInit, OnDestroy {
         this.playerService.openFile(this.track.file);
         this.setPlayerPropsFromTrack();
       } else {
-        this.playerService.open(this.track.videoUrl, this.ytplayer, this.header.nativeElement.offsetWidth);
+        this.playerService.open(this.track.videoUrl, this.ytplayer, this.headerEl.nativeElement.offsetWidth);
       }
     }));
 
