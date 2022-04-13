@@ -5,9 +5,9 @@ const BUFFER_SIZE = 4096;
 
 export class ScrewAudioPlayer implements Player {
 
-  private scriptProcessor;
+  private readonly scriptProcessor;
+  private readonly soundTouch: SoundTouch;
   private simpleFilter: SimpleFilter;
-  private soundTouch: SoundTouch;
   private samples: Float32Array;
   private duration: number;
   private source;
@@ -16,15 +16,11 @@ export class ScrewAudioPlayer implements Player {
   private tempoVal: number;
 
   constructor(private context: AudioContext) {
-    // constructor(private emitter: EventEmitter<string>, private context: AudioContext) {
     this.scriptProcessor = this.context.createScriptProcessor(BUFFER_SIZE, 2, 2);
     this.scriptProcessor.onaudioprocess = e => {
       const l = e.outputBuffer.getChannelData(0);
       const r = e.outputBuffer.getChannelData(1);
       const framesExtracted = this.simpleFilter.extract(this.samples, BUFFER_SIZE);
-      // if (framesExtracted === 0) {
-      //     this.emitter.emit('stop');
-      // }
       for (let i = 0; i < framesExtracted; i++) {
         l[i] = this.samples[i * 2];
         r[i] = this.samples[i * 2 + 1];
@@ -67,7 +63,6 @@ export class ScrewAudioPlayer implements Player {
     this.samples = new Float32Array(BUFFER_SIZE * 2);
     this.source = {
       extract: (target, numFrames, position) => {
-        // this.emitter.emit('state', {t: position / this.context.sampleRate});
         const l = buffer.getChannelData(0);
         const r = buffer.getChannelData(1);
         for (let i = 0; i < numFrames; i++) {
@@ -90,14 +85,6 @@ export class ScrewAudioPlayer implements Player {
   pause() {
     this.state = PlayerState.PAUSED;
     this.scriptProcessor.disconnect(this.context.destination);
-  }
-
-  seekPercent(percent) {
-    if (this.simpleFilter !== undefined) {
-      this.simpleFilter.sourcePosition = Math.round(
-        percent / 100 * this.duration * this.context.sampleRate
-      );
-    }
   }
 
   // qq

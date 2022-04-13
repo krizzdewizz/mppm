@@ -52,8 +52,8 @@ export class TrackPage implements OnInit, OnDestroy {
     this.subscription = this.playerService.playerReady.subscribe(() => {
       if (this.track.file) {
         this.playerService.openFile(this.track.file);
-        this.playerService.p.pitch = this.track.pitch || 1;
-        this.playerService.p.tempo = this.track.tempo || 1;
+        this.playerService.screwAudioPlayer.pitch = this.track.pitch || 1;
+        this.playerService.screwAudioPlayer.tempo = this.track.tempo || 1;
       } else {
         this.playerService.open(this.track.videoUrl, this.ytplayer, this.header.nativeElement.offsetWidth);
       }
@@ -96,10 +96,6 @@ export class TrackPage implements OnInit, OnDestroy {
 
   get playPauseIcon() {
     return this.playerService.isPlaying ? 'pause' : 'play';
-  }
-
-  get isPlaying() {
-    return this.playerService.isPlaying;
   }
 
   get markers() {
@@ -207,11 +203,11 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   get pitch() {
-    return this.playerService.p ? this.playerService.p.pitch : 1;
+    return this.playerService.screwAudioPlayer ? this.playerService.screwAudioPlayer.pitch : 1;
   }
 
   get tempo() {
-    return this.playerService.p ? this.playerService.p.tempo : 1;
+    return this.playerService.screwAudioPlayer ? this.playerService.screwAudioPlayer.tempo : 1;
   }
 
   get duration() {
@@ -219,15 +215,15 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   resetPitch() {
-    this.playerService.p.pitch = 1;
+    this.playerService.screwAudioPlayer.pitch = 1;
   }
 
   resetTempo() {
-    this.playerService.p.tempo = 1;
+    this.playerService.screwAudioPlayer.tempo = 1;
   }
 
   onPitch(decr: boolean, amount = 0.01) {
-    this.track.pitch = this.playerService.p.pitch = incrTime(this.pitch || 1, decr, amount);
+    this.track.pitch = this.playerService.screwAudioPlayer.pitch = incrTime(this.pitch || 1, decr, amount);
     this.save();
   }
 
@@ -236,7 +232,7 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   onTempo(decr: boolean, amount = 0.01) {
-    this.track.tempo = this.playerService.p.tempo = incrTime(this.tempo || 1, decr, amount);
+    this.track.tempo = this.playerService.screwAudioPlayer.tempo = incrTime(this.tempo || 1, decr, amount);
     this.save();
   }
 

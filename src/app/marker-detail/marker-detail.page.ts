@@ -22,7 +22,7 @@ export class MarkerDetailPage implements OnInit {
   }
 
   ngOnInit() {
-    const paramMap = this.activatedRoute.snapshot.paramMap;
+    const { paramMap } = this.activatedRoute.snapshot;
     this.trackIndex = Number(paramMap.get('trackIndex'));
     this.track = this.tracksService.tracks[this.trackIndex];
     const markerIndex = Number(paramMap.get('markerIndex'));

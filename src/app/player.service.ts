@@ -17,7 +17,7 @@ declare const YT;
 export class PlayerService {
 
   player: Player;
-  p: ScrewAudioPlayer;
+  screwAudioPlayer: ScrewAudioPlayer;
 
   private playerReady$ = new BehaviorSubject<boolean>(false);
   playerReady = this.playerReady$.asObservable();
@@ -43,7 +43,7 @@ export class PlayerService {
   openFile(file: File) {
     this.destroy();
     const player = new ScrewAudioPlayer(new AudioContext());
-    this.p = player;
+    this.screwAudioPlayer = player;
     this.player = player;
 
     const reader = new FileReader();
