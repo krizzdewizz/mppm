@@ -158,8 +158,15 @@ ion-button {
     width: 70%;
     background-color: white;
     padding: 10px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 30% auto 50px 50px;
+    align-items: center;
     pointer-events: auto;
+
+    & > label {
+      position: relative;
+      width: 180px;
+    }
 
     &:last-child {
       border-bottom-left-radius: 5px;

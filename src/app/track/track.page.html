@@ -1,5 +1,5 @@
 <div class="header" #header>{{track?.name}}
-  <ion-icon [hidden]="!this.track.isFile" (click)="showSettings = !showSettings" name="settings"
+  <ion-icon (click)="showSettings = !showSettings" name="settings"
             [class.settings-visible]="showSettings"></ion-icon>
   <ion-icon (click)="showHelp = !showHelp" name="help"></ion-icon>
 </div>
@@ -68,15 +68,28 @@
 
     <div class="spacer"></div>
 
-    <div [hidden]="!this.track.isFile" class="audio-player">
+    <div [hidden]="!track.isFile" class="audio-player">
       <span>{{(playPositionNumber || 0)|marker}} / {{duration|marker}}</span>
       <mppm-audio [position]="playPositionNumber" (seek)="seekTo($event)" [duration]="duration"></mppm-audio>
     </div>
-    <div [hidden]="this.track.isFile" #ytplayer></div>
+    <div [hidden]="track.isFile" #ytplayer></div>
 
     <div *ngIf="showSettings" class="settings">
       <div class="card">
-        <label (click)="resetPitch()">Pitch <span>{{pitch|number:'1.2-2'}}</span></label>
+        <label (click)="resetVolume()">Volume</label>
+        <span>{{volume|number:'1.2-2'}}</span>
+        <ion-button mppmLongClick (mppmClickLong)="onVolumeLong(true)" (mppmClick)="onVolume(true)"
+                    (mppmClickEnd)="longClickEnd()">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-button mppmLongClick (mppmClickLong)="onVolumeLong(false)" (mppmClick)="onVolume(false)"
+                    (mppmClickEnd)="longClickEnd()">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </div>
+      <div *ngIf="track.isFile" class="card">
+        <label (click)="resetPitch()">Pitch</label>
+        <span>{{pitch|number:'1.2-2'}}</span>
         <ion-button mppmLongClick (mppmClickLong)="onPitchLong(true)" (mppmClick)="onPitch(true)"
                     (mppmClickEnd)="longClickEnd()">
           <ion-icon name="remove"></ion-icon>
@@ -86,8 +99,9 @@
           <ion-icon name="add"></ion-icon>
         </ion-button>
       </div>
-      <div class="card">
-        <label (click)="resetTempo()">Tempo <span>{{tempo|number:'1.2-2'}}</span></label>
+      <div *ngIf="track.isFile" class="card">
+        <label (click)="resetTempo()">Tempo</label>
+        <span>{{tempo|number:'1.2-2'}}</span>
         <ion-button mppmLongClick (mppmClickLong)="onTempoLong(true)" (mppmClick)="onTempo(true)"
                     (mppmClickEnd)="longClickEnd()">
           <ion-icon name="remove"></ion-icon>

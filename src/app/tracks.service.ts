@@ -21,6 +21,7 @@ export class TracksService {
   }
 
   saveTracks() {
+    console.log('saving tracks...');
     this.storeService.save();
   }
 

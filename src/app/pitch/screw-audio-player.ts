@@ -5,7 +5,7 @@ const BUFFER_SIZE = 4096;
 
 export class ScrewAudioPlayer implements Player {
 
-  private readonly scriptProcessor;
+  private readonly scriptProcessor: ScriptProcessorNode;
   private readonly soundTouch: SoundTouch;
   private simpleFilter: SimpleFilter;
   private samples: Float32Array;
@@ -14,8 +14,11 @@ export class ScrewAudioPlayer implements Player {
   private state: PlayerState = PlayerState.PAUSED;
   private pitchVal: number;
   private tempoVal: number;
+  private gain: GainNode;
 
   constructor(private context: AudioContext) {
+    this.gain = context.createGain();
+
     this.scriptProcessor = this.context.createScriptProcessor(BUFFER_SIZE, 2, 2);
     this.scriptProcessor.onaudioprocess = e => {
       const l = e.outputBuffer.getChannelData(0);
@@ -26,6 +29,8 @@ export class ScrewAudioPlayer implements Player {
         r[i] = this.samples[i * 2 + 1];
       }
     };
+
+    this.scriptProcessor.connect(this.gain);
 
     this.soundTouch = new SoundTouch();
     this.pitch = 1;
@@ -79,12 +84,12 @@ export class ScrewAudioPlayer implements Player {
 
   play() {
     this.state = PlayerState.PLAYING;
-    this.scriptProcessor.connect(this.context.destination);
+    this.gain.connect(this.context.destination);
   }
 
   pause() {
     this.state = PlayerState.PAUSED;
-    this.scriptProcessor.disconnect(this.context.destination);
+    this.gain.disconnect(this.context.destination);
   }
 
   // qq
@@ -118,6 +123,10 @@ export class ScrewAudioPlayer implements Player {
 
   seekTo(seconds: number): void {
     this.simpleFilter.sourcePosition = Math.round(seconds * this.context.sampleRate);
+  }
+
+  setVolume(volume: number) {
+    this.gain.gain.value = volume;
   }
 
   destroy() {

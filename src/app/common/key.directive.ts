@@ -1,5 +1,5 @@
 import { Directive, HostListener } from '@angular/core';
-import { PlayerService } from '../player.service';
+import { incrValue, PlayerService } from '../player.service';
 import { Events, MarkerAction } from './events';
 
 @Directive({
@@ -48,6 +48,8 @@ export class KeyDirective {
     } else if (key === 'ARROWUP' || key === 'ARROWDOWN') {
       marker.next({ action: MarkerAction.MOVE_ACTIVE, data: key === 'ARROWUP' });
       return false;
+    } else if (key === 'Q' || key === 'W') {
+      this.playerService.setVolume(incrValue(this.playerService.getVolume(), key === 'Q', 0.05));
     } else if (key === 'H') {
       marker.next({ action: MarkerAction.TOGGLE_HELP });
       return false;

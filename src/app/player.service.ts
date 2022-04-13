@@ -4,11 +4,11 @@ import { getIdFromURL } from './url-parser';
 import { BehaviorSubject } from 'rxjs';
 import { ScrewAudioPlayer } from './pitch/screw-audio-player';
 
-export function incrTime(time: number, backward: boolean, amount = 1): number {
+export function incrValue(value: number, backward: boolean, amount = 1): number {
   if (backward) {
     amount *= -1;
   }
-  return Math.max(0, time + amount);
+  return Math.max(0, value + amount);
 }
 
 declare const YT;
@@ -23,6 +23,9 @@ export class PlayerService {
   playerReady = this.playerReady$.asObservable();
 
   playerStateChange = new EventEmitter<void>();
+  volumeChange = new EventEmitter<number>();
+
+  volume = 1;
 
   init() {
     const ytCheck = setInterval(() => {
@@ -92,7 +95,7 @@ export class PlayerService {
   }
 
   backwardForward(backward: boolean, amount = 1) {
-    this.player.seekTo(incrTime(this.player.getCurrentTime(), backward, amount));
+    this.player.seekTo(incrValue(this.player.getCurrentTime(), backward, amount));
   }
 
   seekTo(seconds: number) {
@@ -101,5 +104,21 @@ export class PlayerService {
 
   get ready(): boolean {
     return Boolean(this.player);
+  }
+
+  setVolume(volume: number, { emitChangeEvent = true }: { emitChangeEvent?: boolean } = {}) {
+    volume = Number(Math.max(0, Math.min(1, volume)).toFixed(2));
+    this.volume = volume;
+    this.screwAudioPlayer?.setVolume(volume);
+    if (this.screwAudioPlayer !== this.player) {
+      this.player?.setVolume(volume * 100);
+    }
+    if (emitChangeEvent) {
+      this.volumeChange.next(volume);
+    }
+  }
+
+  getVolume(): number {
+    return this.volume;
   }
 }

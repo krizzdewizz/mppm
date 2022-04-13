@@ -6,7 +6,7 @@ import { Events, MarkerAction, MarkerEvent } from '../common/events';
 import { MarkerPipe } from '../common/marker.pipe';
 import { XlatePipe } from '../common/xlate.pipe';
 import { Track } from '../model';
-import { incrTime, PlayerService } from '../player.service';
+import { incrValue, PlayerService } from '../player.service';
 import { TracksService } from '../tracks.service';
 
 const LONG_CLICK_SEEK_INTERVAL = 200;
@@ -28,7 +28,7 @@ export class TrackPage implements OnInit, OnDestroy {
   activeMarker: number;
 
   private trackIndex: number;
-  private subscription: Subscription;
+  private readonly subscription = new Subscription();
   private longClickInterval;
   private playPositionTimer;
   private saveTimer;
@@ -49,15 +49,22 @@ export class TrackPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.trackIndex = Number(this.activatedRoute.snapshot.paramMap.get('index'));
     this.track = this.tracksService.tracks[this.trackIndex];
-    this.subscription = this.playerService.playerReady.subscribe(() => {
+
+    this.setPlayerPropsFromTrack();
+
+    this.subscription.add(this.playerService.playerReady.subscribe(() => {
       if (this.track.file) {
         this.playerService.openFile(this.track.file);
-        this.playerService.screwAudioPlayer.pitch = this.track.pitch || 1;
-        this.playerService.screwAudioPlayer.tempo = this.track.tempo || 1;
+        this.setPlayerPropsFromTrack();
       } else {
         this.playerService.open(this.track.videoUrl, this.ytplayer, this.header.nativeElement.offsetWidth);
       }
-    });
+    }));
+
+    this.subscription.add(this.playerService.volumeChange.subscribe(volume => {
+      this.track.volume = volume;
+      this.save();
+    }));
 
     this.subscription.add(Events.marker.subscribe((e: MarkerEvent) => {
       switch (e.action) {
@@ -171,7 +178,7 @@ export class TrackPage implements OnInit, OnDestroy {
   moveMarker(back: boolean, amount = 1) {
     const { activeMarker, track } = this;
     const { markers } = track;
-    const newMarker = incrTime(markers[activeMarker].value, back, amount);
+    const newMarker = incrValue(markers[activeMarker].value, back, amount);
     markers[activeMarker].value = newMarker;
     this.sortMarkers();
     this.activeMarker = markers.findIndex(m => m.value === newMarker);
@@ -202,6 +209,10 @@ export class TrackPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
+  get volume() {
+    return this.playerService.getVolume();
+  }
+
   get pitch() {
     return this.playerService.screwAudioPlayer ? this.playerService.screwAudioPlayer.pitch : 1;
   }
@@ -214,16 +225,35 @@ export class TrackPage implements OnInit, OnDestroy {
     return this.playerService.player && this.playerService.player.getDuration ? this.playerService.player.getDuration() : undefined;
   }
 
+  resetVolume() {
+    this.playerService.setVolume(1, { emitChangeEvent: false });
+    this.track.volume = 1;
+    this.save();
+  }
+
   resetPitch() {
-    this.playerService.screwAudioPlayer.pitch = 1;
+    this.track.pitch = this.playerService.screwAudioPlayer.pitch = 1;
+    this.save();
   }
 
   resetTempo() {
-    this.playerService.screwAudioPlayer.tempo = 1;
+    this.track.tempo = this.playerService.screwAudioPlayer.tempo = 1;
+    this.save();
+  }
+
+  onVolume(decr: boolean, amount = 0.05) {
+    const vol = incrValue(this.volume || 1, decr, amount);
+    this.playerService.setVolume(vol, { emitChangeEvent: false });
+    this.track.volume = this.playerService.getVolume();
+    this.save();
+  }
+
+  onVolumeLong(decr: boolean) {
+    this.longClickInterval = setInterval(() => this.onVolume(decr, 0.1), LONG_CLICK_SEEK_INTERVAL);
   }
 
   onPitch(decr: boolean, amount = 0.01) {
-    this.track.pitch = this.playerService.screwAudioPlayer.pitch = incrTime(this.pitch || 1, decr, amount);
+    this.track.pitch = this.playerService.screwAudioPlayer.pitch = incrValue(this.pitch || 1, decr, amount);
     this.save();
   }
 
@@ -232,8 +262,12 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   onTempo(decr: boolean, amount = 0.01) {
-    this.track.tempo = this.playerService.screwAudioPlayer.tempo = incrTime(this.tempo || 1, decr, amount);
+    this.track.tempo = this.playerService.screwAudioPlayer.tempo = incrValue(this.tempo || 1, decr, amount);
     this.save();
+  }
+
+  onTempoLong(decr: boolean) {
+    this.longClickInterval = setInterval(() => this.onTempo(decr, 0.05), LONG_CLICK_SEEK_INTERVAL);
   }
 
   private save() {
@@ -241,7 +275,11 @@ export class TrackPage implements OnInit, OnDestroy {
     this.saveTimer = setTimeout(() => this.tracksService.saveTracks(), 1000);
   }
 
-  onTempoLong(decr: boolean) {
-    this.longClickInterval = setInterval(() => this.onTempo(decr, 0.05), LONG_CLICK_SEEK_INTERVAL);
+  private setPlayerPropsFromTrack() {
+    this.playerService.setVolume(this.track.volume || 1, { emitChangeEvent: false });
+    if (this.playerService.screwAudioPlayer) {
+      this.playerService.screwAudioPlayer.pitch = this.track.pitch || 1;
+      this.playerService.screwAudioPlayer.tempo = this.track.tempo || 1;
+    }
   }
 }

@@ -25,6 +25,8 @@ export interface Player {
   seekTo(seconds: number): void;
 
   destroy();
+
+  setVolume(volume: number);
 }
 
 export interface Track {
@@ -38,6 +40,7 @@ export interface Track {
   isFile?: boolean;
   pitch?: number;
   tempo?: number;
+  volume?: number;
 }
 
 export interface Mpp {
