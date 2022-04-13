@@ -3,7 +3,7 @@
     <ion-icon (click)="showHelp = !showHelp" name="help"></ion-icon>
 </div>
 
-<ion-content [class.show-key-help]="showKeyHelp" [class.show-help]="showHelp">
+<ion-content [class.show-key-help]="showKeyHelp" [class.show-help]="showHelp" scroll-y="false">
     <div class="main-content">
         <div class="tools">
             <ion-button class="play-pause" (click)="playPause()">

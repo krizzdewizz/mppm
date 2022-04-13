@@ -4,7 +4,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scroll-y="false">
     <div class="add-track-content">
         <ion-input clear-input [placeholder]="'C_NAME' | xlate" [(ngModel)]="track.name"></ion-input>
         <ion-input clear-input [placeholder]="'C_YT_OR_VIDEO_ID' | xlate" [(ngModel)]="track.videoUrl"></ion-input>

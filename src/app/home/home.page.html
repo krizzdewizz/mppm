@@ -4,7 +4,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scroll-y="false">
     <h3 *ngIf="noTracks" class="title">Musician's Practicing Player</h3>
     <ion-list>
         <ion-item-sliding *ngFor="let track of tracks" #it>
