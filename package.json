@@ -4,6 +4,10 @@
   "author": "Christian Oetterli",
   "homepage": "http://o3tt3rli.com/mppm",
   "description": "Musician's Practicing Player",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krizzdewizz/mppm"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

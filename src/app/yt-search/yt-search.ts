@@ -1,11 +1,11 @@
-import {YTVideo} from '../model';
+import { YTVideo } from '../model';
 
 let selectedVideo: YTVideo;
 
 export function setSelectedVideo(video: YTVideo) {
-    selectedVideo = video;
+  selectedVideo = video;
 }
 
 export function getSelectedVideo(): YTVideo {
-    return selectedVideo;
+  return selectedVideo;
 }

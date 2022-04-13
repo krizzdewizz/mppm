@@ -11,65 +11,65 @@ import { MPPM_Q_BASE_URL } from '../yt/yt-download.service';
 const EMPTY_RESULT = { items: [] };
 
 @Component({
-    selector: 'mppm-yt-search',
-    templateUrl: './yt-search.page.html',
-    styleUrls: ['./yt-search.page.scss'],
+  selector: 'mppm-yt-search',
+  templateUrl: './yt-search.page.html',
+  styleUrls: ['./yt-search.page.scss'],
 })
 export class YtSearchPage implements OnInit, AfterViewInit {
 
-    searchResult: YTSearchResult = EMPTY_RESULT;
-    error: boolean;
+  searchResult: YTSearchResult = EMPTY_RESULT;
+  error: boolean;
 
-    @ViewChild(IonSearchbar) ionSearchbar: IonSearchbar;
+  @ViewChild(IonSearchbar) ionSearchbar: IonSearchbar;
 
-    private filterChange = new EventEmitter<string>();
+  private filterChange = new EventEmitter<string>();
 
-    constructor(private http: HttpClient, private nav: NavController) {
+  constructor(private http: HttpClient, private nav: NavController) {
+  }
+
+  ngOnInit() {
+    this.filterChange.pipe(
+      debounceTime(1200),
+      distinctUntilChanged(),
+      tap(() => delete this.error),
+      mergeMap(searchTerm => {
+        const url = `${MPPM_Q_BASE_URL}/ytsearch?q=${encodeURIComponent(searchTerm)}`;
+        return this.http.get(url)
+          .pipe(
+            catchError(() => {
+              this.error = true;
+              return of(EMPTY_RESULT);
+            })
+          );
+      }),
+    ).subscribe(this.setResult);
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.ionSearchbar.setFocus(), 1000);
+  }
+
+  onFilterChange(e) {
+    const val = e.target.value.trim();
+    if (val) {
+      this.filterChange.next(val);
+    } else {
+      this.searchResult = EMPTY_RESULT;
     }
+  }
 
-    ngOnInit() {
-        this.filterChange.pipe(
-            debounceTime(1200),
-            distinctUntilChanged(),
-            tap(() => delete this.error),
-            mergeMap(searchTerm => {
-                const url = `${MPPM_Q_BASE_URL}/ytsearch?q=${encodeURIComponent(searchTerm)}`;
-                return this.http.get(url)
-                    .pipe(
-                        catchError(() => {
-                            this.error = true;
-                            return of(EMPTY_RESULT);
-                        })
-                    );
-            }),
-        ).subscribe(this.setResult);
-    }
+  private setResult = (result: YTSearchResult) => {
+    result.items.forEach(({ snippet }) => snippet.title = decode(snippet.title));
+    this.searchResult = result;
+  };
 
-    ngAfterViewInit(): void {
-        setTimeout(() => this.ionSearchbar.setFocus(), 1000);
-    }
+  selectItem(item: YTVideo) {
+    setSelectedVideo(item);
+    this.nav.back();
+  }
 
-    onFilterChange(e) {
-        const val = e.target.value.trim();
-        if (val) {
-            this.filterChange.next(val);
-        } else {
-            this.searchResult = EMPTY_RESULT;
-        }
-    }
-
-    private setResult = (result: YTSearchResult) => {
-        result.items.forEach(({ snippet }) => snippet.title = decode(snippet.title));
-        this.searchResult = result;
-    };
-
-    selectItem(item: YTVideo) {
-        setSelectedVideo(item);
-        this.nav.back();
-    }
-
-    async visitYt() {
-        await this.nav.back({ animated: false });
-        setTimeout(() => location.assign('https://youtube.com'), 300);
-    }
+  async visitYt() {
+    await this.nav.back({ animated: false });
+    setTimeout(() => location.assign('https://youtube.com'), 300);
+  }
 }
