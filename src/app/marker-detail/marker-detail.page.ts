@@ -5,7 +5,7 @@ import {Track} from '../model';
 import {NavController} from '@ionic/angular';
 
 @Component({
-    selector: 'app-marker-detail',
+    selector: 'mppm-marker-detail',
     templateUrl: './marker-detail.page.html',
     styleUrls: ['./marker-detail.page.scss'],
 })

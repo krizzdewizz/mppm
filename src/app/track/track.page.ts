@@ -13,7 +13,7 @@ const LONG_CLICK_SEEK_INTERVAL = 200;
 const LONG_CLICK_SEEK_SECONDS = 5;
 
 @Component({
-    selector: 'app-track',
+    selector: 'mppm-track',
     templateUrl: './track.page.html',
     styleUrls: ['./track.page.scss'],
 })
@@ -25,10 +25,10 @@ export class TrackPage implements OnInit, OnDestroy {
     showSettings = false;
     playPosition: string;
     playPositionNumber: number;
+    activeMarker: number;
 
     private trackIndex: number;
     private subscription: Subscription;
-    private activeMarker: number;
     private longClickInterval;
     private playPositionTimer;
     private saveTimer;
@@ -135,6 +135,9 @@ export class TrackPage implements OnInit, OnDestroy {
     }
 
     seekToActiveMarker() {
+        if (this.noActiveMarker) {
+            return;
+        }
         this.playerService.seekTo(this.track.markers[this.activeMarker].value);
     }
 

@@ -1,177 +1,179 @@
 .header {
-  padding: 7px;
-  background-color: white;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  margin-right: 50px;
+    padding: 7px;
+    background-color: white;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-right: 50px;
 
-  ion-icon {
-    position: absolute;
-    cursor: pointer;
+    ion-icon {
+        position: absolute;
+        cursor: pointer;
 
-    &[name="help"] {
-      right: 10px;
+        &[name="help"] {
+            right: 10px;
+        }
+
+        &[name="settings"] {
+            right: 40px;
+        }
     }
 
-    &[name="settings"] {
-      right: 40px;
+    .settings-visible {
+        color: darkcyan;
     }
-  }
-
-  .settings-visible {
-    color: darkcyan;
-  }
 }
 
 .tools {
-  height: 40%;
-  display: grid;
-  grid-row-gap: 3px;
-  margin: 2px;
-  margin-top: 0;
+    height: 40%;
+    display: grid;
+    grid-row-gap: 3px;
+    margin: 2px;
+    margin-top: 0;
 
-  & > * {
-    height: 100%;
-  }
+    & > * {
+        height: 100%;
+    }
 }
 
 .play-pause {
-  grid-column: 1 / 4;
-  text-align: center;
+    grid-column: 1 / 4;
+    text-align: center;
 }
 
 .seek-to-start, .backward, .forward {
-  grid-row: 2;
+    grid-row: 2;
 }
 
 .marker-tools {
-  grid-row: 3;
-  grid-column: 1 / 4;
-  display: flex;
-  padding-top: 1px;
+    grid-row: 3;
+    grid-column: 1 / 4;
+    display: flex;
+    padding-top: 1px;
 
-  ion-button {
-    height: 100%;
-    flex: 1;
-    --background: darkcyan;
-  }
+    ion-button {
+        height: 100%;
+        flex: 1;
+        --background: darkcyan;
+    }
 }
 
 .markers {
-  margin: 2px;
-
-  ion-button {
-    height: 50px;
     margin: 2px;
-    --background: darkseagreen;
 
-    &.marker-active {
-      --background: darkcyan;
+    ion-button {
+        height: 50px;
+        margin: 2px;
+        --background: darkseagreen;
+
+        &.marker-active {
+            --background: darkcyan;
+        }
     }
-  }
 }
 
 .marker-title {
-  font-size: 9pt;
-  position: absolute;
-  left: 2px;
-  bottom: 2px;
-  text-transform: initial;
+    font-size: 9pt;
+    position: absolute;
+    left: 2px;
+    bottom: 2px;
+    text-transform: initial;
 }
 
 .main-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .spacer {
-  flex: 1;
+    flex: 1;
 }
 
 ion-button {
-  font-size: 14pt;
-  margin: 2px;
+    --padding-start: 5px;
+    --padding-end: 5px;
+    font-size: 14pt;
+    margin: 2px;
 }
 
 .key, .help {
-  font-size: 10pt;
-  position: absolute;
-  text-transform: initial;
-  visibility: hidden;
+    font-size: 10pt;
+    position: absolute;
+    text-transform: initial;
+    visibility: hidden;
 }
 
 .key {
-  right: 5px;
-  bottom: 5px;
+    right: 5px;
+    bottom: 5px;
 }
 
 .help {
-  left: 5px;
-  top: 5px;
-  white-space: initial;
-  text-align: left;
+    left: 5px;
+    top: 5px;
+    white-space: initial;
+    text-align: left;
 }
 
 .show-help .help {
-  visibility: visible;
+    visibility: visible;
 }
 
 .show-key-help .key {
-  visibility: visible;
+    visibility: visible;
 }
 
 .play-position {
-  font-size: 12pt;
-  position: absolute;
-  bottom: 5px;
-  left: 10px;
+    font-size: 12pt;
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
 }
 
 .audio-player {
 
-  span {
-    letter-spacing: 1.2px;
-    font-size: smaller;
-  }
+    span {
+        letter-spacing: 1.2px;
+        font-size: smaller;
+    }
 
-  margin-bottom: 60px;
-  width: 100%;
-  padding: 5px;
+    margin-bottom: 60px;
+    width: 100%;
+    padding: 5px;
 }
 
 .settings {
-  position: absolute;
-  width: 100%;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  opacity: 0.95;
-  pointer-events: none;
-
-  .card {
-    width: 70%;
-    background-color: white;
-    padding: 10px;
-    display: flex;
-    pointer-events: auto;
-
-    &:last-child {
-      border-bottom-left-radius: 5px;
-      border-bottom-right-radius: 5px;
-    }
-  }
-
-  label {
-    margin-right: 10px;
+    position: absolute;
     width: 100%;
-    align-self: center;
-  }
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0.95;
+    pointer-events: none;
 
-  ion-button {
-    flex: 1;
-    --background: darkcyan;
-  }
+    .card {
+        width: 70%;
+        background-color: white;
+        padding: 10px;
+        display: flex;
+        pointer-events: auto;
+
+        &:last-child {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+    }
+
+    label {
+        margin-right: 10px;
+        width: 100%;
+        align-self: center;
+    }
+
+    ion-button {
+        flex: 1;
+        --background: darkcyan;
+    }
 }

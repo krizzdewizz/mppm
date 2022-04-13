@@ -9,7 +9,7 @@ import { getIdFromURL } from '../url-parser';
 import { XlatePipe } from '../common/xlate.pipe';
 
 @Component({
-    selector: 'app-add-track',
+    selector: 'mppm-add-track',
     templateUrl: './add-track.page.html',
     styleUrls: ['./add-track.page.scss'],
 })
@@ -95,8 +95,6 @@ export class AddTrackPage implements OnInit {
         if (!ok) {
             const toast = await this.toastController.create({
                 message: this.xlate.transform('C_YT_DOWNLOAD_ERROR'),
-                showCloseButton: true,
-                closeButtonText: '✖',
                 duration: 4000,
             });
             toast.present();

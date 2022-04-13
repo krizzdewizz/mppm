@@ -12,7 +12,7 @@ interface TrackWithIndex extends Track {
 }
 
 @Component({
-    selector: 'app-home',
+    selector: 'mppm-home',
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
@@ -105,8 +105,6 @@ export class HomePage {
                             } else {
                                 const toast = await this.toastController.create({
                                     message: this.xlate.transform('C_IMPORT_ERROR'),
-                                    showCloseButton: true,
-                                    closeButtonText: '✖',
                                     duration: 4000,
                                 });
                                 toast.present();

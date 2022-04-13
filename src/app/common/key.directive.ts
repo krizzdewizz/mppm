@@ -1,6 +1,6 @@
-import {Directive, HostListener} from '@angular/core';
-import {PlayerService} from '../player.service';
-import {Events, MarkerAction} from './events';
+import { Directive, HostListener } from '@angular/core';
+import { PlayerService } from '../player.service';
+import { Events, MarkerAction } from './events';
 
 @Directive({
     selector: '[mppmKey]'
@@ -11,51 +11,48 @@ export class KeyDirective {
     }
 
     @HostListener('document:keydown', ['$event'])
-    onKeyDown(e: KeyboardEvent): boolean {
+    onKeyDown(e: KeyboardEvent): boolean | undefined {
 
         if (!location.hash.includes('/track/')) {
-            return;
+            return undefined;
         }
 
-        const {marker} = Events;
+        const { marker } = Events;
 
-        if (e.altKey || e.ctrlKey || e.shiftKey || !this.playerService.ready || marker.observers.length === 0) {
-            return;
+        if (e.altKey || e.ctrlKey || e.shiftKey || !this.playerService.ready) {
+            return undefined;
         }
 
-        const kc = e.keyCode;
-        // console.log(`cc=${kc}`);
-        const ZERO = 48;
-        const NINE = 57;
-        const ZERO_NUMPAD = 96;
-        const NINE_NUMPAD = 105;
-        const numPadNum = kc >= ZERO_NUMPAD && kc <= NINE_NUMPAD;
-        if (kc >= ZERO && kc <= NINE || numPadNum) {
-            const numOff = numPadNum ? ZERO_NUMPAD : ZERO;
-            const markerNumber = kc === ZERO || kc === ZERO_NUMPAD ? 10 : (kc - numOff);
-            marker.next({action: MarkerAction.SET_ACTIVE, data: markerNumber - 1});
+        const key = e.key.toUpperCase();
+
+        // console.log(`key=${key}`);
+        if (key >= '0' && key <= '9') {
+            const markerNumber = key === '0' ? 10 : Number(key);
+            marker.next({ action: MarkerAction.SET_ACTIVE, data: markerNumber - 1 });
             return false;
-        } else if (kc === 32) { // space
+        } else if (key === ' ') {
             this.playerService.playPause();
             return false;
-        } else if (kc === 77 || kc === 65) { // m or a
-            marker.next({action: MarkerAction.ADD});
+        } else if (key === 'M' || key === 'A') {
+            marker.next({ action: MarkerAction.ADD });
             return false;
-        } else if (kc === 13) { // return
+        } else if (key === 'ENTER') {
             this.playerService.seekToStart();
             return false;
-        } else if (kc === 37 || kc === 39) { // left or right
-            this.playerService.backwardForward(kc === 37);
+        } else if (key === 'ARROWLEFT' || key === 'ARROWRIGHT') {
+            this.playerService.backwardForward(key === 'ARROWLEFT');
             return false;
-        } else if (kc === 8) { // backspace
-            marker.next({action: MarkerAction.SEEK_TO_ACTIVE});
+        } else if (key === 'BACKSPACE') {
+            marker.next({ action: MarkerAction.SEEK_TO_ACTIVE });
             return false;
-        } else if (kc === 38 || kc === 40) { // up or down
-            marker.next({action: MarkerAction.MOVE_ACTIVE, data: kc === 38});
+        } else if (key === 'ARROWUP' || key === 'ARROWDOWN') {
+            marker.next({ action: MarkerAction.MOVE_ACTIVE, data: key === 'ARROWUP' });
             return false;
-        } else if (kc === 72) { // h
-            marker.next({action: MarkerAction.TOGGLE_HELP});
+        } else if (key === 'H') {
+            marker.next({ action: MarkerAction.TOGGLE_HELP });
             return false;
         }
+
+        return undefined;
     }
 }
