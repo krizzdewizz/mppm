@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+import packageInfo from '../../../package.json';
 
 @Component({
     selector: 'mppm-info',
@@ -6,4 +7,5 @@ import {Component} from '@angular/core';
     styleUrls: ['./info.page.scss'],
 })
 export class InfoPage {
+    version = packageInfo.version;
 }
