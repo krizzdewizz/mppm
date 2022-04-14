@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Mpp } from './model';
+import { Mpp } from '../model/model';
 import { downloadFile, fileDialog } from './util';
 // import {TEST_TRACKS} from './test-tracks';
 

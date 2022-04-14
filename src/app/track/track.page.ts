@@ -5,9 +5,9 @@ import { Subscription } from 'rxjs';
 import { Events, MarkerAction, MarkerEvent } from '../common/events';
 import { MarkerPipe } from '../common/marker.pipe';
 import { XlatePipe } from '../common/xlate.pipe';
-import { Track } from '../model';
-import { incrValue, PlayerService } from '../player.service';
-import { TracksService } from '../tracks.service';
+import { Track } from '../model/model';
+import { incrValue, PlayerService } from '../service/player.service';
+import { TracksService } from '../service/tracks.service';
 
 const LONG_CLICK_SEEK_INTERVAL = 200;
 const LONG_CLICK_SEEK_SECONDS = 5;

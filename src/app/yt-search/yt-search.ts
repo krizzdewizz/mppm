@@ -1,4 +1,4 @@
-import { YTVideo } from '../model';
+import { YTVideo } from '../model/model';
 
 let selectedVideo: YTVideo;
 

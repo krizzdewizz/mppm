@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-import { TracksService } from './tracks.service';
-import { PlayerService } from './player.service';
+import { TracksService } from './service/tracks.service';
+import { PlayerService } from './service/player.service';
 
 @Component({
   selector: 'mppm-root',

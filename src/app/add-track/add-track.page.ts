@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Track } from '../model';
+import { Track } from '../model/model';
 import { NavController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { TracksService } from '../tracks.service';
+import { TracksService } from '../service/tracks.service';
 import { getSelectedVideo, setSelectedVideo } from '../yt-search/yt-search';
-import { YtDownloadService } from '../yt/yt-download.service';
-import { getIdFromURL } from '../url-parser';
+import { YtDownloadService } from '../service/yt-download.service';
+import { getIdFromURL } from '../service/url-parser';
 import { XlatePipe } from '../common/xlate.pipe';
 
 @Component({

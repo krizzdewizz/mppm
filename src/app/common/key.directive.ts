@@ -1,5 +1,5 @@
 import { Directive, HostListener } from '@angular/core';
-import { incrValue, PlayerService } from '../player.service';
+import { incrValue, PlayerService } from '../service/player.service';
 import { Events, MarkerAction } from './events';
 
 @Directive({

@@ -1,5 +1,5 @@
 import { ElementRef, EventEmitter, Injectable } from '@angular/core';
-import { Player, PlayerState } from './model';
+import { Player, PlayerState } from '../model/model';
 import { getIdFromURL } from './url-parser';
 import { BehaviorSubject } from 'rxjs';
 import { SoundtouchPlayer } from './soundtouch/soundtouch-player';
@@ -21,7 +21,7 @@ function youTubeIframeAPIReady() {
 export class PlayerService {
 
   private player: Player;
-  private readonly soundtouchPlayer = new SoundtouchPlayer(new AudioContext());
+  private soundtouchPlayer: SoundtouchPlayer;
   private volume = 1;
 
   private playerReady$ = new BehaviorSubject<boolean>(false);
@@ -48,6 +48,11 @@ export class PlayerService {
 
   openFile(file: File) {
     this.destroy();
+
+    if (!this.soundtouchPlayer) {
+      this.soundtouchPlayer = new SoundtouchPlayer(new AudioContext());
+    }
+
     this.player = this.soundtouchPlayer;
 
     const reader = new FileReader();

@@ -1,4 +1,4 @@
-import { Player, PlayerState } from '../model';
+import { Player, PlayerState } from '../../model/model';
 import createSoundTouchNode from './js/soundtouch-audio-node';
 
 export class SoundtouchPlayer implements Player {

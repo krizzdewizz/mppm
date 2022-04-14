@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TracksService } from '../tracks.service';
-import { Track } from '../model';
+import { TracksService } from '../service/tracks.service';
+import { Track } from '../model/model';
 import { NavController } from '@ionic/angular';
 
 @Component({

@@ -4,9 +4,9 @@ import { catchError, debounceTime, distinctUntilChanged, mergeMap, tap } from 'r
 import { decode } from 'he';
 import { IonSearchbar, NavController } from '@ionic/angular';
 import { setSelectedVideo } from './yt-search';
-import { YTSearchResult, YTVideo } from '../model';
+import { YTSearchResult, YTVideo } from '../model/model';
 import { of, Subscription } from 'rxjs';
-import { MPPM_Q_BASE_URL } from '../yt/yt-download.service';
+import { MPPM_Q_BASE_URL } from '../service/yt-download.service';
 
 const EMPTY_RESULT: YTSearchResult = { items: [] };
 

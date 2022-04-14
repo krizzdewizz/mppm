@@ -6,14 +6,14 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { StoreService } from './store.service';
+import { StoreService } from './service/store.service';
 import { MarkerPipe } from './common/marker.pipe';
-import { TracksService } from './tracks.service';
-import { PlayerService } from './player.service';
+import { TracksService } from './service/tracks.service';
+import { PlayerService } from './service/player.service';
 import { HttpClientModule } from '@angular/common/http';
 import { XlatePipe } from './common/xlate.pipe';
 import { KeyDirective } from './common/key.directive';
-import { YtDownloadService } from './yt/yt-download.service';
+import { YtDownloadService } from './service/yt-download.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 

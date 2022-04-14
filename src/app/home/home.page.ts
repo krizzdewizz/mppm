@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ActionSheetController, AlertController, NavController, ToastController } from '@ionic/angular';
 import { XlatePipe } from '../common/xlate.pipe';
-import { Track } from '../model';
-import { StoreService } from '../store.service';
-import { TracksService } from '../tracks.service';
-import { fileDialog } from '../util';
+import { Track } from '../model/model';
+import { StoreService } from '../service/store.service';
+import { TracksService } from '../service/tracks.service';
+import { fileDialog } from '../service/util';
 
 interface TrackWithIndex extends Track {
   index: number;

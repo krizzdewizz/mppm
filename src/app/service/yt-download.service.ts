@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { downloadUrl } from '../util';
+import { downloadUrl } from './util';
 
 // export const MPPM_Q_BASE_URL = 'http://localhost:5000';
 export const MPPM_Q_BASE_URL = 'https://mppm-q.herokuapp.com';
