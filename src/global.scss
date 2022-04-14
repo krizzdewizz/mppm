@@ -48,3 +48,15 @@ ion-item-option ion-icon {
 ion-searchbar {
   padding: 11px !important;
 }
+
+ion-toolbar {
+  ion-title {
+    text-align: center;
+    position: absolute;
+    left: 25px;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+}

@@ -71,7 +71,9 @@ export class AddTrackPage implements OnInit {
     setTimeout(() => {
       const newNav = this.nav.pop();
       if (openTrack) {
-        newNav.then(() => this.nav.navigateRoot([`/track`, this.tracksService.tracks.length - 1]));
+        newNav
+          .then(() => this.nav.navigateRoot([`/home`], { animated: false }))
+          .then(() => this.nav.navigateForward([`/track`, this.tracksService.tracks.length - 1], { animated: false }));
       }
     });
   }

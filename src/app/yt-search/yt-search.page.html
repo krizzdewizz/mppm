@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-searchbar [placeholder]="'C_SEARCH_YT' | xlate" (ionInput)="onFilterChange($event)"></ion-searchbar>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
+    <ion-searchbar [placeholder]="'C_SEARCH_YT' | xlate" (ionInput)="onFilterChange($event)"></ion-searchbar>
 </ion-header>
 
 <ion-content>

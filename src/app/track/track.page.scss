@@ -1,23 +1,12 @@
-.header {
-  padding: 7px;
-  background-color: white;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  margin-right: 50px;
-  font-size: 22px;
+ion-header {
+
+  ion-title {
+    width: 80%;
+  }
 
   ion-icon {
-    position: absolute;
-    cursor: pointer;
-
-    &[name="help"] {
-      right: 10px;
-    }
-
-    &[name="settings"] {
-      right: 40px;
-    }
+    font-size: 25px;
+    margin: 10px;
   }
 
   .settings-visible {

@@ -1,10 +1,18 @@
-<div class="header" #headerElement>{{track?.name}}
-  <ion-icon (click)="showSettings = !showSettings; $event.cancelBubble = true" name="settings"
-            [class.settings-visible]="showSettings"></ion-icon>
-  <ion-icon (click)="showHelp = !showHelp" name="help"></ion-icon>
-</div>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{track?.name}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon (click)="showSettings = !showSettings; $event.cancelBubble = true" name="settings"
+                [class.settings-visible]="showSettings"></ion-icon>
+      <ion-icon (click)="showHelp = !showHelp" name="help"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-<ion-content [class.show-key-help]="showKeyHelp" [class.show-help]="showHelp" scroll-y="false">
+<ion-content #contentElement [class.show-key-help]="showKeyHelp" [class.show-help]="showHelp" scroll-y="false">
   <div class="main-content">
     <div class="tools">
       <ion-button class="play-pause" (click)="playPause()">
