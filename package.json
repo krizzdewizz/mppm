@@ -25,6 +25,7 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
+    "@angular/service-worker": "^13.3.3",
     "@ionic-native/core": "5.0.0",
     "@ionic-native/splash-screen": "5.0.0",
     "@ionic-native/status-bar": "5.0.0",
@@ -32,7 +33,6 @@
     "@soundtouchjs/audio-worklet": "^0.1.14",
     "he": "1.2.0",
     "rxjs": "~7.5.0",
-    "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -50,6 +50,7 @@
     "@typescript-eslint/parser": "5.17.0",
     "cpx": "^1.5.0",
     "eslint": "^8.12.0",
+    "tslib": "^2.3.1",
     "typescript": "~4.6.2"
   }
 }
