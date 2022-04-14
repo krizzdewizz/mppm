@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { Events, MarkerAction, MarkerEvent } from '../common/events';
+import { Events } from '../common/events';
 import { MarkerPipe } from '../common/marker.pipe';
 import { XlatePipe } from '../common/xlate.pipe';
 import { Track } from '../model/model';
@@ -67,21 +67,21 @@ export class TrackPage implements OnInit, OnDestroy {
       this.save();
     }));
 
-    this.subscription.add(Events.marker.subscribe((e: MarkerEvent) => {
-      switch (e.action) {
-        case MarkerAction.ADD:
+    this.subscription.add(Events.marker.subscribe(e => {
+      switch (e.type) {
+        case 'ADD':
           this.addMarker();
           break;
-        case MarkerAction.MOVE_ACTIVE:
-          this.moveMarker(e.data);
+        case 'MOVE_ACTIVE':
+          this.moveMarker(e.back);
           break;
-        case MarkerAction.SET_ACTIVE:
-          this.setActiveMarker(e.data);
+        case 'SET_ACTIVE':
+          this.setActiveMarker(e.index);
           break;
-        case MarkerAction.SEEK_TO_ACTIVE:
+        case 'SEEK_TO_ACTIVE':
           this.seekToActiveMarker();
           break;
-        case MarkerAction.TOGGLE_HELP:
+        case 'TOGGLE_HELP':
           this.showKeyHelp = !this.showKeyHelp;
           break;
       }

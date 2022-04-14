@@ -1,6 +1,6 @@
 import { Directive, HostListener } from '@angular/core';
 import { incrValue, PlayerService } from '../service/player.service';
-import { Events, MarkerAction } from './events';
+import { Events } from './events';
 
 @Directive({
   selector: '[mppmKey]'
@@ -28,13 +28,13 @@ export class KeyDirective {
     // console.log(`key=${key}`);
     if (key >= '0' && key <= '9') {
       const markerNumber = key === '0' ? 10 : Number(key);
-      marker.next({ action: MarkerAction.SET_ACTIVE, data: markerNumber - 1 });
+      marker.next({ type: 'SET_ACTIVE', index: markerNumber - 1 });
       return false;
     } else if (key === ' ') {
       this.playerService.playPause();
       return false;
     } else if (key === 'M' || key === 'A') {
-      marker.next({ action: MarkerAction.ADD });
+      marker.next({ type: 'ADD' });
       return false;
     } else if (key === 'ENTER') {
       this.playerService.seekToStart();
@@ -43,15 +43,15 @@ export class KeyDirective {
       this.playerService.backwardForward(key === 'ARROWLEFT');
       return false;
     } else if (key === 'BACKSPACE') {
-      marker.next({ action: MarkerAction.SEEK_TO_ACTIVE });
+      marker.next({ type: 'SEEK_TO_ACTIVE' });
       return false;
     } else if (key === 'ARROWUP' || key === 'ARROWDOWN') {
-      marker.next({ action: MarkerAction.MOVE_ACTIVE, data: key === 'ARROWUP' });
+      marker.next({ type: 'MOVE_ACTIVE', back: key === 'ARROWUP' });
       return false;
     } else if (key === 'Q' || key === 'W') {
       this.playerService.setVolume(incrValue(this.playerService.getVolume(), key === 'Q', 0.05));
     } else if (key === 'H') {
-      marker.next({ action: MarkerAction.TOGGLE_HELP });
+      marker.next({ type: 'TOGGLE_HELP' });
       return false;
     }
 
