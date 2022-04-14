@@ -24,9 +24,20 @@ export interface Player {
 
   seekTo(seconds: number): void;
 
+  setVolume(volume: number);
+
+  setPitch(pitch: number);
+
+  getPitch(): number;
+
+  setTempo(tempo: number);
+
+  getTempo(): number;
+
+  isReady(): boolean;
+
   destroy();
 
-  setVolume(volume: number);
 }
 
 export interface Track {

@@ -19,7 +19,7 @@ export class KeyDirective {
 
     const { marker } = Events;
 
-    if (e.altKey || e.ctrlKey || e.shiftKey || !this.playerService.ready) {
+    if (e.altKey || e.ctrlKey || e.shiftKey || !this.playerService.isReady()) {
       return undefined;
     }
 

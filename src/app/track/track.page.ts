@@ -215,15 +215,15 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   get pitch() {
-    return this.playerService.screwAudioPlayer ? this.playerService.screwAudioPlayer.pitch : 1;
+    return this.playerService.getPitch();
   }
 
   get tempo() {
-    return this.playerService.screwAudioPlayer ? this.playerService.screwAudioPlayer.tempo : 1;
+    return this.playerService.getTempo();
   }
 
   get duration() {
-    return this.playerService.player && this.playerService.player.getDuration ? this.playerService.player.getDuration() : undefined;
+    return this.playerService.getDuration();
   }
 
   resetVolume() {
@@ -233,12 +233,12 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   resetPitch() {
-    this.track.pitch = this.playerService.screwAudioPlayer.pitch = 1;
+    this.playerService.setPitch(this.track.pitch = 1);
     this.save();
   }
 
   resetTempo() {
-    this.track.tempo = this.playerService.screwAudioPlayer.tempo = 1;
+    this.playerService.setTempo(this.track.tempo = 1);
     this.save();
   }
 
@@ -254,7 +254,7 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   onPitch(decr: boolean, amount = 0.01) {
-    this.track.pitch = this.playerService.screwAudioPlayer.pitch = incrValue(this.pitch || 1, decr, amount);
+    this.playerService.setPitch(this.track.pitch = incrValue(this.pitch || 1, decr, amount));
     this.save();
   }
 
@@ -263,7 +263,7 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   onTempo(decr: boolean, amount = 0.01) {
-    this.track.tempo = this.playerService.screwAudioPlayer.tempo = incrValue(this.tempo || 1, decr, amount);
+    this.playerService.setTempo(this.track.tempo = incrValue(this.tempo || 1, decr, amount));
     this.save();
   }
 
@@ -278,9 +278,7 @@ export class TrackPage implements OnInit, OnDestroy {
 
   private setPlayerPropsFromTrack() {
     this.playerService.setVolume(this.track.volume || 1, { emitChangeEvent: false });
-    if (this.playerService.screwAudioPlayer) {
-      this.playerService.screwAudioPlayer.pitch = this.track.pitch || 1;
-      this.playerService.screwAudioPlayer.tempo = this.track.tempo || 1;
-    }
+    this.playerService.setPitch(this.track.pitch || 1);
+    this.playerService.setTempo(this.track.tempo || 1);
   }
 }
