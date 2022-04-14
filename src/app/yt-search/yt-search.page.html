@@ -8,12 +8,14 @@
 </ion-header>
 
 <ion-content>
+  <ion-spinner *ngIf="searchRunning" name="dots"></ion-spinner>
+
   <div class="error" *ngIf="error">{{'C_YT_SEARCH_ERROR'|xlate}}
     <p>
       <a (click)="visitYt()">YouTube</a>
     </p>
   </div>
-  <ion-list>
+  <ion-list *ngIf="!searchRunning && searchResult">
     <ion-item *ngFor="let item of searchResult.items" (click)="selectItem(item)">
       <ion-label>{{item.snippet.title}}</ion-label>
     </ion-item>

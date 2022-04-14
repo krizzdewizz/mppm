@@ -86,7 +86,7 @@
 
     <div #settingsElement [hidden]="!showSettings" class="settings">
       <div class="card">
-        <label (click)="resetVolume()">Volume</label>
+        <label (click)="resetVolume()">{{'C_VOLUME' | xlate}}</label>
         <span>{{volume|number:'1.2-2'}}</span>
         <ion-button mppmLongClick (mppmClickLong)="onVolumeLong(true)" (mppmClick)="onVolume(true)"
                     (mppmClickEnd)="longClickEnd()">

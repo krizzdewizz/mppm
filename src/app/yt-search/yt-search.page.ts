@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, debounceTime, distinctUntilChanged, mergeMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, finalize, mergeMap, tap } from 'rxjs/operators';
 import { decode } from 'he';
 import { IonSearchbar, NavController } from '@ionic/angular';
 import { setSelectedVideo } from './yt-search';
@@ -19,6 +19,7 @@ export class YtSearchPage implements OnInit, AfterViewInit, OnDestroy {
 
   searchResult: YTSearchResult = EMPTY_RESULT;
   error: boolean;
+  searchRunning: boolean;
 
   @ViewChild(IonSearchbar) ionSearchbar: IonSearchbar;
 
@@ -32,7 +33,11 @@ export class YtSearchPage implements OnInit, AfterViewInit, OnDestroy {
     this.filterChangeSubscription = this.filterChange.pipe(
       debounceTime(1200),
       distinctUntilChanged(),
-      tap(() => delete this.error),
+      tap(() => {
+        delete this.error;
+        delete this.searchResult;
+        this.searchRunning = true;
+      }),
       mergeMap(searchTerm => {
         const url = `${MPPM_Q_BASE_URL}/ytsearch?q=${encodeURIComponent(searchTerm)}`;
         return this.http.get(url).pipe(
@@ -65,6 +70,7 @@ export class YtSearchPage implements OnInit, AfterViewInit, OnDestroy {
   private setResult = (result: YTSearchResult) => {
     result.items.forEach(({ snippet }) => snippet.title = decode(snippet.title));
     this.searchResult = result;
+    this.searchRunning = false;
   };
 
   selectItem(item: YTVideo) {

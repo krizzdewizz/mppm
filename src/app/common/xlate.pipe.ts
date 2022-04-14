@@ -34,7 +34,8 @@ const DEFAULT = {
   C_HELP_PLAY_MARKER_BACKWARD: 'Marker Backward',
   C_HELP_MARKER_FORWARD: 'Marker Forward',
   C_HELP_ADD_MARKER: 'Add Marker',
-  C_YT_DOWNLOAD_ERROR: 'An error occured while downloading the audio stream. Please try again later.'
+  C_YT_DOWNLOAD_ERROR: 'An error occured while downloading the audio stream. Please try again later.',
+  C_VOLUME: 'Volume'
 };
 
 const GERMAN = {
@@ -67,7 +68,8 @@ const GERMAN = {
   C_HELP_PLAY_MARKER_BACKWARD: 'Marker zurück',
   C_HELP_MARKER_FORWARD: 'Marker vorwärts',
   C_HELP_ADD_MARKER: 'Marker hinzufügen',
-  C_YT_DOWNLOAD_ERROR: 'Beim Download des Audiostreams ist ein Fehler aufgetreten. Bitte versuchen sie es später nochmal.'
+  C_YT_DOWNLOAD_ERROR: 'Beim Download des Audiostreams ist ein Fehler aufgetreten. Bitte versuchen sie es später nochmal.',
+  C_VOLUME: 'Lautstärke'
 };
 
 // end data
@@ -117,9 +119,8 @@ export class XlatePipe implements PipeTransform {
     let msg = lcl[k] || DEFAULT[k] || k;
 
     if (args) {
-      Object
-        .keys(args)
-        .forEach(key => msg = msg.replace(`[${key}]`, args[key]));
+      Object.entries(args)
+        .forEach(([key, val]) => msg = msg.replace(`[${key}]`, val));
     }
 
     return msg;
