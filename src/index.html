@@ -25,7 +25,10 @@
   <meta name="theme-color" content="#af629b">
 
   <script>
-    window.onYouTubeIframeAPIReady = () => window.mppmYouTubeIframeAPIReady = true;
+    function onYouTubeIframeAPIReady() {
+      console.log('YouTubeIframeAPI is ready');
+      window.mppmYouTubeIframeAPIReady = true;
+    }
   </script>
   <script async src="https://www.youtube.com/iframe_api"></script>
 </head>
