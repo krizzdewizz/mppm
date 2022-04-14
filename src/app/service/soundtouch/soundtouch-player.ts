@@ -44,7 +44,7 @@ export class SoundtouchPlayer implements Player {
     }
   }
 
-  async setBuffer(buffer: ArrayBuffer) {
+  setBuffer(buffer: ArrayBuffer) {
     this.ready = false;
 
     this.soundtouch = createSoundTouchNode(this.context, AudioWorkletNode, buffer);

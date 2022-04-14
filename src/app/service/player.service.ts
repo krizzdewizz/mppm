@@ -56,9 +56,9 @@ export class PlayerService {
     this.player = this.soundtouchPlayer;
 
     const reader = new FileReader();
-    reader.onload = async (event: any) => {
-      const buffer: ArrayBuffer = event.target.result;
-      await this.soundtouchPlayer.setBuffer(buffer);
+    reader.onload = e => {
+      const buffer = e.target.result as ArrayBuffer;
+      this.soundtouchPlayer.setBuffer(buffer);
     };
     reader.readAsArrayBuffer(file);
   }
