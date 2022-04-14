@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TracksService } from '../service/tracks.service';
 import { Track } from '../model/model';
-import { NavController } from '@ionic/angular';
+import { IonInput, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'mppm-marker-detail',
   templateUrl: './marker-detail.page.html',
   styleUrls: ['./marker-detail.page.scss'],
 })
-export class MarkerDetailPage implements OnInit {
+export class MarkerDetailPage implements OnInit, AfterViewInit {
 
   track: Track;
   trackIndex: number;
   marker: { title?: string; value: number };
   title: string;
+  @ViewChild(IonInput) ionInput: IonInput;
 
   constructor(private activatedRoute: ActivatedRoute,
               private tracksService: TracksService,
@@ -28,6 +29,10 @@ export class MarkerDetailPage implements OnInit {
     const markerIndex = Number(paramMap.get('markerIndex'));
     this.marker = this.track.markers[markerIndex];
     this.title = this.marker.title;
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.ionInput.setFocus(), 1000);
   }
 
   save() {

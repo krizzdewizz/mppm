@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Track } from '../model/model';
-import { NavController, ToastController } from '@ionic/angular';
+import { IonInput, NavController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { TracksService } from '../service/tracks.service';
 import { getSelectedVideo, setSelectedVideo } from '../yt-search/yt-search';
@@ -19,6 +19,8 @@ export class AddTrackPage implements OnInit {
   trackIndex: number;
   file: File;
   downloading: boolean;
+
+  @ViewChild('nameInput') ionInput: IonInput;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,6 +51,11 @@ export class AddTrackPage implements OnInit {
       }
       setSelectedVideo(undefined);
     }
+    setTimeout(() => {
+      if (this.track?.name?.length === 0) {
+        this.ionInput.setFocus();
+      }
+    }, 1000);
   }
 
   addTrack() {

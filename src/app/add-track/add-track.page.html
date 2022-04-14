@@ -9,7 +9,7 @@
 
 <ion-content scroll-y="false">
   <div class="add-track-content">
-    <ion-input clear-input [placeholder]="'C_NAME' | xlate" [(ngModel)]="track.name"></ion-input>
+    <ion-input #nameInput clear-input [placeholder]="'C_NAME' | xlate" [(ngModel)]="track.name"></ion-input>
     <ion-input clear-input [placeholder]="'C_YT_OR_VIDEO_ID' | xlate" [(ngModel)]="track.videoUrl"></ion-input>
     <ion-icon name="search" (click)="ytSearch()"></ion-icon>
     <ion-icon name="download" [class.hidden]="!track.videoUrl" (click)="ytDownload(track.videoUrl)"></ion-icon>
