@@ -17,15 +17,16 @@ export class KeyDirective {
       return undefined;
     }
 
-    const { marker } = Events;
-
     if (e.altKey || e.ctrlKey || e.shiftKey || !this.playerService.isReady()) {
       return undefined;
     }
 
+    const { marker } = Events;
+
     const key = e.key.toUpperCase();
 
     // console.log(`key=${key}`);
+
     if (key >= '0' && key <= '9') {
       const markerNumber = key === '0' ? 10 : Number(key);
       marker.next({ type: 'SET_ACTIVE', index: markerNumber - 1 });

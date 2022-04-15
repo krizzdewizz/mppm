@@ -10,10 +10,10 @@
     <ion-item-sliding *ngFor="let track of tracks" #it>
 
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteTrack(track)">
+        <ion-item-option class="danger" (click)="deleteTrack(track)">
           <ion-icon name="trash"></ion-icon>
         </ion-item-option>
-        <ion-item-option *ngIf="!track.isFile" (click)="editTrack(track, it)">
+        <ion-item-option class="edit" *ngIf="!track.isFile" (click)="editTrack(track, it)">
           <ion-icon name="create"></ion-icon>
         </ion-item-option>
       </ion-item-options>

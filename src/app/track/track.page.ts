@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { delay, Subscription } from 'rxjs';
 import { Events } from '../common/events';
 import { MarkerPipe } from '../common/marker.pipe';
 import { XlatePipe } from '../common/xlate.pipe';
@@ -26,6 +26,7 @@ export class TrackPage implements OnInit, OnDestroy {
   playPosition: string;
   playPositionNumber: number;
   activeMarker: number;
+  actionSheetVisible = false;
 
   private trackIndex: number;
   private readonly subscription = new Subscription();
@@ -53,7 +54,9 @@ export class TrackPage implements OnInit, OnDestroy {
 
     this.setPlayerPropsFromTrack();
 
-    this.subscription.add(this.playerService.playerReady.subscribe(() => {
+    this.subscription.add(this.playerService.playerReady.pipe(
+      delay(300) // for offsetWidth
+    ).subscribe(() => {
       if (this.track.file) {
         this.playerService.openFile(this.track.file);
         this.setPlayerPropsFromTrack();
@@ -192,6 +195,7 @@ export class TrackPage implements OnInit, OnDestroy {
   }
 
   async presentActionSheet(markerIndex: number) {
+    this.actionSheetVisible = true;
     const actionSheet = await this.actionSheetController.create({
       header: `${this.xlate.transform('C_MARKER')} ${this.track.markers[markerIndex].title || ''}`,
       buttons: [
@@ -207,6 +211,7 @@ export class TrackPage implements OnInit, OnDestroy {
         }
       ]
     });
+    actionSheet.onDidDismiss().then(() => this.actionSheetVisible = false);
     await actionSheet.present();
   }
 

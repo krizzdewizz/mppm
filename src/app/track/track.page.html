@@ -5,9 +5,13 @@
     </ion-buttons>
     <ion-title>{{track?.name}}</ion-title>
     <ion-buttons slot="end">
-      <ion-icon (click)="showSettings = !showSettings; $event.cancelBubble = true" name="settings"
-                [class.settings-visible]="showSettings"></ion-icon>
-      <ion-icon (click)="showHelp = !showHelp" name="help"></ion-icon>
+      <ion-button [class.settings-visible]="showSettings"
+        (click)="showSettings = !showSettings; $event.cancelBubble = true">
+        <ion-icon name="settings"></ion-icon>
+      </ion-button>
+      <ion-button (click)="showHelp = !showHelp">
+        <ion-icon name="help"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -15,43 +19,43 @@
 <ion-content #contentElement [class.show-key-help]="showKeyHelp" [class.show-help]="showHelp" scroll-y="false">
   <div class="main-content">
     <div class="tools">
-      <ion-button class="play-pause" (click)="playPause()">
+      <ion-button class="play-pause player-btn" (click)="playPause()">
         <ion-icon [name]="playPauseIcon"></ion-icon>
         <span class="key">space</span>
         <span class="help">{{'C_HELP_PLAY_PAUSE'|xlate}}</span>
         <div class="play-position">{{playPosition}}</div>
       </ion-button>
-      <ion-button class="seek-to-start" (click)="seekToStart()">
+      <ion-button class="seek-to-start player-btn" (click)="seekToStart()">
         <ion-icon name="play-skip-back"></ion-icon>
         <span class="key">return</span>
         <span class="help">{{'C_HELP_TO_START'|xlate}}</span>
       </ion-button>
-      <ion-button class="backward" mppmLongClick (mppmClick)="backwardForward(true)"
-                  (mppmClickLong)="backwardForwardLong(true)" (mppmClickEnd)="longClickEnd()">
+      <ion-button class="backward player-btn" mppmLongClick (mppmClick)="backwardForward(true)"
+        (mppmClickLong)="backwardForwardLong(true)" (mppmClickEnd)="longClickEnd()">
         <ion-icon name="play-back"></ion-icon>
         <span class="key">left</span>
         <span class="help">{{'C_HELP_BACKWARD'|xlate}}</span>
       </ion-button>
-      <ion-button class="forward" mppmLongClick (mppmClick)="backwardForward(false)"
-                  (mppmClickLong)="backwardForwardLong(false)" (mppmClickEnd)="longClickEnd()">
+      <ion-button class="forward player-btn" mppmLongClick (mppmClick)="backwardForward(false)"
+        (mppmClickLong)="backwardForwardLong(false)" (mppmClickEnd)="longClickEnd()">
         <ion-icon name="play-forward"></ion-icon>
         <span class="key">right</span>
         <span class="help">{{'C_HELP_FORWARD'|xlate}}</span>
       </ion-button>
       <div class="marker-tools">
-        <ion-button [disabled]="noActiveMarker" (click)="seekToActiveMarker()">
+        <ion-button class="marker-btn" [disabled]="noActiveMarker" (click)="seekToActiveMarker()">
           <ion-icon name="play-skip-back"></ion-icon>
           <span class="key">backspace</span>
           <span class="help">{{'C_HELP_TO_MARKER'|xlate}}</span>
         </ion-button>
-        <ion-button [disabled]="noActiveMarker" mppmLongClick (mppmClick)="moveMarker(true)"
-                    (mppmClickLong)="moveMarkerLong(true)" (mppmClickEnd)="longClickEnd()">
+        <ion-button class="marker-btn" [disabled]="noActiveMarker" mppmLongClick (mppmClick)="moveMarker(true)"
+          (mppmClickLong)="moveMarkerLong(true)" (mppmClickEnd)="longClickEnd()">
           <ion-icon name="play-back"></ion-icon>
           <span class="key">up</span>
           <span class="help">{{'C_HELP_PLAY_MARKER_BACKWARD'|xlate}}</span>
         </ion-button>
-        <ion-button [disabled]="noActiveMarker" mppmLongClick (mppmClick)="moveMarker(false)"
-                    (mppmClickLong)="moveMarkerLong(false)" (mppmClickEnd)="longClickEnd()">
+        <ion-button class="marker-btn" [disabled]="noActiveMarker" mppmLongClick (mppmClick)="moveMarker(false)"
+          (mppmClickLong)="moveMarkerLong(false)" (mppmClickEnd)="longClickEnd()">
           <ion-icon name="play-forward"></ion-icon>
           <span class="key">down</span>
           <span class="help">{{'C_HELP_MARKER_FORWARD'|xlate}}</span>
@@ -66,8 +70,8 @@
 
     <div class="markers">
       <ion-button *ngFor="let marker of markers; let markerIndex = index" mppmLongClick
-                  (mppmClickLong)="presentActionSheet(markerIndex)" (mppmClick)="setActiveMarker(markerIndex)"
-                  [class.marker-active]="activeMarker===markerIndex">
+        (mppmClickLong)="presentActionSheet(markerIndex)" (mppmClick)="setActiveMarker(markerIndex)"
+        [class.marker-active]="activeMarker===markerIndex">
         {{marker.value | marker}}
         <span class="marker-title">{{marker.title}}</span>
         <span class="key">{{markerIndex + 1}}</span>
@@ -80,7 +84,10 @@
       <span>{{(playPositionNumber || 0)|marker}} / {{duration|marker}}</span>
       <mppm-audio [position]="playPositionNumber" (seek)="seekTo($event)" [duration]="duration"></mppm-audio>
     </div>
-    <div [hidden]="track.isFile" #ytplayer></div>
+
+    <div [hidden]="track.isFile || actionSheetVisible">
+      <div #ytplayer></div>
+    </div>
 
     <div [hidden]="!showSettings" class="settings-backdrop" (click)="showSettings = false"></div>
 
@@ -89,11 +96,11 @@
         <label (click)="resetVolume()">{{'C_VOLUME' | xlate}}</label>
         <span>{{volume|number:'1.2-2'}}</span>
         <ion-button mppmLongClick (mppmClickLong)="onVolumeLong(true)" (mppmClick)="onVolume(true)"
-                    (mppmClickEnd)="longClickEnd()">
+          (mppmClickEnd)="longClickEnd()">
           <ion-icon name="remove"></ion-icon>
         </ion-button>
         <ion-button mppmLongClick (mppmClickLong)="onVolumeLong(false)" (mppmClick)="onVolume(false)"
-                    (mppmClickEnd)="longClickEnd()">
+          (mppmClickEnd)="longClickEnd()">
           <ion-icon name="add"></ion-icon>
         </ion-button>
       </div>
@@ -101,11 +108,11 @@
         <label (click)="resetPitch()">Pitch</label>
         <span>{{pitch|number:'1.2-2'}}</span>
         <ion-button mppmLongClick (mppmClickLong)="onPitchLong(true)" (mppmClick)="onPitch(true)"
-                    (mppmClickEnd)="longClickEnd()">
+          (mppmClickEnd)="longClickEnd()">
           <ion-icon name="remove"></ion-icon>
         </ion-button>
         <ion-button mppmLongClick (mppmClickLong)="onPitchLong(false)" (mppmClick)="onPitch(false)"
-                    (mppmClickEnd)="longClickEnd()">
+          (mppmClickEnd)="longClickEnd()">
           <ion-icon name="add"></ion-icon>
         </ion-button>
       </div>
@@ -113,11 +120,11 @@
         <label (click)="resetTempo()">Tempo</label>
         <span>{{tempo|number:'1.2-2'}}</span>
         <ion-button mppmLongClick (mppmClickLong)="onTempoLong(true)" (mppmClick)="onTempo(true)"
-                    (mppmClickEnd)="longClickEnd()">
+          (mppmClickEnd)="longClickEnd()">
           <ion-icon name="remove"></ion-icon>
         </ion-button>
         <ion-button mppmLongClick (mppmClickLong)="onTempoLong(false)" (mppmClick)="onTempo(false)"
-                    (mppmClickEnd)="longClickEnd()">
+          (mppmClickEnd)="longClickEnd()">
           <ion-icon name="add"></ion-icon>
         </ion-button>
       </div>

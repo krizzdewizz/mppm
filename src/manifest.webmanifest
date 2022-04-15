@@ -1,7 +1,7 @@
 {
   "name": "Musician's Practicing Player",
   "short_name": "Musician's Practicing Player",
-  "theme_color": "#af629b",
+  "theme_color": "#8d1b6e",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

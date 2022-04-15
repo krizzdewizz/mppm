@@ -22,9 +22,7 @@ export class HomePage {
 
   private filter = '';
 
-  get noTracks(): boolean {
-    return this.tracks.length === 0;
-  }
+  noTracks = true;
 
   constructor(
     private tracksService: TracksService,
@@ -38,6 +36,7 @@ export class HomePage {
 
   ionViewWillEnter() {
     this.updateTracks();
+    this.noTracks = this.tracks.length === 0;
     document.body.addEventListener('dragover', this.onDragOver);
     document.body.addEventListener('drop', this.onDrop);
   }

@@ -1,3 +1,5 @@
+@import "colors";
+
 ion-item-option {
   font-size: 15pt;
 }
@@ -81,3 +83,12 @@ ion-icon[name="menu"] {
   bottom: 50px;
 }
 
+.danger {
+  background-color: transparent;
+  color: red;
+}
+
+.edit {
+  background-color: transparent;
+  color: $accent;
+}
