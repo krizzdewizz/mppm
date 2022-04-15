@@ -3,6 +3,18 @@ import createSoundTouchNode from './js/soundtouch-audio-node';
 
 export class SoundtouchPlayer implements Player {
 
+  private static instance;
+
+  static async getInstance(): Promise<SoundtouchPlayer> {
+    if (SoundtouchPlayer.instance) {
+      return SoundtouchPlayer.instance;
+    }
+
+    const player = new SoundtouchPlayer(new AudioContext());
+    await player.init();
+    return SoundtouchPlayer.instance = player;
+  }
+
   private state: PlayerState = PlayerState.PAUSED;
   private gain: GainNode;
   private soundtouch: any;
@@ -12,8 +24,7 @@ export class SoundtouchPlayer implements Player {
   private currentTime = 0;
   private ready = false;
 
-  constructor(private context: AudioContext) {
-    this.init();
+  private constructor(private context: AudioContext) {
   }
 
   private async init() {

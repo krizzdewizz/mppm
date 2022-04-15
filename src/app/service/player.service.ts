@@ -50,10 +50,7 @@ export class PlayerService {
   async openFile(file: File) {
     this.destroy();
 
-    if (!this.soundtouchPlayer) {
-      this.soundtouchPlayer = new SoundtouchPlayer(new AudioContext());
-      await sleep(800); // wait for module loaded
-    }
+    this.soundtouchPlayer = await SoundtouchPlayer.getInstance();
 
     this.player = this.soundtouchPlayer;
 

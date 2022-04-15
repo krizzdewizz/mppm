@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActionSheetController, AlertController, NavController, ToastController } from '@ionic/angular';
 import { XlatePipe } from '../common/xlate.pipe';
 import { Track } from '../model/model';
+import { SoundtouchPlayer } from '../service/soundtouch/soundtouch-player';
 import { StoreService } from '../service/store.service';
 import { TracksService } from '../service/tracks.service';
 import { fileDialog } from '../service/util';
@@ -161,6 +162,11 @@ export class HomePage {
   }
 
   async openTrack(track: TrackWithIndex) {
+
+    if (track.file) {
+      await SoundtouchPlayer.getInstance();
+    }
+
     if (track.fileLost) {
       const files = await fileDialog({ accept: 'audio/*' });
       this.tracksService.tracks[track.index].file = files[0];
