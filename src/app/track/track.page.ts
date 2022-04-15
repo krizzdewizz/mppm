@@ -21,7 +21,6 @@ export class TrackPage implements OnInit, OnDestroy {
 
   track: Track;
   showHelp = false;
-  showKeyHelp = false;
   showSettings = false;
   playPosition: string;
   playPositionNumber: number;
@@ -85,7 +84,7 @@ export class TrackPage implements OnInit, OnDestroy {
           this.seekToActiveMarker();
           break;
         case 'TOGGLE_HELP':
-          this.showKeyHelp = !this.showKeyHelp;
+          this.showHelp = !this.showHelp;
           break;
       }
     }));

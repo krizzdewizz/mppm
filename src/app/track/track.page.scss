@@ -11,7 +11,7 @@ ion-header {
     margin: 10px;
   }
 
-  .settings-visible {
+  .settings-visible, .help-visible {
     color: #c2309b;
   }
 }
@@ -117,12 +117,14 @@ ion-button {
   text-align: left;
 }
 
-.show-help .help {
-  visibility: visible;
-}
+.show-help {
+  .help {
+    visibility: visible;
+  }
 
-.show-key-help .key {
-  visibility: visible;
+  .key {
+    visibility: visible;
+  }
 }
 
 .play-position {

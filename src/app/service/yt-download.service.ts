@@ -1,16 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { downloadUrl } from './util';
+import { downloadUrl, sleep } from './util';
 
 // export const MPPM_Q_BASE_URL = 'http://localhost:5000';
 export const MPPM_Q_BASE_URL = 'https://mppm-q.herokuapp.com';
 
 function ytUrl(action: string, videoId: string) {
   return `${MPPM_Q_BASE_URL}/${action}?vid=${videoId}`;
-}
-
-function sleep(millis: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, millis));
 }
 
 @Injectable()

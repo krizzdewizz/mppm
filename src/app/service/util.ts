@@ -48,3 +48,7 @@ export function fileDialog({ multiple, accept }: { multiple?: boolean, accept?: 
     input.dispatchEvent(evt);
   });
 }
+
+export function sleep(millis: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, millis));
+}

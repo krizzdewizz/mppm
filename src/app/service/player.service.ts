@@ -3,6 +3,7 @@ import { Player, PlayerState } from '../model/model';
 import { getIdFromURL } from './url-parser';
 import { BehaviorSubject } from 'rxjs';
 import { SoundtouchPlayer } from './soundtouch/soundtouch-player';
+import { sleep } from './util';
 
 export function incrValue(value: number, backward: boolean, amount = 1): number {
   if (backward) {
@@ -46,11 +47,12 @@ export class PlayerService {
     }
   }
 
-  openFile(file: File) {
+  async openFile(file: File) {
     this.destroy();
 
     if (!this.soundtouchPlayer) {
       this.soundtouchPlayer = new SoundtouchPlayer(new AudioContext());
+      await sleep(800); // wait for module loaded
     }
 
     this.player = this.soundtouchPlayer;

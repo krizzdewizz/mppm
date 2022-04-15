@@ -6,4 +6,4 @@ cpx.copySync(
 
 cpx.copySync(
   'node_modules/@soundtouchjs/audio-worklet/dist/soundtouch-audio-node.js',
-  'src/app/soundtouch/js');
+  'src/app/service/soundtouch/js');

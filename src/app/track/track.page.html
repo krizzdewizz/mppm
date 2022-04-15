@@ -9,14 +9,14 @@
         (click)="showSettings = !showSettings; $event.cancelBubble = true">
         <ion-icon name="settings"></ion-icon>
       </ion-button>
-      <ion-button (click)="showHelp = !showHelp">
+      <ion-button [class.help-visible]="showHelp" (click)="showHelp = !showHelp">
         <ion-icon name="help"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content #contentElement [class.show-key-help]="showKeyHelp" [class.show-help]="showHelp" scroll-y="false">
+<ion-content #contentElement [class.show-help]="showHelp" scroll-y="false">
   <div class="main-content">
     <div class="tools">
       <ion-button class="play-pause player-btn" (click)="playPause()">
