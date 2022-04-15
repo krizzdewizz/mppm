@@ -19,48 +19,48 @@
 <ion-content #contentElement [class.show-help]="showHelp" scroll-y="false">
   <div class="main-content">
     <div class="tools">
-      <ion-button class="play-pause player-btn" (click)="playPause()">
+      <ion-button [disabled]="playerNotReady" class="play-pause player-btn" (click)="playPause()">
         <ion-icon [name]="playPauseIcon"></ion-icon>
         <span class="key">space</span>
         <span class="help">{{'C_HELP_PLAY_PAUSE'|xlate}}</span>
         <div class="play-position">{{playPosition}}</div>
       </ion-button>
-      <ion-button class="seek-to-start player-btn" (click)="seekToStart()">
+      <ion-button [disabled]="playerNotReady" class="seek-to-start player-btn" (click)="seekToStart()">
         <ion-icon name="play-skip-back"></ion-icon>
         <span class="key">return</span>
         <span class="help">{{'C_HELP_TO_START'|xlate}}</span>
       </ion-button>
-      <ion-button class="backward player-btn" mppmLongClick (mppmClick)="backwardForward(true)"
+      <ion-button [disabled]="playerNotReady" class="backward player-btn" mppmLongClick (mppmClick)="backwardForward(true)"
         (mppmClickLong)="backwardForwardLong(true)" (mppmClickEnd)="longClickEnd()">
         <ion-icon name="play-back"></ion-icon>
         <span class="key">left</span>
         <span class="help">{{'C_HELP_BACKWARD'|xlate}}</span>
       </ion-button>
-      <ion-button class="forward player-btn" mppmLongClick (mppmClick)="backwardForward(false)"
+      <ion-button [disabled]="playerNotReady" class="forward player-btn" mppmLongClick (mppmClick)="backwardForward(false)"
         (mppmClickLong)="backwardForwardLong(false)" (mppmClickEnd)="longClickEnd()">
         <ion-icon name="play-forward"></ion-icon>
         <span class="key">right</span>
         <span class="help">{{'C_HELP_FORWARD'|xlate}}</span>
       </ion-button>
       <div class="marker-tools">
-        <ion-button class="marker-btn" [disabled]="noActiveMarker" (click)="seekToActiveMarker()">
+        <ion-button class="marker-btn" [disabled]="noActiveMarker || playerNotReady" (click)="seekToActiveMarker()">
           <ion-icon name="play-skip-back"></ion-icon>
           <span class="key">backspace</span>
           <span class="help">{{'C_HELP_TO_MARKER'|xlate}}</span>
         </ion-button>
-        <ion-button class="marker-btn" [disabled]="noActiveMarker" mppmLongClick (mppmClick)="moveMarker(true)"
+        <ion-button class="marker-btn" [disabled]="noActiveMarker || playerNotReady" mppmLongClick (mppmClick)="moveMarker(true)"
           (mppmClickLong)="moveMarkerLong(true)" (mppmClickEnd)="longClickEnd()">
           <ion-icon name="play-back"></ion-icon>
           <span class="key">up</span>
           <span class="help">{{'C_HELP_PLAY_MARKER_BACKWARD'|xlate}}</span>
         </ion-button>
-        <ion-button class="marker-btn" [disabled]="noActiveMarker" mppmLongClick (mppmClick)="moveMarker(false)"
+        <ion-button class="marker-btn" [disabled]="noActiveMarker || playerNotReady" mppmLongClick (mppmClick)="moveMarker(false)"
           (mppmClickLong)="moveMarkerLong(false)" (mppmClickEnd)="longClickEnd()">
           <ion-icon name="play-forward"></ion-icon>
           <span class="key">down</span>
           <span class="help">{{'C_HELP_MARKER_FORWARD'|xlate}}</span>
         </ion-button>
-        <ion-button [disabled]="isAtStart" (click)="addMarker()">
+        <ion-button [disabled]="isAtStart || playerNotReady" (click)="addMarker()">
           <ion-icon name="add"></ion-icon>
           <span class="key">a</span>
           <span class="help">{{'C_HELP_ADD_MARKER'|xlate}}</span>

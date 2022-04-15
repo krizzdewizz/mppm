@@ -275,6 +275,10 @@ export class TrackPage implements OnInit, OnDestroy {
     this.longClickInterval = setInterval(() => this.onTempo(decr, 0.05), LONG_CLICK_SEEK_INTERVAL);
   }
 
+  get playerNotReady(): boolean {
+    return !this.playerService.isReady();
+  }
+
   private save() {
     clearTimeout(this.saveTimer);
     this.saveTimer = setTimeout(() => this.tracksService.saveTracks(), 1000);

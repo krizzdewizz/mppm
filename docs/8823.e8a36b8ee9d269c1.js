@@ -506,6 +506,10 @@ class TrackPage {
     this.longClickInterval = setInterval(() => this.onTempo(decr, 0.05), LONG_CLICK_SEEK_INTERVAL);
   }
 
+  get playerNotReady() {
+    return !this.playerService.isReady();
+  }
+
   save() {
     clearTimeout(this.saveTimer);
     this.saveTimer = setTimeout(() => this.tracksService.saveTracks(), 1000);
@@ -544,8 +548,8 @@ TrackPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵd
     }
   },
   decls: 102,
-  vars: 59,
-  consts: [["slot", "end"], [3, "click"], ["name", "settings"], ["name", "help"], ["scroll-y", "false"], ["contentElement", ""], [1, "main-content"], [1, "tools"], [1, "play-pause", "player-btn", 3, "click"], [3, "name"], [1, "key"], [1, "help"], [1, "play-position"], [1, "seek-to-start", "player-btn", 3, "click"], ["name", "play-skip-back"], ["mppmLongClick", "", 1, "backward", "player-btn", 3, "mppmClick", "mppmClickLong", "mppmClickEnd"], ["name", "play-back"], ["mppmLongClick", "", 1, "forward", "player-btn", 3, "mppmClick", "mppmClickLong", "mppmClickEnd"], ["name", "play-forward"], [1, "marker-tools"], [1, "marker-btn", 3, "disabled", "click"], ["mppmLongClick", "", 1, "marker-btn", 3, "disabled", "mppmClick", "mppmClickLong", "mppmClickEnd"], [3, "disabled", "click"], ["name", "add"], [1, "markers"], ["mppmLongClick", "", 3, "marker-active", "mppmClickLong", "mppmClick", 4, "ngFor", "ngForOf"], [1, "spacer"], [1, "audio-player", 3, "hidden"], [3, "position", "duration", "seek"], [3, "hidden"], ["ytplayer", ""], [1, "settings-backdrop", 3, "hidden", "click"], [1, "settings", 3, "hidden"], ["settingsElement", ""], [1, "card"], ["mppmLongClick", "", 3, "mppmClickLong", "mppmClick", "mppmClickEnd"], ["name", "remove"], ["class", "card", 4, "ngIf"], ["mppmLongClick", "", 3, "mppmClickLong", "mppmClick"], [1, "marker-title"]],
+  vars: 63,
+  consts: [["slot", "end"], [3, "click"], ["name", "settings"], ["name", "help"], ["scroll-y", "false"], ["contentElement", ""], [1, "main-content"], [1, "tools"], [1, "play-pause", "player-btn", 3, "disabled", "click"], [3, "name"], [1, "key"], [1, "help"], [1, "play-position"], [1, "seek-to-start", "player-btn", 3, "disabled", "click"], ["name", "play-skip-back"], ["mppmLongClick", "", 1, "backward", "player-btn", 3, "disabled", "mppmClick", "mppmClickLong", "mppmClickEnd"], ["name", "play-back"], ["mppmLongClick", "", 1, "forward", "player-btn", 3, "disabled", "mppmClick", "mppmClickLong", "mppmClickEnd"], ["name", "play-forward"], [1, "marker-tools"], [1, "marker-btn", 3, "disabled", "click"], ["mppmLongClick", "", 1, "marker-btn", 3, "disabled", "mppmClick", "mppmClickLong", "mppmClickEnd"], [3, "disabled", "click"], ["name", "add"], [1, "markers"], ["mppmLongClick", "", 3, "marker-active", "mppmClickLong", "mppmClick", 4, "ngFor", "ngForOf"], [1, "spacer"], [1, "audio-player", 3, "hidden"], [3, "position", "duration", "seek"], [3, "hidden"], ["ytplayer", ""], [1, "settings-backdrop", 3, "hidden", "click"], [1, "settings", 3, "hidden"], ["settingsElement", ""], [1, "card"], ["mppmLongClick", "", 3, "mppmClickLong", "mppmClick", "mppmClickEnd"], ["name", "remove"], ["class", "card", 4, "ngIf"], ["mppmLongClick", "", 3, "mppmClickLong", "mppmClick"], [1, "marker-title"]],
   template: function TrackPage_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](0, "ion-header")(1, "ion-toolbar")(2, "ion-buttons");
@@ -749,40 +753,48 @@ TrackPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵd
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵclassProp"]("help-visible", ctx.showHelp);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵclassProp"]("show-help", ctx.showHelp);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](5);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](4);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.playerNotReady);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](1);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("name", ctx.playPauseIcon);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](4);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](21, 34, "C_HELP_PLAY_PAUSE"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](21, 38, "C_HELP_PLAY_PAUSE"));
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](3);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](ctx.playPosition);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](6);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](30, 36, "C_HELP_TO_START"));
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](7);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](37, 38, "C_HELP_BACKWARD"));
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](7);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](44, 40, "C_HELP_FORWARD"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](1);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.playerNotReady);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](5);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](30, 40, "C_HELP_TO_START"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.playerNotReady);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](5);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](37, 42, "C_HELP_BACKWARD"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.playerNotReady);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](5);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](44, 44, "C_HELP_FORWARD"));
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](3);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.noActiveMarker);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.noActiveMarker || ctx.playerNotReady);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](5);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](52, 42, "C_HELP_TO_MARKER"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](52, 46, "C_HELP_TO_MARKER"));
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.noActiveMarker);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.noActiveMarker || ctx.playerNotReady);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](5);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](59, 44, "C_HELP_PLAY_MARKER_BACKWARD"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](59, 48, "C_HELP_PLAY_MARKER_BACKWARD"));
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.noActiveMarker);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.noActiveMarker || ctx.playerNotReady);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](5);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](66, 46, "C_HELP_MARKER_FORWARD"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](66, 50, "C_HELP_MARKER_FORWARD"));
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.isAtStart);
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("disabled", ctx.isAtStart || ctx.playerNotReady);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](5);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](73, 48, "C_HELP_ADD_MARKER"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](73, 52, "C_HELP_ADD_MARKER"));
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](3);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("ngForOf", ctx.markers);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("hidden", !ctx.track.isFile);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate2"]("", _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](80, 50, ctx.playPositionNumber || 0), " / ", _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](81, 52, ctx.duration), "");
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate2"]("", _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](80, 54, ctx.playPositionNumber || 0), " / ", _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](81, 56, ctx.duration), "");
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](3);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("position", ctx.playPositionNumber)("duration", ctx.duration);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](1);
@@ -792,9 +804,9 @@ TrackPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵd
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](1);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("hidden", !ctx.showSettings);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](4);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](92, 54, "C_VOLUME"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind1"](92, 58, "C_VOLUME"));
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](3);
-      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind2"](95, 56, ctx.volume, "1.2-2"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵpipeBind2"](95, 60, ctx.volume, "1.2-2"));
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](6);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("ngIf", ctx.track.isFile);
       _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](1);
