@@ -80,6 +80,8 @@
 
     <div class="spacer"></div>
 
+    <ion-spinner *ngIf="playerNotReady" name="dots"></ion-spinner>
+
     <div [hidden]="!track.isFile" class="audio-player">
       <span>{{(playPositionNumber || 0)|marker}} / {{duration|marker}}</span>
       <mppm-audio [position]="playPositionNumber" (seek)="seekTo($event)" [duration]="duration"></mppm-audio>

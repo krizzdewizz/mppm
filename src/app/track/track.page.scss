@@ -11,7 +11,8 @@ ion-header {
     margin: 10px;
   }
 
-  .settings-visible, .help-visible {
+  .settings-visible,
+  .help-visible {
     color: #c2309b;
   }
 }
@@ -27,7 +28,7 @@ ion-header {
   margin: 2px;
   margin-top: 0;
 
-  & > * {
+  &>* {
     height: 100%;
   }
 }
@@ -37,7 +38,9 @@ ion-header {
   text-align: center;
 }
 
-.seek-to-start, .backward, .forward {
+.seek-to-start,
+.backward,
+.forward {
   grid-row: 2;
 }
 
@@ -55,7 +58,7 @@ ion-header {
 
   .marker-btn {
     --background: #{$accent};
-  }  
+  }
 }
 
 .markers {
@@ -98,7 +101,8 @@ ion-button {
   margin: 2px;
 }
 
-.key, .help {
+.key,
+.help {
   font-size: 10pt;
   position: absolute;
   text-transform: initial;
@@ -174,7 +178,7 @@ ion-button {
     align-items: center;
     pointer-events: auto;
 
-    & > label {
+    &>label {
       position: relative;
       width: 180px;
     }
@@ -195,4 +199,9 @@ ion-button {
     flex: 1;
     --background: darkcyan;
   }
+}
+
+ion-spinner {
+  position: relative;
+  top: -60px;
 }
