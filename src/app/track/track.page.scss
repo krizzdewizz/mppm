@@ -173,8 +173,10 @@ ion-button {
     width: 70%;
     background-color: white;
     padding: 10px;
+    padding-left: 15px;
+    padding-bottom: 15px;
     display: grid;
-    grid-template-columns: 40% auto 50px 50px;
+    grid-template-columns: 40% auto 70px 70px;
     align-items: center;
     pointer-events: auto;
 
@@ -190,7 +192,6 @@ ion-button {
   }
 
   label {
-    margin-right: 10px;
     width: 100%;
     align-self: center;
   }
@@ -198,6 +199,8 @@ ion-button {
   ion-button {
     flex: 1;
     --background: darkcyan;
+    width: 60px;
+    height: 50px;
   }
 }
 
