@@ -58,6 +58,8 @@ export class SoundtouchPlayer implements Player {
   setBuffer(buffer: ArrayBuffer) {
     this.ready = false;
 
+    this.stop();
+
     this.soundtouch = createSoundTouchNode(this.context, AudioWorkletNode, buffer);
     this.soundtouch.on('play', detail => this.currentTime = detail.timePlayed);
     this.soundtouch.on('initialized', () => {
@@ -67,7 +69,7 @@ export class SoundtouchPlayer implements Player {
     });
   }
 
-  play() {
+  playVideo(): void {
     this.gain.connect(this.context.destination);
     this.soundtouch.connectToBuffer();
     this.soundtouch.connect(this.gain);
@@ -76,23 +78,12 @@ export class SoundtouchPlayer implements Player {
     this.state = PlayerState.PLAYING;
   }
 
-  pause() {
+  pauseVideo(): void {
     this.gain.disconnect(this.context.destination);
+    this.soundtouch.disconnectFromBuffer();
     this.soundtouch.pause();
 
     this.state = PlayerState.PAUSED;
-  }
-
-  playVideo(): void {
-    this.play();
-  }
-
-  pauseVideo(): void {
-    this.pause();
-  }
-
-  stopVideo(): void {
-    this.pause();
   }
 
   getPlayerState() {
@@ -123,12 +114,22 @@ export class SoundtouchPlayer implements Player {
     return this.ready;
   }
 
-  destroy() {
-    try {
-      this.stopVideo();
-    } catch {
-      // ignore
+  private stop(): void {
+    this.state = PlayerState.PAUSED;
+
+    if (this.soundtouch) {
+      try {
+        this.soundtouch.disconnectFromBuffer();
+        this.soundtouch.stop();
+        delete this.soundtouch;
+      } catch {
+        // ignore
+      }
     }
+  }
+
+  destroy() {
+    this.stop();
   }
 }
 

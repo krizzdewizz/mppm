@@ -12,8 +12,6 @@ export interface Player {
 
   pauseVideo(): void;
 
-  stopVideo(): void;
-
   getPlayerState(): PlayerState;
 
   getDuration(): number;
