@@ -170,7 +170,8 @@ ion-button {
   pointer-events: none;
 
   .card {
-    width: 70%;
+    width: 100%;
+    max-width: 400px;
     background-color: white;
     padding: 10px;
     padding-bottom: 0;
