@@ -173,12 +173,16 @@ ion-button {
     width: 70%;
     background-color: white;
     padding: 10px;
+    padding-bottom: 0;
     padding-left: 15px;
-    padding-bottom: 15px;
     display: grid;
     grid-template-columns: 40% auto 70px 70px;
     align-items: center;
     pointer-events: auto;
+
+    &:last-of-type {
+      padding-bottom: 15px;
+    }
 
     &>label {
       position: relative;
