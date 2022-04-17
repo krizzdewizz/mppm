@@ -10,13 +10,14 @@ ion-fab {
     height: 56px;
     display: flex;
     position: relative;
-    top: -20px;
+    top: 70px;
     left: -10px;
   }
 
   ion-fab-button {
     position: relative;
     left: -10px;
+    top: -80px;
   }
 }
 
@@ -74,7 +75,7 @@ ion-icon[name="menu"] {
 
 .add-track-info {
   margin-left: 60px;
-  margin-top: -35px;
+  margin-top: -115px;
   position: absolute;
   white-space: nowrap;
 }

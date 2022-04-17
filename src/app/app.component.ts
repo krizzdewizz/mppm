@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { TracksService } from './service/tracks.service';
 import { PlayerService } from './service/player.service';
-import { SwUpdate } from '@angular/service-worker';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 @Component({
   selector: 'mppm-root',
@@ -15,15 +15,16 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private tracksService: TracksService,
-    private playerService: PlayerService,
-    private swUpdate: SwUpdate
+    private playerService: PlayerService
   ) {
-    (window as any).mppm = this;
     this.initializeApp();
   }
 
   async initializeApp() {
-    await this.platform.ready();
+
+    if (this.platform.is('android')) {
+      StatusBar.setBackgroundColor({ color: '8d1b6e' }).catch(err => void 0);
+    }
   }
 
   ngOnInit(): void {
