@@ -1,6 +1,6 @@
 {
   "name": "mppm",
-  "version": "1.2.4",
+  "version": "1.2.6",
   "author": "Christian Oetterli",
   "homepage": "http://o3tt3rli.com/mppm",
   "description": "Musician's Practicing Player",
@@ -11,7 +11,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npm run lint && ng build --base-href /mppms/ --output-path docs",
+    "build": "npm run lint && ng build --base-href /mppms/ --output-path ../mppms/docs",
     "lint": "ng lint",
     "postinstall": "node tools/copy-soundtouch-files"
   },
