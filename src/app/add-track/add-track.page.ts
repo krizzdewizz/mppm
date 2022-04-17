@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Track } from '../model/model';
 import { IonInput, NavController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
@@ -22,6 +22,8 @@ export class AddTrackPage implements OnInit {
 
   @ViewChild('nameInput') ionInput: IonInput;
 
+  @HostBinding('class.hidden') hidden = true;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private tracksService: TracksService,
@@ -40,6 +42,9 @@ export class AddTrackPage implements OnInit {
       this.track.name = existing.name;
       this.track.videoUrl = existing.videoUrl;
     }
+
+    // avoid flickering when navigating to yt-search
+    setTimeout(() => this.hidden = false, 250);
   }
 
   ionViewWillEnter() {
