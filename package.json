@@ -11,7 +11,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npm run lint && ng build --base-href /mppm/ --output-path docs",
+    "build": "npm run lint && ng build --base-href /mppms/ --output-path docs",
     "lint": "ng lint",
     "postinstall": "node tools/copy-soundtouch-files"
   },
