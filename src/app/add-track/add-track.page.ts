@@ -56,11 +56,20 @@ export class AddTrackPage implements OnInit {
       }
       setSelectedVideo(undefined);
     }
+
+    document.body.addEventListener('dragover', this.onDragOver);
+    document.body.addEventListener('drop', this.onDrop);
+
     setTimeout(() => {
       if (this.track?.name?.length === 0) {
         this.ionInput.setFocus();
       }
     }, 1000);
+  }
+
+  ionViewWillLeave() {
+    document.body.removeEventListener('dragover', this.onDragOver);
+    document.body.removeEventListener('drop', this.onDrop);
   }
 
   addTrack() {
@@ -114,5 +123,19 @@ export class AddTrackPage implements OnInit {
       toast.present();
     }
     this.downloading = false;
+  }
+
+  private onDragOver = (e: DragEvent) => e.preventDefault();
+
+  private onDrop = (e: DragEvent) => {
+    e.preventDefault();
+
+    const dt = e.dataTransfer;
+    if (!dt.files) {
+      return;
+    }
+
+    this.file = dt.files[0];
+    this.track.name = this.file.name;
   }
 }

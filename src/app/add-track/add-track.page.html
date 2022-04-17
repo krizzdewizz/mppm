@@ -15,14 +15,16 @@
     <ion-icon name="download" [class.hidden]="!track.videoUrl" (click)="ytDownload(track.videoUrl)"></ion-icon>
     <ion-progress-bar class="progress" [class.hidden]="!downloading" type="indeterminate"></ion-progress-bar>
 
-    <ion-button class="add" [disabled]="!track.name || (!track.videoUrl && !file)" (click)="addTrack()">
-      {{ (trackIndex < 0 ? 'C_ADD' : 'C_SAVE') | xlate }}</ion-button>
+    <div>
+      <ion-button class="choose-file" (click)="fileInput.click()">
+        {{'C_LOCAL_AUDIO_FILE' | xlate}}
+      </ion-button>
 
-    <div class="local-audio-file">
-      <label>{{'C_LOCAL_AUDIO_FILE'|xlate}}</label>
-      <input type="file" accept="audio/*" (change)="onFileChanged($event)">
+      <input #fileInput type="file" hidden accept="audio/*" (change)="onFileChanged($event)">
     </div>
 
+    <ion-button class="add" [disabled]="!track.name || (!track.videoUrl && !file)" (click)="addTrack()">
+      {{ (trackIndex < 0 ? 'C_ADD' : 'C_SAVE') | xlate }}</ion-button>
   </div>
 
 </ion-content>

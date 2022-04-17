@@ -59,14 +59,10 @@
   margin-top: 20px;
 }
 
-
-.local-audio-file {
-  margin-top: 35px;
-  overflow: hidden;
-
-  label {
-    font-size: 18px;
-    display: block;
-    padding-bottom: 4px;
-  }
+.choose-file {
+  --background: transparent;
+  --border-width: 0;
+  --box-shadow: none;
+  text-transform: none;
+  font-size: 16px;
 }
