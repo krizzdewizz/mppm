@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { TracksService } from './service/tracks.service';
 import { PlayerService } from './service/player.service';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'mppm-root',
@@ -14,8 +15,10 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private tracksService: TracksService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private swUpdate: SwUpdate
   ) {
+    (window as any).mppm = this;
     this.initializeApp();
   }
 
