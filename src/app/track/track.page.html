@@ -43,22 +43,27 @@
         <span class="help">{{'C_HELP_FORWARD'|xlate}}</span>
       </ion-button>
       <div class="marker-tools">
-        <ion-button class="marker-btn" [disabled]="noActiveMarker || playerNotReady" (click)="seekToActiveMarker()">
+        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" (click)="seekToActiveMarker()">
           <ion-icon name="play-skip-back"></ion-icon>
           <span class="key">backspace</span>
           <span class="help">{{'C_HELP_TO_MARKER'|xlate}}</span>
         </ion-button>
-        <ion-button class="marker-btn" [disabled]="noActiveMarker || playerNotReady" mppmLongClick (mppmClick)="moveMarker(true)"
+        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" mppmLongClick (mppmClick)="moveMarker(true)"
           (mppmClickLong)="moveMarkerLong(true)" (mppmClickEnd)="longClickEnd()">
           <ion-icon name="play-back"></ion-icon>
           <span class="key">up</span>
           <span class="help">{{'C_HELP_PLAY_MARKER_BACKWARD'|xlate}}</span>
         </ion-button>
-        <ion-button class="marker-btn" [disabled]="noActiveMarker || playerNotReady" mppmLongClick (mppmClick)="moveMarker(false)"
+        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" mppmLongClick (mppmClick)="moveMarker(false)"
           (mppmClickLong)="moveMarkerLong(false)" (mppmClickEnd)="longClickEnd()">
           <ion-icon name="play-forward"></ion-icon>
           <span class="key">down</span>
           <span class="help">{{'C_HELP_MARKER_FORWARD'|xlate}}</span>
+        </ion-button>
+        <ion-button class="loop-marker marker-play-btn" [class.loop-active]="loopMarker" [disabled]="noActiveMarker || playerNotReady" (click)="loopMarker = !loopMarker">
+          <ion-icon name="infinite"></ion-icon>
+          <span class="key">l</span>
+          <span class="help">{{'C_LOOP'|xlate}}</span>
         </ion-button>
         <ion-button [disabled]="isAtStart || playerNotReady" (click)="addMarker()">
           <ion-icon name="add"></ion-icon>
@@ -69,9 +74,10 @@
     </div>
 
     <div class="markers">
-      <ion-button *ngFor="let marker of markers; let markerIndex = index" mppmLongClick
+      <ion-button class="marker-btn" *ngFor="let marker of markers; let markerIndex = index" mppmLongClick
         (mppmClickLong)="presentActionSheet(markerIndex)" (mppmClick)="setActiveMarker(markerIndex)"
-        [class.marker-active]="activeMarker===markerIndex">
+        [class.marker-active]="activeMarker===markerIndex"
+        [class.loop-active]="loopMarker && (activeMarker === markerIndex || activeMarker + 1 === markerIndex) ">
         {{marker.value | marker}}
         <span class="marker-title">{{marker.title}}</span>
         <span class="key">{{markerIndex + 1}}</span>

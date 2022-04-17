@@ -54,6 +54,9 @@ export class KeyDirective {
     } else if (key === 'H') {
       marker.next({ type: 'TOGGLE_HELP' });
       return false;
+    } else if (key === 'L') {
+      marker.next({ type: 'LOOP' });
+      return false;
     }
 
     return undefined;

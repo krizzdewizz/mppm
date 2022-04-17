@@ -22,12 +22,17 @@ export interface ToggleHelpEvent {
   type: 'TOGGLE_HELP';
 }
 
+export interface LoopEvent {
+  type: 'LOOP';
+}
+
 export type MarkerEvent =
   AddMarkerEvent
   | MoveActiveMarkerEvent
   | SetActiveMarkerEvent
   | SeekToActiveMarkerEvent
   | ToggleHelpEvent
+  | LoopEvent
   ;
 
 export const Events = {

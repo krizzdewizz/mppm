@@ -35,7 +35,8 @@ const DEFAULT = {
   C_HELP_MARKER_FORWARD: 'Marker Forward',
   C_HELP_ADD_MARKER: 'Add Marker',
   C_YT_DOWNLOAD_ERROR: 'An error occured while downloading the audio stream. Please try again later.',
-  C_VOLUME: 'Volume'
+  C_VOLUME: 'Volume',
+  C_LOOP:'Loop'
 };
 
 const GERMAN = {
@@ -69,7 +70,8 @@ const GERMAN = {
   C_HELP_MARKER_FORWARD: 'Marker vorwärts',
   C_HELP_ADD_MARKER: 'Marker hinzufügen',
   C_YT_DOWNLOAD_ERROR: 'Beim Download des Audiostreams ist ein Fehler aufgetreten. Bitte versuchen sie es später nochmal.',
-  C_VOLUME: 'Lautstärke'
+  C_VOLUME: 'Lautstärke',
+  C_LOOP:'Loop'
 };
 
 // end data

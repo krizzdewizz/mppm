@@ -1,5 +1,8 @@
 @import "colors";
 
+$loop-color: lightcoral;
+$loop-border-width: 4px;
+
 ion-header {
 
   ion-title {
@@ -56,15 +59,29 @@ ion-header {
     --background: darkcyan;
   }
 
-  .marker-btn {
+  .marker-play-btn {
     --background: #{$accent};
+  }
+
+  .loop-marker {
+    --border-style: solid;
+    --border-color: #{$accent};
+    --border-width: #{$loop-border-width};
+
+    &.loop-active {
+      --border-color: #{$loop-color};
+    }
   }
 }
 
 .markers {
   margin: 2px;
 
-  ion-button {
+  .marker-btn {
+    --border-style: solid;
+    --border-color: darkcyan;
+    --border-width: #{$loop-border-width};
+
     height: 70px;
     width: 80px;
     margin: 2px;
@@ -72,6 +89,11 @@ ion-header {
 
     &.marker-active {
       --background: #{$accent};
+      --border-color: #{$accent};
+    }
+
+    &.loop-active {
+      --border-color: #{$loop-color};
     }
   }
 }

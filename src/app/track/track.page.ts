@@ -26,6 +26,7 @@ export class TrackPage implements OnInit, OnDestroy {
   playPositionNumber: number;
   activeMarker: number;
   actionSheetVisible = false;
+  loopMarker = false;
 
   private trackIndex: number;
   private readonly subscription = new Subscription();
@@ -86,6 +87,9 @@ export class TrackPage implements OnInit, OnDestroy {
         case 'TOGGLE_HELP':
           this.showHelp = !this.showHelp;
           break;
+        case 'LOOP':
+          this.loopMarker = !this.loopMarker;
+          break;
       }
     }));
 
@@ -95,6 +99,13 @@ export class TrackPage implements OnInit, OnDestroy {
       }
       this.playPositionNumber = this.playerService.getCurrentTime();
       this.playPosition = this.markerPipe.transform(this.playPositionNumber);
+
+      const nextMarkerPos = this.track.markers[this.activeMarker + 1]?.value;
+
+      if (this.loopMarker && this.activeMarker >= 0 && this.playPositionNumber > nextMarkerPos) {
+        this.seekToActiveMarker();
+      }
+
     }, 500);
   }
 
