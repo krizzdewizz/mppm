@@ -1,7 +1,7 @@
 <style lang="scss">@import "index";
 </style>
 <script lang="ts">
-  import HistoryBack from '$components/HistoryBack.svelte';
+  import BackButton from '$components/BackButton.svelte';
   import { mppmLongClick } from '$directives/long-click';
   import IoIosSettings from 'svelte-icons/io/IoIosSettings.svelte';
   import IoIosHelp from 'svelte-icons/io/IoIosHelp.svelte';
@@ -189,7 +189,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons>
-      <HistoryBack/>
+      <BackButton/>
     </ion-buttons>
     <ion-title>{ track?.name }</ion-title>
     <ion-buttons slot="end">

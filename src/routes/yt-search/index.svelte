@@ -2,7 +2,7 @@
 </style>
 <script lang="ts">
   import { decode } from 'he';
-  import HistoryBack from '$components/HistoryBack.svelte';
+  import BackButton from '$components/BackButton.svelte';
   import { _ } from 'svelte-i18n';
   import type { YTSearchResult, YTVideo } from '$model/model';
   import type { IonSearchbar } from '@ionic/core/components/ion-searchbar';
@@ -64,7 +64,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons>
-      <HistoryBack></HistoryBack>
+      <BackButton></BackButton>
     </ion-buttons>
   </ion-toolbar>
   <ion-searchbar debounce={1000} bind:this={searchbar} placeholder={$_('C_SEARCH_YT')}

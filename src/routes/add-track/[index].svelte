@@ -1,7 +1,7 @@
 <style lang="scss">@import "index";
 </style>
 <script lang="ts">
-  import HistoryBack from '$components/HistoryBack.svelte';
+  import BackButton from '$components/BackButton.svelte';
   import { _ } from 'svelte-i18n';
   import type { Track } from '$model/model';
   import IoIosSearch from 'svelte-icons/io/IoIosSearch.svelte';
@@ -133,7 +133,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons>
-      <HistoryBack/>
+      <BackButton/>
     </ion-buttons>
     <ion-title>{ $_(trackIndex < 0 ? 'C_ADD_TRACK' : 'C_EDIT_TRACK') }</ion-title>
   </ion-toolbar>

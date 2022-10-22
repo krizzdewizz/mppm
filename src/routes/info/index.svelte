@@ -1,5 +1,5 @@
 <script lang="ts">
-  import HistoryBack from '$components/HistoryBack.svelte';
+  import BackButton from '$components/BackButton.svelte';
   import packageInfo from '../../../package.json';
 
   let version = packageInfo.version;
@@ -8,7 +8,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons>
-      <HistoryBack/>
+      <BackButton/>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
