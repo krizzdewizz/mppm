@@ -34,3 +34,5 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 /.routify/
+/dist/
+/Musician's Practicing Player-darwin-x64/
