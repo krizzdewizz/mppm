@@ -85,6 +85,10 @@
     background-color: #222428;
   }
 
+  ion-fab .menu-container {
+    color: #ffffff;
+  }
+
   :root {
 
     --ion-font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;

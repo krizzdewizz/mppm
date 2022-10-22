@@ -1,9 +1,13 @@
-const {app, ipcMain, BrowserWindow, Menu} = require('electron');
+const {app, ipcMain, BrowserWindow, Menu, nativeTheme} = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 const serve = require('electron-serve');
 const loadURL = serve({directory: '.'});
+
+const appName = require('./package.json').productName;
+
+app.name = appName;
 
 async function handleReadFile(e, filePath) {
   return fs.readFileSync(filePath);
@@ -15,13 +19,16 @@ async function handleFileExists(e, filePath) {
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 500,
+    height: 700,
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#222428' : undefined,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       nodeIntegration: true,
     },
   });
+
+  // mainWindow.webContents.openDevTools()
 
   mainWindow.loadURL('http://localhost:5173/');
   // loadURL(mainWindow);
@@ -64,14 +71,7 @@ const template = [
         {type: 'separator'},
         {role: 'quit'},
       ],
-    }] : []),
-  // { role: 'fileMenu' }
-  {
-    label: 'File',
-    submenu: [
-      isMac ? {role: 'close'} : {role: 'quit'},
-    ],
-  },
+    }] : [])
 ];
 
 const menu = Menu.buildFromTemplate(template);

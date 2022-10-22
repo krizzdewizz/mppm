@@ -5,6 +5,7 @@
   "main": "main.cjs",
   "homepage": "http://o3tt3rli.com/mppm",
   "description": "Musician's Practicing Player",
+  "productName": "Musician's Practicing Player",
   "repository": {
     "type": "git",
     "url": "https://github.com/krizzdewizz/mppm"
@@ -17,6 +18,7 @@
     "build:client": "vite build",
     "build:server": "vite build  --ssr",
     "preview": "vite preview",
+    "pack": "npx electron-packager . --overwrite --icon src/static/assets/icon/favicon.icns",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "routes": "routify"
   },
@@ -29,6 +31,7 @@
     "@tsconfig/svelte": "^3.0.0",
     "@types/lodash": "^4.14.186",
     "electron": "^21.2.0",
+    "electron-packager": "^17.0.0",
     "he": "^1.2.0",
     "sass": "^1.52.2",
     "spank": "^2.0.0-5",

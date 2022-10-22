@@ -15,24 +15,35 @@
 
 <ion-content>
   <div class="content">
-    <h2>Musician's Practicing Player</h2>
+    <div class="title">
+      <h2>Musician's Practicing Player</h2>
+      <img src="assets/icon/favicon.png">
+    </div>
 
-    <table>
-      <tr>
-        <td>Version:</td>
-        <td>{version}</td>
-      </tr>
+    <table class="footer">
       <tr>
         <td>Author:</td>
         <td><a href="mailto:christian@o3tt3rli.com">christian@o3tt3rli.com</a></td>
       </tr>
+      <tr>
+        <td>Version:</td>
+        <td>{version}</td>
+      </tr>
     </table>
-
-    <img src="assets/icon/favicon.png">
   </div>
 </ion-content>
 
 <style lang="scss">
+  .title {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .footer {
+    margin-top: 5em;
+  }
+
   .content {
     padding: 20px;
   }

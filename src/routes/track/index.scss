@@ -186,13 +186,12 @@ ion-button {
   display: flex;
   align-items: center;
   flex-direction: column;
-  opacity: 0.95;
   pointer-events: none;
 
   .card {
     width: 100%;
     max-width: 400px;
-    background-color: white;
+    background-color: var(--ion-background-color);
     padding: 10px;
     padding-bottom: 0;
     padding-left: 15px;
