@@ -8,7 +8,7 @@ async function serve(port) {
   return new Promise(resolve => {
     server.deploy({
         port,
-        root: 'dist/client'
+        root: path.join(__dirname, 'dist/client')
       },
       serverReady
     );
@@ -44,7 +44,7 @@ async function createWindow() {
     },
   });
 
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
   
   let port;
   if (process.env.MPPM_DEV) {
