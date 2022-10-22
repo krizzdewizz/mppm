@@ -25,6 +25,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       nodeIntegration: true,
+      enableBlinkFeatures: "CSSColorSchemeUARendering",
     },
   });
 
