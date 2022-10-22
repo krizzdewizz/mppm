@@ -232,3 +232,15 @@ ion-spinner {
   position: relative;
   top: -60px;
 }
+
+.edit-track {
+  display: flex !important;
+  padding-left: 30% !important;
+  padding-right: 30% !important;
+  padding-top: 50px !important;
+
+  ion-button {
+    --background: inherit;
+    color: var(--ion-text-color);
+  }
+}

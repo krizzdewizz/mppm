@@ -128,6 +128,12 @@
     track.name = file.name;
     track.filePath = (file as any).path;
   }
+
+  function deleteTrack() {
+    tracksService.deleteTrack(trackIndex);
+    history.back();
+  }
+
 </script>
 
 <ion-header>
@@ -171,13 +177,18 @@
   </div>
 
   <div class="bottom">
-    <ion-button fill="outline" class="choose-file" on:click={fileInput.click()}>
+    <ion-button fill="outline" class="secondary-button" on:click={fileInput.click()}>
       {$_('C_LOCAL_AUDIO_FILE')}
     </ion-button>
 
     <input bind:this={fileInput} type="file" hidden accept="audio/*" on:change={e => onFileChanged(e)}>
     <ion-button class="add" disabled={!track.name || (!track.videoUrl && !file)} on:click={() => addTrack()}>
       { $_(trackIndex < 0 ? 'C_ADD' : 'C_SAVE')}</ion-button>
+      {#if trackIndex >= 0}
+        <ion-button fill="outline" class="secondary-button" on:click={deleteTrack}>
+          {$_('C_DELETE')}
+        </ion-button>
+      {/if}
   </div>
 
 </ion-content>

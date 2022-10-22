@@ -132,8 +132,8 @@
     editTrack(-1);
   }
 
-  function editTrack(trackIndex: number, it?) {
-    openSearch.set(true);
+  function editTrack(trackIndex: number, { openSearch: open = true }: { openSearch?: boolean } = {}) {
+    openSearch.set(open);
     $goto('/add-track/[index]', { index: trackIndex });
   }
 
@@ -176,24 +176,11 @@
   {:else}
     <ion-list>
       {#each tracks as track}
-        <ion-item-sliding>
-          <ion-item-options side="end">
-            <ion-item-option class="danger" on:click={() => deleteTrack(track)}>
-              <IoIosTrash/>
-            </ion-item-option>
-            {#if !track.isFile}
-              <ion-item-option class="edit" on:click={() => editTrack(track.index, undefined)}>
-                <IoIosCreate/>
-              </ion-item-option>
-            {/if}
-          </ion-item-options>
-
-          <ion-item use:mppmLongClick
-                    on:mppmClick={() => openTrack(track)}
-                    on:mppmClickLong={() => editTrack(track.index, undefined)}>
-            <ion-label class:file-lost={track.fileLost}>{track.name}</ion-label>
-          </ion-item>
-        </ion-item-sliding>
+        <ion-item use:mppmLongClick
+            on:mppmClick={() => openTrack(track)}
+            on:mppmClickLong={() => editTrack(track.index, { openSearch: false })}>
+          <ion-label class:file-lost={track.fileLost}>{track.name}</ion-label>
+        </ion-item>
       {/each}
     </ion-list>
   {/if}

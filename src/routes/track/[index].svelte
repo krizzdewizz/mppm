@@ -13,6 +13,7 @@
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
   import IoIosRemove from 'svelte-icons/io/IoIosRemove.svelte';
   import IoIosPlay from 'svelte-icons/io/IoIosPlay.svelte';
+  import IoIosCreate from 'svelte-icons/io/IoIosCreate.svelte';
   import { params } from '@roxi/routify';
   import type { Track } from '$model/model';
   import { tracksService } from '$services/tracks.service';
@@ -41,6 +42,7 @@
   } from '$routes/track/track.js';
   import { Events } from '$services/events';
   import XIcon from '$components/XIcon.svelte';
+  import { goto } from '@roxi/routify';
 
   let contentElement: HTMLElement;
   let settingsElement: HTMLElement;
@@ -63,12 +65,13 @@
   let track: Track;
   let isPlaying = false;
   let playPositionTimer;
+  let trackIndex: number;
 
   $: noActiveMarker = activeMarker === undefined;
 
   function init() {
     const { index } = $params;
-    const trackIndex = Number(index);
+    trackIndex = Number(index);
     track = tracksService.tracks[trackIndex];
 
     onMount(() => {
@@ -180,6 +183,11 @@
   }
 
   function presentActionSheet(index) {
+  }
+
+  export function editTrack(trackIndex: number) {
+    history.back();
+    setTimeout(() => $goto('/add-track/[index]', { index: trackIndex }), 50);
   }
 
   init();
@@ -341,7 +349,6 @@
       </div>
 
       {#if track.isFile}
-
         <div class="card">
           <label on:click={() => resetPitch(track)}>Pitch</label>
           <span>{nmbr(pitch)}</span>
@@ -379,6 +386,11 @@
           </ion-button>
         </div>
       {/if}
+      <div class="card edit-track">
+        <ion-button fill="clear" on:click={() => editTrack(trackIndex)}>
+          <IoIosCreate/>
+        </ion-button>
+      </div>
     </div>
   </div>
 </ion-content>
