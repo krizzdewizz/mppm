@@ -1,9 +1,24 @@
-const {app, ipcMain, BrowserWindow, Menu, nativeTheme} = require('electron');
+const { app, ipcMain, BrowserWindow, Menu, nativeTheme } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const server = require('node-http-server');
+const freePort = require("find-free-port")
 
-const serve = require('electron-serve');
-const loadURL = serve({directory: 'dist/client'});
+async function serve(port) {
+  return new Promise(resolve => {
+    server.deploy({
+        port,
+        root: 'dist/client'
+      },
+      serverReady
+    );
+
+    function serverReady(server) {
+      console.log(`server running on port ${server.config.port}`);
+      resolve();
+    }
+  })
+}
 
 const appName = require('./package.json').productName;
 
@@ -17,7 +32,7 @@ async function handleFileExists(e, filePath) {
   return fs.existsSync(filePath);
 }
 
-function createWindow() {
+async function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 500,
     height: 700,
@@ -29,29 +44,32 @@ function createWindow() {
     },
   });
 
-  // mainWindow.webContents.openDevTools()
-
+  mainWindow.webContents.openDevTools()
+  
+  let port;
   if (process.env.MPPM_DEV) {
-    mainWindow.loadURL('http://localhost:5173/');
+    port = 5173;
   } else {
-    loadURL(mainWindow);
+    [port] = await freePort(8000);
+    await serve(port);
   }
+  mainWindow.loadURL(`http://localhost:${port}/`);
 }
 
-app.whenReady().then(() => {
-  createWindow();
+app.whenReady().then(async () => {
+  await createWindow();
 
   ipcMain.handle('app:readFile', handleReadFile);
   ipcMain.handle('app:fileExists', handleFileExists);
 
-  app.on('activate', function() {
+  app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
 });
 
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit();
   }
@@ -65,15 +83,15 @@ const template = [
     {
       label: app.name,
       submenu: [
-        {role: 'about'},
-        {type: 'separator'},
-        {role: 'services'},
-        {type: 'separator'},
-        {role: 'hide'},
-        {role: 'hideOthers'},
-        {role: 'unhide'},
-        {type: 'separator'},
-        {role: 'quit'},
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideOthers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
       ],
     }] : [])
 ];
