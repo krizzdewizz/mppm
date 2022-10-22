@@ -1,4 +1,7 @@
 #!/bin/bash
+
+export ANDROID_HOME=/C/Users/christian.oetterli/AppData/Local/Android/Sdk
+
 npx cap sync
 cd android
 ./gradlew clean build
