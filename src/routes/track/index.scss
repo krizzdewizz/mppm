@@ -1,0 +1,235 @@
+$loop-color: lightcoral;
+$loop-border-width: 4px;
+
+ion-header {
+
+  ion-title {
+    width: calc(100% - 120px);
+  }
+
+  ion-icon {
+    font-size: 25px;
+    margin: 10px;
+  }
+
+  .settings-visible,
+  .help-visible {
+    color: #c2309b;
+  }
+}
+
+.player-btn {
+  --background: #3880ff;
+}
+
+.tools {
+  display: grid;
+  height: 40%;
+  grid-row-gap: 3px;
+  margin: 2px;
+  margin-top: 0;
+
+  &>* {
+    height: 100%;
+  }
+}
+
+.play-pause {
+  grid-column: 1 / 4;
+  text-align: center;
+}
+
+.seek-to-start,
+.backward,
+.forward {
+  grid-row: 2;
+}
+
+.marker-tools {
+  grid-row: 3;
+  grid-column: 1 / 4;
+  display: flex;
+  padding-top: 1px;
+
+  ion-button {
+    height: 100%;
+    flex: 1;
+    --background: darkcyan;
+  }
+
+  .marker-play-btn {
+    --background: #{$accent};
+  }
+
+  .loop-marker {
+    --border-style: solid;
+    --border-color: #{$accent};
+    --border-width: #{$loop-border-width};
+
+    &.loop-active {
+      --border-color: #{$loop-color};
+    }
+  }
+}
+
+.markers {
+  margin: 2px;
+
+  .marker-btn {
+    --border-style: solid;
+    --border-color: darkcyan;
+    --border-width: #{$loop-border-width};
+
+    height: 70px;
+    width: 80px;
+    margin: 2px;
+    --background: darkcyan;
+
+    &.marker-active {
+      --background: #{$accent};
+      --border-color: #{$accent};
+    }
+
+    &.loop-active {
+      --border-color: #{$loop-color};
+    }
+  }
+}
+
+.marker-title {
+  font-size: 9pt;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  text-transform: initial;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.spacer {
+  flex: 1;
+}
+
+ion-button {
+  --padding-start: 5px;
+  --padding-end: 5px;
+  font-size: 14pt;
+  margin: 2px;
+  max-height: 150px;
+}
+
+.key,
+.help {
+  font-size: 10pt;
+  position: absolute;
+  text-transform: initial;
+  visibility: hidden;
+}
+
+.key {
+  right: 5px;
+  bottom: 5px;
+}
+
+.help {
+  left: 5px;
+  top: 5px;
+  white-space: initial;
+  text-align: left;
+}
+
+.show-help {
+  .help {
+    visibility: visible;
+  }
+
+  .key {
+    visibility: visible;
+  }
+}
+
+.play-position {
+  font-size: 12pt;
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+}
+
+.audio-player {
+
+  span {
+    letter-spacing: 1.2px;
+    font-size: smaller;
+  }
+
+  margin-bottom: 60px;
+  width: 100%;
+  padding: 5px;
+}
+
+.settings-backdrop {
+  background-color: black;
+  opacity: 0.4;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.settings {
+  position: absolute;
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0.95;
+  pointer-events: none;
+
+  .card {
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 10px;
+    padding-bottom: 0;
+    padding-left: 15px;
+    display: grid;
+    grid-template-columns: 40% auto 70px 70px;
+    align-items: center;
+    pointer-events: auto;
+
+    &:last-of-type {
+      padding-bottom: 15px;
+    }
+
+    &>label {
+      position: relative;
+      width: 180px;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+
+  label {
+    width: 100%;
+    align-self: center;
+  }
+
+  ion-button {
+    flex: 1;
+    --background: darkcyan;
+    width: 60px;
+    height: 50px;
+  }
+}
+
+ion-spinner {
+  position: relative;
+  top: -60px;
+}

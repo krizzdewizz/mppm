@@ -1,12 +1,31 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import App from './App.svelte';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { setupIonicSvelte } from '$ionic/svelte';
+import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
+import { tracksService } from '$services/tracks.service';
 
-if (environment.production) {
-  enableProdMode();
+function initI18n() {
+  register('en', () => import('./i18n/en.json'));
+  register('de', () => import('./i18n/de.json'));
+
+  init({
+    fallbackLocale: 'en',
+    initialLocale: getLocaleFromNavigator()
+  });
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+initI18n();
+
+setupIonicSvelte();
+
+tracksService.loadTracks();
+
+// if the page was pre rendered, we want to remove the pre rendered html
+document.querySelector('[data-routify]')?.remove();
+const app = new App({
+  target: document.getElementById('app')
+});
+
+export default app;
+
+
