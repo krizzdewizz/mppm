@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const serve = require('electron-serve');
-const loadURL = serve({directory: '.'});
+const loadURL = serve({directory: 'dist/client'});
 
 const appName = require('./package.json').productName;
 
@@ -30,8 +30,11 @@ function createWindow() {
 
   // mainWindow.webContents.openDevTools()
 
-  mainWindow.loadURL('http://localhost:5173/');
-  // loadURL(mainWindow);
+  if (process.env.MPPM_DEV) {
+    mainWindow.loadURL('http://localhost:5173/');
+  } else {
+    loadURL(mainWindow);
+  }
 }
 
 app.whenReady().then(() => {

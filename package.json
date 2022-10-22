@@ -14,12 +14,12 @@
   "scripts": {
     "electron": "electron .",
     "dev": "vite",
-    "build": "vite build && vite build --ssr",
-    "build:client": "vite build",
-    "build:server": "vite build  --ssr",
+    "build": "vite build",
     "preview": "vite preview",
     "pack": "npx electron-packager . --overwrite --icon src/static/assets/icon/favicon.icns",
+    "build:all":"npm run build && npm run pack && npm run copy:dist",
     "check": "svelte-check --tsconfig ./tsconfig.json",
+    "copy:dist":"cpx \"dist/**\" \"Musician's Practicing Player-darwin-x64/dist\"",
     "routes": "routify"
   },
   "devDependencies": {
@@ -30,6 +30,7 @@
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
     "@tsconfig/svelte": "^3.0.0",
     "@types/lodash": "^4.14.186",
+    "cpx": "^1.5.0",
     "electron": "^21.2.0",
     "electron-packager": "^17.0.0",
     "he": "^1.2.0",
