@@ -1,5 +1,5 @@
-import { PlayerState } from '$model/model';
 import type { Player } from '$model/model';
+import { PlayerState } from '$model/model';
 import { getIdFromURL } from './url-parser';
 import { SoundtouchPlayer } from './soundtouch/soundtouch-player';
 import { writable } from 'svelte/store';
@@ -24,19 +24,8 @@ export class PlayerService {
   private soundtouchPlayer: SoundtouchPlayer;
   private volume = 1;
 
-  playerReady = writable(false);
-
   playerStateChange = writable<PlayerState>();
   volumeChange = writable<number>();
-
-  init() {
-    const ytCheck = setInterval(() => {
-      if (youTubeIframeAPIReady()) {
-        this.playerReady.set(true);
-        clearInterval(ytCheck);
-      }
-    }, 500);
-  }
 
   destroy() {
     if (this.player) {

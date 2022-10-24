@@ -26,7 +26,7 @@ export interface LoopEvent {
   type: 'LOOP';
 }
 
-export type MarkerEvent =
+export type AppEvent =
     AddMarkerEvent
     | MoveActiveMarkerEvent
     | SetActiveMarkerEvent
@@ -35,6 +35,4 @@ export type MarkerEvent =
     | LoopEvent
     ;
 
-export const Events = {
-  marker: writable<MarkerEvent>()
-};
+export const appEvent = writable<AppEvent>();

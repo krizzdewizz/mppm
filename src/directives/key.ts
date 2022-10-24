@@ -1,4 +1,4 @@
-import { Events } from '$services/events';
+import { appEvent } from '$services/app-event';
 import { incrValue, playerService } from '$services/player.service';
 
 export function mppmKey() {
@@ -12,21 +12,19 @@ export function mppmKey() {
       return undefined;
     }
 
-    const { marker } = Events;
-
     const key = e.key.toUpperCase();
 
     // console.log(`key=${key}`);
 
     if (key >= '0' && key <= '9') {
       const markerNumber = key === '0' ? 10 : Number(key);
-      marker.set({ type: 'SET_ACTIVE', index: markerNumber - 1 });
+      appEvent.set({ type: 'SET_ACTIVE', index: markerNumber - 1 });
       return false;
     } else if (key === ' ') {
       playerService.playPause();
       return false;
     } else if (key === 'M' || key === 'A') {
-      marker.set({ type: 'ADD' });
+      appEvent.set({ type: 'ADD' });
       return false;
     } else if (key === 'ENTER') {
       playerService.seekToStart();
@@ -35,18 +33,18 @@ export function mppmKey() {
       playerService.backwardForward(key === 'ARROWLEFT');
       return false;
     } else if (key === 'BACKSPACE') {
-      marker.set({ type: 'SEEK_TO_ACTIVE' });
+      appEvent.set({ type: 'SEEK_TO_ACTIVE' });
       return false;
     } else if (key === 'ARROWUP' || key === 'ARROWDOWN') {
-      marker.set({ type: 'MOVE_ACTIVE', back: key === 'ARROWUP' });
+      appEvent.set({ type: 'MOVE_ACTIVE', back: key === 'ARROWUP' });
       return false;
     } else if (key === 'Q' || key === 'W') {
       playerService.setVolume(incrValue(playerService.getVolume(), key === 'Q', 0.05));
     } else if (key === 'H') {
-      marker.set({ type: 'TOGGLE_HELP' });
+      appEvent.set({ type: 'TOGGLE_HELP' });
       return false;
     } else if (key === 'L') {
-      marker.set({ type: 'LOOP' });
+      appEvent.set({ type: 'LOOP' });
       return false;
     }
 

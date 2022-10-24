@@ -43,7 +43,7 @@
     seekTo,
     onTempo
   } from '$routes/track/track.js';
-  import { Events } from '$services/events';
+  import { appEvent } from '$services/app-event';
   import XIcon from '$components/XIcon.svelte';
   import { goto } from '@roxi/routify';
   import { mppmKey } from '$directives/key';
@@ -78,24 +78,46 @@
     trackIndex = Number(index);
     track = tracksService.tracks[trackIndex];
 
-    onMount(() => {
+    appEvent.set(undefined);
+
+    onMount(async () => {
+      if (track.file) {
+        await playerService.openFile(track.file, track.filePath);
+      } else {
+        playerService.open(track.videoUrl, ytplayer, contentElement.offsetWidth);
+      }
+      setPlayerPropsFromTrack(track);
+
+      playPositionTimer = setInterval(() => {
+        const playing = playerService.isPlaying;
+        if (playing !== isPlaying) {
+          isPlaying = playing;
+        }
+
+        if (!playPosition && !playing) {
+          return;
+        }
+
+        playPositionNumber = playerService.getCurrentTime();
+        playPosition = mrkr(playPositionNumber);
+
+        duration = playerService.getDuration() || 0;
+        volume = playerService.getVolume();
+        tempo = playerService.getTempo();
+        pitch = playerService.getPitch();
+
+        playerNotReady = !playerService.isReady();
+
+        const nextMarkerPos = track.markers[activeMarker + 1]?.value;
+
+        if (loopMarker && activeMarker >= 0 && playPositionNumber > nextMarkerPos) {
+          seekToActiveMarker(track, activeMarker);
+        }
+      }, 400);
 
       subscriptions = [
-        playerService.playerReady.subscribe(async () => {
-          if (track.file) {
-            await playerService.openFile(track.file, track.filePath);
-          } else {
-            playerService.open(track.videoUrl, ytplayer, contentElement.offsetWidth);
-          }
-          setPlayerPropsFromTrack(track);
-
-          playerNotReady = false;
-        }),
-
-        Events.marker.subscribe(e => {
-
-          console.log('Events.marker', e);
-
+        appEvent.subscribe(e => {
+          // console.log('Events.marker', e);
           switch (e?.type) {
             case 'ADD':
               addMarker();
@@ -118,32 +140,6 @@
           }
         })
       ];
-
-      playPositionTimer = setInterval(() => {
-        const playing = playerService.isPlaying;
-        if (playing !== isPlaying) {
-          isPlaying = playing;
-        }
-
-        if (!playPosition && !playing) {
-          return;
-        }
-
-        playPositionNumber = playerService.getCurrentTime();
-        playPosition = mrkr(playPositionNumber);
-
-        duration = playerService.getDuration() || 0;
-        volume = playerService.getVolume();
-        tempo = playerService.getTempo();
-        pitch = playerService.getPitch();
-
-        const nextMarkerPos = track.markers[activeMarker + 1]?.value;
-
-        if (loopMarker && activeMarker >= 0 && playPositionNumber > nextMarkerPos) {
-          seekToActiveMarker(track, activeMarker);
-        }
-
-      }, 400);
     });
   }
 
