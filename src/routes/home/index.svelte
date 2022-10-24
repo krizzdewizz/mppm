@@ -9,8 +9,6 @@
   import { fileDialog, filterLower, waitFor } from '$services/util';
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
   import IoIosMenu from 'svelte-icons/io/IoIosMenu.svelte';
-  import IoIosTrash from 'svelte-icons/io/IoIosTrash.svelte';
-  import IoIosCreate from 'svelte-icons/io/IoIosCreate.svelte';
   import { actionSheetController, toastController } from '$ionic/svelte';
   import { goto } from '@roxi/routify';
   import { onMount } from 'svelte';
@@ -177,8 +175,8 @@
     <ion-list>
       {#each tracks as track}
         <ion-item use:mppmLongClick
-            on:mppmClick={() => openTrack(track)}
-            on:mppmClickLong={() => editTrack(track.index, { openSearch: false })}>
+                  on:mppmClick={() => openTrack(track)}
+                  on:mppmClickLong={() => editTrack(track.index, { openSearch: false })}>
           <ion-label class:file-lost={track.fileLost}>{track.name}</ion-label>
         </ion-item>
       {/each}

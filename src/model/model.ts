@@ -37,13 +37,18 @@ export interface Player {
   destroy();
 }
 
+export interface Marker {
+  title?: string;
+  value: number;
+}
+
 export interface Track {
   name: string;
   videoUrl: string;
   lyricsUrl?: string;
   tabsUrl?: string;
   links?: string;
-  markers: { title?: string, value: number }[];
+  markers: Marker[];
   file?: File;
   isFile?: boolean;
   filePath?: string; // opened in Electron

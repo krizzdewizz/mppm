@@ -1,8 +1,4 @@
-<script lang="ts">
-  import { mppmKey } from '$directives/key';
-</script>
-
-<ion-app use:mppmKey>
+<ion-app>
   <div class="ion-page" id="main">
     <slot/>
   </div>

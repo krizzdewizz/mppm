@@ -1,6 +1,8 @@
-import type { Track } from '$model/model';
+import type { Marker, Track } from '$model/model';
 import { incrValue, playerService } from '$services/player.service';
 import { tracksService } from '$services/tracks.service';
+import { modalController } from '$ionic/svelte';
+import MarkerDetail from '$components/MarkerDetail.svelte';
 
 export const LONG_CLICK_SEEK_INTERVAL = 200;
 export const LONG_CLICK_SEEK_SECONDS = 5;
@@ -54,17 +56,9 @@ export function onVolume(track: Track, volume: number, decr: boolean, amount = 0
   save();
 }
 
-export function onVolumeLong(track: Track, volume: number, decr: boolean) {
-  longClickInterval = setInterval(() => onVolume(track, volume, decr, 0.1), LONG_CLICK_SEEK_INTERVAL);
-}
-
 export function onPitch(track: Track, pitch: number, decr: boolean, amount = 0.01) {
   playerService.setPitch(track.pitch = incrValue(pitch || 1, decr, amount));
   save();
-}
-
-export function onPitchLong(track: Track, pitch: number, decr: boolean) {
-  longClickInterval = setInterval(() => onPitch(track, pitch, decr, 0.05), LONG_CLICK_SEEK_INTERVAL);
 }
 
 export function onTempo(track: Track, tempo: number, decr: boolean, amount = 0.01) {
@@ -72,12 +66,46 @@ export function onTempo(track: Track, tempo: number, decr: boolean, amount = 0.0
   save();
 }
 
-export function onTempoLong(track: Track, tempo: number, decr: boolean) {
-  longClickInterval = setInterval(() => onTempo(track, tempo, decr, 0.05), LONG_CLICK_SEEK_INTERVAL);
-}
-
 export function seekTo({ detail }: { detail: number }) {
   playerService.seekTo(detail);
+}
+
+export function moveMarker(track: Track, activeMarker: number, back: boolean, amount = 1) {
+  const { markers = [] } = track;
+  const newMarker = incrValue(markers[activeMarker].value, back, amount);
+  markers[activeMarker].value = newMarker;
+  sortMarkers(track);
+  const newActiveMarker = markers.findIndex(m => m.value === newMarker);
+  seekToActiveMarker(track, newActiveMarker);
+  tracksService.saveTracks();
+}
+
+export function seekToActiveMarker(track: Track, activeMarker: number) {
+  if (activeMarker < 0) {
+    return;
+  }
+  const marker = track.markers[activeMarker];
+  if (marker) {
+    playerService.seekTo(marker.value);
+  }
+}
+
+export async function openMarkerDetail(track: Track, marker: Marker) {
+  return new Promise(async resolve => {
+    const modal = await modalController.create({
+      component: MarkerDetail,
+      componentProps: {
+        track,
+        marker
+      },
+      showBackdrop: true,
+      backdropDismiss: false
+    });
+
+    modal.onDidDismiss().then(resolve);
+
+    modal.present();
+  });
 }
 
 export function save() {

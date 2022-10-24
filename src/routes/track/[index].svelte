@@ -15,14 +15,20 @@
   import IoIosPlay from 'svelte-icons/io/IoIosPlay.svelte';
   import IoIosCreate from 'svelte-icons/io/IoIosCreate.svelte';
   import { params } from '@roxi/routify';
-  import type { Track } from '$model/model';
+  import type { Marker, Track } from '$model/model';
   import { tracksService } from '$services/tracks.service';
   import { _ } from 'svelte-i18n';
   import { nmbr } from '$services/nmbr';
   import { mrkr } from '$services/mrkr';
   import MppmAudio from '$components/MppmAudio.svelte';
   import { onDestroy, onMount } from 'svelte';
-  import { setPlayerPropsFromTrack, sortMarkers, save } from '$routes/track/track';
+  import {
+    setPlayerPropsFromTrack,
+    sortMarkers,
+    moveMarker,
+    seekToActiveMarker,
+    openMarkerDetail
+  } from '$routes/track/track';
   import { playerService } from '$services/player.service';
   import type { Unsubscriber } from 'svelte/store';
   import {
@@ -33,16 +39,14 @@
     resetPitch,
     resetTempo,
     onPitch,
-    onPitchLong,
     onVolume,
-    onVolumeLong,
     seekTo,
-    onTempoLong,
     onTempo
   } from '$routes/track/track.js';
   import { Events } from '$services/events';
   import XIcon from '$components/XIcon.svelte';
   import { goto } from '@roxi/routify';
+  import { mppmKey } from '$directives/key';
 
   let contentElement: HTMLElement;
   let settingsElement: HTMLElement;
@@ -97,13 +101,13 @@
               addMarker();
               break;
             case 'MOVE_ACTIVE':
-              moveMarker(e.back);
+              mvMarker(e.back);
               break;
             case 'SET_ACTIVE':
               setActiveMarker(e.index);
               break;
             case 'SEEK_TO_ACTIVE':
-              seekToActiveMarker();
+              seekToActiveMarker(track, activeMarker);
               break;
             case 'TOGGLE_HELP':
               showHelp = !showHelp;
@@ -136,7 +140,7 @@
         const nextMarkerPos = track.markers[activeMarker + 1]?.value;
 
         if (loopMarker && activeMarker >= 0 && playPositionNumber > nextMarkerPos) {
-          seekToActiveMarker();
+          seekToActiveMarker(track, activeMarker);
         }
 
       }, 400);
@@ -152,16 +156,6 @@
   const playPause = () => playerService.playPause();
   const seekToStart = () => playerService.seekToStart();
 
-  function seekToActiveMarker() {
-    if (noActiveMarker) {
-      return;
-    }
-    playerService.seekTo(track.markers[activeMarker].value);
-  }
-
-  function moveMarker(b) {
-  }
-
   function addMarker() {
     const currentTime = playerService.getCurrentTime();
     if (currentTime) {
@@ -172,22 +166,26 @@
     }
   }
 
-  function moveMarkerLong(b) {
-  }
-
   function setActiveMarker(index: number) {
     if (index >= 0 && index < track.markers.length) {
       activeMarker = index;
-      seekToActiveMarker();
+      seekToActiveMarker(track, activeMarker);
     }
   }
 
-  function presentActionSheet(index) {
-  }
-
-  export function editTrack(trackIndex: number) {
+  function editTrack(trackIndex: number) {
     history.back();
     setTimeout(() => $goto('/add-track/[index]', { index: trackIndex }), 50);
+  }
+
+  function mvMarker(back: boolean) {
+    moveMarker(track, activeMarker, back);
+    track = track;
+  }
+
+  async function openMarker(marker: Marker) {
+    await openMarkerDetail(track, marker);
+    track = track;
   }
 
   init();
@@ -212,7 +210,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content bind:this={contentElement} class:show-help={showHelp} scroll-y="false">
+<ion-content use:mppmKey bind:this={contentElement} class:show-help={showHelp} scroll-y="false">
   <div class="main-content">
     <div class="tools">
       <ion-button disabled={playerNotReady} class="play-pause player-btn" on:click={playPause}>
@@ -261,18 +259,16 @@
           <span class="key">backspace</span>
           <span class="help">{$_('C_HELP_TO_MARKER')}</span>
         </ion-button>
-        <ion-button class="marker-play-btn" disabled={noActiveMarker || playerNotReady} use:mppmLongClick
-                    on:mppmClick={() => moveMarker(true)}
-                    mppmClickLong={() => moveMarkerLong(true)} on:mppmClickEnd={longClickEnd}>
+        <ion-button class="marker-play-btn" disabled={noActiveMarker || playerNotReady}
+                    on:click={() => mvMarker(true)}>
           <XIcon>
             <IoIosRewind/>
           </XIcon>
           <span class="key">up</span>
           <span class="help">{$_('C_HELP_PLAY_MARKER_BACKWARD')}</span>
         </ion-button>
-        <ion-button class="marker-play-btn" disabled={noActiveMarker || playerNotReady} use:mppmLongClick
-                    on:mppmClick={() => moveMarker(false)}
-                    on:mppmClickLong={() => moveMarkerLong(false)} on:mppmClickEnd={longClickEnd}>
+        <ion-button class="marker-play-btn" disabled={noActiveMarker || playerNotReady}
+                    on:click={() => mvMarker(false)}>
           <XIcon>
             <IoIosFastforward/>
           </XIcon>
@@ -300,7 +296,7 @@
     <div class="markers">
       {#each track.markers as marker, markerIndex}
         <ion-button class="marker-btn" use:mppmLongClick
-                    on:mppmClickLong={() => presentActionSheet(markerIndex)}
+                    on:mppmClickLong={() => openMarker(marker)}
                     on:mppmClick={() => setActiveMarker(markerIndex)}
                     class:marker-active={activeMarker === markerIndex}
                     class:loop-active={loopMarker && (activeMarker === markerIndex || activeMarker + 1 === markerIndex)}>
@@ -332,16 +328,12 @@
       <div class="card">
         <label on:click={() => resetVolume(track)}>{$_('C_VOLUME')}</label>
         <span>{nmbr(volume)}</span>
-        <ion-button use:mppmLongClick on:mppmClickLong={() => onVolumeLong(track, volume, true)}
-                    on:mppmClick={() => onVolume(track, volume, true)}
-                    on:mppmClickEnd={longClickEnd}>
+        <ion-button on:click={() => onVolume(track, volume, true)}>
           <XIcon>
             <IoIosRemove/>
           </XIcon>
         </ion-button>
-        <ion-button use:mppmLongClick on:mppmClickLong={() => onVolumeLong(track, volume, false)}
-                    on:mppmClick={() =>onVolume(track, volume, false)}
-                    on:mppmClickEnd={longClickEnd}>
+        <ion-button on:click={() =>onVolume(track, volume, false)}>
           <XIcon>
             <IoIosAdd/>
           </XIcon>
@@ -352,16 +344,12 @@
         <div class="card">
           <label on:click={() => resetPitch(track)}>Pitch</label>
           <span>{nmbr(pitch)}</span>
-          <ion-button use:mppmLongClick on:mppmClickLong={() => onPitchLong(track, pitch, true)}
-                      on:mppmClick={() => onPitch(track, pitch, true)}
-                      on:mppmClickEnd={longClickEnd}>
+          <ion-button on:click={() => onPitch(track, pitch, true)}>
             <XIcon>
               <IoIosRemove/>
             </XIcon>
           </ion-button>
-          <ion-button use:mppmLongClick on:mppmClickLong={() =>onPitchLong(track, pitch, false)}
-                      on:mppmClick={() => onPitch(track, pitch, false)}
-                      on:mppmClickEnd={longClickEnd}>
+          <ion-button on:click={() => onPitch(track, pitch, false)}>
             <XIcon>
               <IoIosAdd/>
             </XIcon>
@@ -370,16 +358,12 @@
         <div class="card">
           <label on:click={() => resetTempo(track)}>Tempo</label>
           <span>{nmbr(tempo)}</span>
-          <ion-button use:mppmLongClick on:mppmClickLong={() =>onTempoLong(track, tempo, true)}
-                      on:mppmClick={() => onTempo(track, tempo, true)}
-                      on:mppmClickEnd={longClickEnd}>
+          <ion-button on:click={() => onTempo(track, tempo, true)}>
             <XIcon>
               <IoIosRemove/>
             </XIcon>
           </ion-button>
-          <ion-button use:mppmLongClick on:mppmClickLong={() =>onTempoLong(track, tempo, false)}
-                      on:mppmClick={() => onTempo(track, tempo, false)}
-                      on:mppmClickEnd={longClickEnd}>
+          <ion-button on:click={() => onTempo(track, tempo, false)}>
             <XIcon>
               <IoIosAdd/>
             </XIcon>
