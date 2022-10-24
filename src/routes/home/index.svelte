@@ -135,9 +135,6 @@
     $goto('/add-track/[index]', { index: trackIndex });
   }
 
-  function deleteTrack(track: TrackWithIndex) {
-  }
-
   async function openTrack(track: TrackWithIndex) {
 
     if (track.file) {

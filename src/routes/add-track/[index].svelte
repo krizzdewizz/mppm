@@ -125,7 +125,7 @@
 
   function onFileChanged(e) {
     file = e.target.files[0];
-    track.name = file.name;
+    track.name = track.name || file.name;
     track.filePath = (file as any).path;
   }
 
@@ -184,11 +184,11 @@
     <input bind:this={fileInput} type="file" hidden accept="audio/*" on:change={e => onFileChanged(e)}>
     <ion-button class="add" disabled={!track.name || (!track.videoUrl && !file)} on:click={() => addTrack()}>
       { $_(trackIndex < 0 ? 'C_ADD' : 'C_SAVE')}</ion-button>
-      {#if trackIndex >= 0}
-        <ion-button fill="outline" class="secondary-button" on:click={deleteTrack}>
-          {$_('C_DELETE')}
-        </ion-button>
-      {/if}
+    {#if trackIndex >= 0}
+      <ion-button fill="outline" class="secondary-button" on:click={deleteTrack}>
+        {$_('C_DELETE')}
+      </ion-button>
+    {/if}
   </div>
 
 </ion-content>
