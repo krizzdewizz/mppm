@@ -1,23 +1,23 @@
-const { app, ipcMain, BrowserWindow, Menu, nativeTheme } = require('electron');
+const {app, ipcMain, BrowserWindow, Menu, nativeTheme} = require('electron');
 const path = require('path');
 const fs = require('fs');
 const server = require('node-http-server');
-const freePort = require("find-free-port")
+const freePort = require('find-free-port');
 
 async function serve(port) {
   return new Promise(resolve => {
     server.deploy({
-        port,
-        root: path.join(__dirname, 'dist/client')
-      },
-      serverReady
+          port,
+          root: path.join(__dirname, 'dist/client')
+        },
+        serverReady
     );
 
     function serverReady(server) {
       console.log(`server running on port ${server.config.port}`);
       resolve();
     }
-  })
+  });
 }
 
 const appName = require('./package.json').productName;
@@ -39,12 +39,12 @@ async function createWindow() {
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#222428' : undefined,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
-      enableBlinkFeatures: "CSSColorSchemeUARendering",
+      enableBlinkFeatures: 'CSSColorSchemeUARendering',
     },
   });
 
   // mainWindow.webContents.openDevTools()
-  
+
   let port;
   if (process.env.MPPM_DEV) {
     port = 5173;
@@ -61,14 +61,14 @@ app.whenReady().then(async () => {
   ipcMain.handle('app:readFile', handleReadFile);
   ipcMain.handle('app:fileExists', handleFileExists);
 
-  app.on('activate', function () {
+  app.on('activate', function() {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
 });
 
-app.on('window-all-closed', function () {
+app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit();
   }
@@ -82,15 +82,15 @@ const template = [
     {
       label: app.name,
       submenu: [
-        { role: 'about' },
-        { type: 'separator' },
-        { role: 'services' },
-        { type: 'separator' },
-        { role: 'hide' },
-        { role: 'hideOthers' },
-        { role: 'unhide' },
-        { type: 'separator' },
-        { role: 'quit' },
+        {role: 'about'},
+        {type: 'separator'},
+        {role: 'services'},
+        {type: 'separator'},
+        {role: 'hide'},
+        {role: 'hideOthers'},
+        {role: 'unhide'},
+        {type: 'separator'},
+        {role: 'quit'},
       ],
     }] : [])
 ];

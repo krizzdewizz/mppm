@@ -16,11 +16,18 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "pack": "npx electron-packager . --overwrite --icon src/static/assets/icon/favicon.icns",
-    "build:all": "npm run build && npm run pack && npm run copy:dist",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "copy:dist": "cpx \"dist/**\" \"Musician's Practicing Player-darwin-x64/dist\"",
     "routes": "routify"
+  },
+  "dependencies": {
+    "@capacitor/android": "^4.4.0",
+    "@capacitor/core": "^4.4.0",
+    "@capacitor/status-bar": "^4.0.1",
+    "@ionic/core": "^6.1.8",
+    "@soundtouchjs/audio-worklet": "^0.1.16",
+    "find-free-port": "^2.0.0",
+    "lodash": "^4.17.21",
+    "node-http-server": "^8.1.5"
   },
   "devDependencies": {
     "@capacitor/cli": "^4.4.0",
@@ -42,17 +49,7 @@
     "tslib": "^2.4.0",
     "typescript": "^4.7.4",
     "vite": "^3.0.2",
-    "vite-plugin-pwa": "^0.12.3"
-  },
-  "dependencies": {
-    "@capacitor/android": "^4.4.0",
-    "@capacitor/core": "^4.4.0",
-    "@capacitor/status-bar": "^4.0.1",
-    "@ionic/core": "^6.1.8",
-    "@soundtouchjs/audio-worklet": "^0.1.16",
-    "find-free-port": "^2.0.0",
-    "lodash": "^4.17.21",
-    "node-http-server": "^8.1.5",
+    "vite-plugin-pwa": "^0.12.3",
     "node-sass": "^7.0.3",
     "svelte-i18n": "^3.4.0",
     "svelte-icons": "^2.1.0"

@@ -36,3 +36,5 @@ UserInterfaceState.xcuserstate
 /.routify/
 /dist/
 /Musician's Practicing Player-darwin-x64/
+/.electron-pack/
+/Musician's Practicing Player-win32-x64/
