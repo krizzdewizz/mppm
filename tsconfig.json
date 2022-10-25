@@ -1,9 +1,7 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "types": [
-      "vite-plugin-pwa/client"
-    ],
+    "types": [],
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "esnext",
