@@ -2,6 +2,7 @@
 
 export ANDROID_HOME=/C/Users/christian.oetterli/AppData/Local/Android/Sdk
 
+npm run build
 npx cap sync
 cd android
 ./gradlew clean build
