@@ -7,7 +7,7 @@ export function mppmLongClick(node) {
     node.dispatchEvent(new CustomEvent(type));
   }
 
-  function event(down: boolean) {
+  function event(e: MouseEvent, down: boolean) {
     if (down) {
       hadLong = false;
       longPressTimer = setTimeout((() => {
@@ -22,14 +22,16 @@ export function mppmLongClick(node) {
       fire('mppmClickEnd');
     }
 
+    e.preventDefault();
+
     return false;
   }
 
-  const listeners: [string, () => void][] = [
-    ['mousedown', () => event(true)],
-    ['mouseup', () => event(false)],
-    ['touchstart', () => event(true)],
-    ['touchend', () => event(false)]
+  const listeners: [string, (e: MouseEvent) => boolean][] = [
+    ['mousedown', e => event(e, true)],
+    ['mouseup', e => event(e, false)],
+    ['touchstart', e => event(e, true)],
+    ['touchend', e => event(e, false)]
   ];
 
   listeners.forEach(([type, f]) => node.addEventListener(type, f, true));
