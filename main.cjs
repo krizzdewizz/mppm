@@ -39,7 +39,6 @@ async function createWindow() {
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#222428' : undefined,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
-      nodeIntegration: true,
       enableBlinkFeatures: "CSSColorSchemeUARendering",
     },
   });
