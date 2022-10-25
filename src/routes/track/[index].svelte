@@ -248,7 +248,7 @@
       </ion-button>
       <div class="marker-tools">
         <ion-button class="marker-play-btn" disabled={noActiveMarker || playerNotReady}
-                    on:click={seekToActiveMarker}>
+                    on:click={() => seekToActiveMarker(track, activeMarker)}>
           <XIcon>
             <IoIosSkipBackward/>
           </XIcon>
