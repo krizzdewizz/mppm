@@ -19,6 +19,10 @@ export default defineConfig({
     }),
     svelte(),
   ],
+  // build: {
+  //   minify: false,
+  //   sourcemap: true,
+  // },
   publicDir: 'src/static',
   resolve: {
     alias: {
