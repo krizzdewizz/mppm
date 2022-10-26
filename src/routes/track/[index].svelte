@@ -77,6 +77,7 @@
   const { activePlaylist } = playlistService;
   let previousTrack: Track;
   let nextTrack: Track;
+  let autoPlayed = false;
 
   $: noActiveMarker = activeMarker === undefined;
 
@@ -138,6 +139,16 @@
         if (loopMarker && activeMarker >= 0 && playPositionNumber > nextMarkerPos) {
           seekToActiveMarker(track, activeMarker);
         }
+
+        if ($activePlaylist !== undefined && playerService.isReady() && !isPlaying && !autoPlayed) {
+          try {
+            playPause();
+            autoPlayed = true;
+          } catch (e) {
+            // may still not be ready
+          }
+        }
+
       }, 400);
 
       subscriptions = [
