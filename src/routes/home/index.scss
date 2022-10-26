@@ -92,3 +92,7 @@ ion-fab {
   background-color: transparent;
   color: $accent;
 }
+
+ion-item {
+  --border-color: transparent;
+}

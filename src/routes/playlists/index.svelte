@@ -78,4 +78,8 @@
     bottom: 130px;
     right: 20px;
   }
+
+  ion-item {
+    --border-color: transparent;
+  }
 </style>

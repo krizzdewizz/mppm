@@ -184,4 +184,8 @@
     color: $accent;
   }
 
+  ion-item {
+    --border-color: transparent;
+  }
+
 </style>
