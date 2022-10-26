@@ -123,3 +123,15 @@ export function setIndices<T extends { index: number }>(list: T[]): T[] {
     index
   }));
 }
+
+export async function goto(url: string, sleepMillis = 0) {
+  if (sleep) {
+    await sleep(sleepMillis);
+  }
+  history.pushState(null, null, url);
+}
+
+export function goHome() {
+  goto('/home');
+}
+

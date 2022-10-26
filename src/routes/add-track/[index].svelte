@@ -11,7 +11,7 @@
   import { openSearch, selectedVideo } from '$services/yt-search';
   import { initiateDownload } from '$services/yt-download';
   import { onDestroy, onMount } from 'svelte';
-  import { goto } from '@roxi/routify';
+  import { goto } from '$services/util';
   import XIcon from '$components/XIcon.svelte';
   import { waitFor } from '$services/util';
   import type { IonInput } from '@ionic/core/components/ion-input';
@@ -24,6 +24,7 @@
   const track: Track = trackIndex >= 0
       ? tracksService.copy(trackIndex)
       : {
+        index: tracksService.tracks.length,
         name: '',
         videoUrl: '',
         markers: []
@@ -79,7 +80,7 @@
   });
 
   function ytSearch() {
-    $goto('/yt-search');
+    goto('/yt-search');
   }
 
   async function ytDownload() {
@@ -118,7 +119,7 @@
 
     setTimeout(() => {
       if (openTrack) {
-        $goto('/track/[index]', { index: tracksService.tracks.length - 1 });
+        goto(`/track/${tracksService.tracks.length - 1}`);
       }
     }, 50);
   }

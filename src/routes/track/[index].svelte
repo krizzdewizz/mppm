@@ -47,7 +47,7 @@
   } from '$routes/track/track.js';
   import { appEvent } from '$services/app-event';
   import XIcon from '$components/XIcon.svelte';
-  import { goto } from '@roxi/routify';
+  import { goto } from '$services/util';
   import { mppmKey } from '$directives/key';
   import { playlistService } from '$services/playlist.service.js';
   import { sleep } from '$services/util';
@@ -196,7 +196,7 @@
 
   function editTrack(trackIndex: number) {
     history.back();
-    setTimeout(() => $goto('/add-track/[index]', { index: trackIndex }), 50);
+    goto(`/add-track/${trackIndex}`, 50);
   }
 
   function mvMarker(back: boolean) {

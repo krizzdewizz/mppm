@@ -1,4 +1,5 @@
 <script lang="ts">
-  import { goto } from '@roxi/routify';
-  $goto('/home');
+  import { goHome } from '$services/util';
+
+  goHome();
 </script>

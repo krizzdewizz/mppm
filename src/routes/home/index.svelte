@@ -10,7 +10,7 @@
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
   import IoIosMenu from 'svelte-icons/io/IoIosMenu.svelte';
   import { actionSheetController, toastController } from '$ionic/svelte';
-  import { goto } from '@roxi/routify';
+  import { goto } from '$services/util';
   import { onMount } from 'svelte';
   import { IonSearchbar } from '@ionic/core/components/ion-searchbar';
   import { alertController } from '@ionic/core';
@@ -78,7 +78,7 @@
       buttons: [
         noTracks ? undefined : {
           text: $_('C_PLAYLISTS'),
-          handler: () => $goto('/playlists')
+          handler: () => goto('/playlists')
         },
         noTracks ? undefined : {
           text: $_('C_EXPORT'),
@@ -115,7 +115,7 @@
         },
         {
           text: $_('C_INFO'),
-          handler: () => $goto('/info')
+          handler: () => goto('/info')
         },
       ].filter(Boolean)
     };
@@ -130,7 +130,7 @@
 
   function editTrack(trackIndex: number, { openSearch: open = true }: { openSearch?: boolean } = {}) {
     openSearch.set(open);
-    $goto('/add-track/[index]', { index: trackIndex });
+    goto(`/add-track/${trackIndex}`);
   }
 
   function openTrack(track: Track) {

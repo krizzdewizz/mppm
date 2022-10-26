@@ -3,10 +3,10 @@
   import BackButton from '$components/BackButton.svelte';
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
   import { onMount } from 'svelte';
-  import { goto } from '@roxi/routify';
+  import { goto } from '$services/util';
   import type { Playlist } from '$model/model';
   import { playlistService } from '$services/playlist.service';
-  import { nameDialog, sleep } from '$services/util';
+  import { nameDialog } from '$services/util';
   import { orderBy } from 'lodash';
   import IoIosPlay from 'svelte-icons/io/IoIosPlay.svelte';
 
@@ -17,7 +17,7 @@
   });
 
   function openPlaylist({ index }: Playlist) {
-    $goto('/playlist/[index]', { index });
+    goto(`/playlist/${index}`);
   }
 
   async function addPlaylist() {
@@ -39,7 +39,7 @@
     e.cancelBubble = true;
 
     playlistService.activePlaylist.set(playlist.index);
-    $goto('/track/[index]', { index: playlist.tracks[0] });
+    goto(`/track/${playlist.tracks[0]}`);
   }
 </script>
 
