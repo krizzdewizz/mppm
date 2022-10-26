@@ -38,9 +38,7 @@
 
   async function startPlaylist(e, playlist: Playlist) {
     e.cancelBubble = true;
-
-    playlistService.activePlaylist.set(playlist.index);
-    tracksService.openTrack(tracksService.tracks[playlist.tracks[0]]);
+    playlistService.start(playlist);
   }
 </script>
 

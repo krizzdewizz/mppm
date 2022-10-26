@@ -2,12 +2,13 @@
   import { keyBy } from 'lodash';
   import BackButton from '$components/BackButton.svelte';
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
+  import IoIosPlay from 'svelte-icons/io/IoIosPlay.svelte';
   import { onMount } from 'svelte';
   import { params } from '@roxi/routify';
   import type { Playlist, Track } from '$model/model';
   import { playlistService } from '$services/playlist.service';
   import { tracksService } from '$services/tracks.service';
-  import { nameDialog } from '$services/util';
+  import { nameDialog, sleep } from '$services/util';
   import IoIosTrash from 'svelte-icons/io/IoIosTrash.svelte';
   import { modalController } from '$ionic/svelte';
   import TrackSelect from '$components/TrackSelect.svelte';
@@ -93,6 +94,10 @@
     playlistService.save();
   }
 
+  function startPlaylist() {
+    playlistService.start(playlist);
+  }
+
   init();
 </script>
 
@@ -102,7 +107,10 @@
     <ion-buttons>
       <BackButton/>
     </ion-buttons>
-    <ion-buttons slot="end" class="delete">
+    <ion-buttons slot="end" class="right-buttons">
+      <ion-button class="start-playlist" disabled={playlist.tracks.length === 0} on:click={startPlaylist} fill="clear">
+        <IoIosPlay/>
+      </ion-button>
       <ion-button on:click={deletePlaylist}>
         <IoIosTrash/>
       </ion-button>
@@ -168,7 +176,12 @@
     top: 4px;
   }
 
-  .delete {
+  .right-buttons {
     z-index: 101;
   }
+
+  .start-playlist {
+    color: $accent;
+  }
+
 </style>

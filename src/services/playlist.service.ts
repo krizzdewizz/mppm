@@ -2,6 +2,7 @@ import type { Playlist } from '$model/model';
 import { StoreService, storeService } from './store.service';
 import { cloneDeep } from 'lodash';
 import { writable } from 'svelte/store';
+import { tracksService } from '$services/tracks.service';
 
 export class PlaylistService {
 
@@ -26,9 +27,9 @@ export class PlaylistService {
     this.storeService.save();
   }
 
-  deletePlaylist(index: number) {
-    this.playlists = this.playlists.filter((it, i) => i !== index);
-    this.save();
+  start(playlist: Playlist) {
+    this.activePlaylist.set(playlist.index);
+    tracksService.openTrack(tracksService.tracks[playlist.tracks[0]]);
   }
 }
 
