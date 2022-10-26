@@ -1,3 +1,7 @@
+import { alertController } from '@ionic/core';
+import type { AlertOptions } from '@ionic/core';
+import { _ } from 'svelte-i18n';
+
 export function b64EncodeUnicode(str: string) {
   return btoa(
       encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(Number(`0x${p1}`))));
@@ -67,3 +71,56 @@ export async function waitFor<T>(get: () => T, maxMillis = 3000): Promise<T> {
     }, 200);
   });
 }
+
+export async function nameDialog({
+                                   header,
+                                   initialValue = '',
+                                   okButtonText
+                                 }: { header: string, initialValue?: string, okButtonText: string }): Promise<string> {
+
+  return new Promise(async resolve => {
+    let subscription;
+
+    subscription = _.subscribe(async format => {
+
+      const CANCEL_TEXT = format('C_CANCEL');
+      const NAME_TEXT = format('C_NAME');
+
+      const options: AlertOptions = {
+        header: format(header),
+        inputs: [
+          {
+            name: 'name',
+            type: 'text',
+            value: initialValue,
+            placeholder: NAME_TEXT,
+          }
+        ],
+        buttons: [
+          {
+            text: format(okButtonText),
+            handler: ({ name }) => resolve(name)
+          },
+          {
+            text: CANCEL_TEXT,
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => resolve(undefined),
+          }
+        ]
+      };
+
+      const alert = await alertController.create(options);
+      alert.onDidDismiss().then(() => subscription());
+      alert.present();
+    });
+  });
+}
+
+export function setIndices<T extends { index: number }>(list: T[]): T[] {
+  return list.map((it, index) => ({
+    ...it,
+    index
+  }));
+}
+

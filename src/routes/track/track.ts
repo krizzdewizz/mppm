@@ -3,6 +3,7 @@ import { incrValue, playerService } from '$services/player.service';
 import { tracksService } from '$services/tracks.service';
 import { modalController } from '$ionic/svelte';
 import MarkerDetail from '$components/MarkerDetail.svelte';
+import { orderBy } from 'lodash';
 
 export const LONG_CLICK_SEEK_INTERVAL = 200;
 export const LONG_CLICK_SEEK_SECONDS = 5;
@@ -30,7 +31,7 @@ export function longClickEnd() {
 }
 
 export function sortMarkers(track: Track) {
-  track.markers.sort((a, b) => a.value < b.value ? -1 : a.value > b.value ? 1 : 0);
+  track.markers = orderBy(track.markers, m => m.value);
 }
 
 export function resetVolume(track: Track) {

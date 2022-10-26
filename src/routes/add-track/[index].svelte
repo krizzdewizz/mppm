@@ -148,7 +148,7 @@
 <ion-content scroll-y="false">
   <div class="add-track-content">
     <ion-input value={track.name} on:ionChange={e => track.name = e.detail.value} bind:this={nameInput} clear-input
-               placeholder={$_('C_NAME')}></ion-input>
+               placeholder={$_('C_TITLE')}></ion-input>
 
     <ion-button fill="clear" class="search" on:click={ytSearch}>
       <XIcon>

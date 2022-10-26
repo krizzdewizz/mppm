@@ -1,5 +1,5 @@
 {
-  "C_NAME": "Title",
+  "C_TITLE": "Title",
   "C_YT_OR_VIDEO_ID": "YouTube URL or Video ID",
   "C_EDIT_TRACK": "Edit Track",
   "C_ADD_TRACK": "Add Track",
@@ -31,5 +31,11 @@
   "C_HELP_ADD_MARKER": "Add Marker",
   "C_YT_DOWNLOAD_ERROR": "An error occurred while downloading the audio stream. Please try again later.",
   "C_VOLUME": "Volume",
-  "C_LOOP": "Loop"
+  "C_LOOP": "Loop",
+  "C_PLAYLISTS": "Playlists",
+  "C_ADD_PLAYLIST": "New playlist",
+  "C_CREATE": "Create",
+  "C_CANCEL": "Cancel",
+  "C_NAME": "Name",
+  "C_EDIT_NAME": "Change name"
 }

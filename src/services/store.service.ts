@@ -1,5 +1,4 @@
-
-import { downloadFile, fileDialog } from './util';
+import { downloadFile, fileDialog, setIndices } from './util';
 import type { Mpp } from '$model/model';
 // import {TEST_TRACKS} from './test-tracks';
 
@@ -15,6 +14,7 @@ export class StoreService {
   mpp: Mpp = {};
 
   save() {
+    console.log('saving mpp...');
     localStorage.setItem(MPP, JSON.stringify(this.mpp));
   }
 
@@ -68,7 +68,8 @@ export class StoreService {
     try {
       if (data) {
         const { mpp, changed } = this.convertMarkers(JSON.parse(data));
-        mpp.tracks = mpp.tracks || [];
+        mpp.tracks = setIndices(mpp.tracks || []);
+        mpp.playlists = setIndices(mpp.playlists || []);
         this.mpp = mpp;
         if (changed) {
           this.save();
@@ -84,11 +85,11 @@ export class StoreService {
     const { tracks = [] } = mpp;
     let changed = false;
     tracks
-      .filter(({ markers }) => markers && markers.length && typeof markers[0] === 'number')
-      .forEach(track => {
-        changed = true;
-        track.markers = (track.markers as any).map(m => ({ value: m }));
-      });
+        .filter(({ markers }) => markers && markers.length && typeof markers[0] === 'number')
+        .forEach(track => {
+          changed = true;
+          track.markers = (track.markers as any).map(m => ({ value: m }));
+        });
 
     return { changed, mpp };
   }

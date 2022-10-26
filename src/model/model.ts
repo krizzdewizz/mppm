@@ -44,6 +44,7 @@ export interface Marker {
 
 export interface Track {
   name: string;
+  index: number;
   videoUrl: string;
   lyricsUrl?: string;
   tabsUrl?: string;
@@ -55,15 +56,12 @@ export interface Track {
   pitch?: number;
   tempo?: number;
   volume?: number;
-}
-
-export interface TrackWithIndex extends Track {
-  index: number;
   fileLost?: boolean;
 }
 
 export interface Mpp {
   tracks?: Track[];
+  playlists?: Playlist[];
 }
 
 export interface YTVideo {
@@ -78,4 +76,10 @@ export interface YTVideo {
 
 export interface YTSearchResult {
   items: YTVideo[];
+}
+
+export interface Playlist {
+  name: string;
+  index: number;
+  tracks: number[]; // indices in Mpp.tracks
 }

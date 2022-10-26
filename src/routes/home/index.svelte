@@ -5,7 +5,7 @@
   import { mppmLongClick } from '$directives/long-click';
   import { tracksService } from '$services/tracks.service';
   import { storeService } from '$services/store.service';
-  import type { TrackWithIndex } from '$model/model';
+  import type { Track } from '$model/model';
   import { fileDialog, filterLower, waitFor } from '$services/util';
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
   import IoIosMenu from 'svelte-icons/io/IoIosMenu.svelte';
@@ -17,8 +17,9 @@
   import { fileExists } from '$services/electron';
   import { alertController } from '@ionic/core';
   import { openSearch } from '$services/yt-search';
+  import { orderBy } from 'lodash';
 
-  let tracks: TrackWithIndex[] = [];
+  let tracks: Track[] = [];
   let filter = '';
   let noTracks = true;
   let searchBar: IonSearchbar;
@@ -37,8 +38,7 @@
     }));
 
     noTracks = all.length === 0;
-    tracks = filterLower(all, filter)
-        .sort((a, b) => a.name.localeCompare(b.name));
+    tracks = orderBy(filterLower(all, filter), t => t.name.toLowerCase());
   }
 
   function onFilterChange(e) {
@@ -82,6 +82,10 @@
   async function presentMenu() {
     const options = {
       buttons: [
+        noTracks ? undefined : {
+          text: $_('C_PLAYLISTS'),
+          handler: () => $goto('/playlists')
+        },
         noTracks ? undefined : {
           text: $_('C_EXPORT'),
           handler: () => {
@@ -135,7 +139,7 @@
     $goto('/add-track/[index]', { index: trackIndex });
   }
 
-  async function openTrack(track: TrackWithIndex) {
+  async function openTrack(track: Track) {
 
     if (track.file) {
       await SoundtouchPlayer.getInstance();
