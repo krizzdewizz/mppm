@@ -9,7 +9,6 @@
   import { tracksService } from '$services/tracks.service';
   import { nameDialog } from '$services/util';
   import IoIosTrash from 'svelte-icons/io/IoIosTrash.svelte';
-  import IoIosCreate from 'svelte-icons/io/IoIosCreate.svelte';
   import { modalController } from '$ionic/svelte';
   import TrackSelect from '$components/TrackSelect.svelte';
 
@@ -26,6 +25,12 @@
 
     onMount(() => {
       updateList();
+
+      setTimeout(() => {
+        if (location.hash.includes('add-tracks')) {
+          addTrack();
+        }
+      });
     });
   }
 
@@ -59,7 +64,12 @@
   }
 
   function deletePlaylist() {
-    playlistService.playlists = playlistService.playlists.filter(pl => pl !== playlist);
+    playlistService.playlists = playlistService.playlists
+        .filter(pl => pl.index !== playlist.index)
+        .map((pl, index) => ({
+          ...pl,
+          index
+        }));
     playlistService.save();
     history.back();
   }
@@ -92,8 +102,8 @@
     <ion-buttons>
       <BackButton/>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button class="delete" on:click={deletePlaylist}>
+    <ion-buttons slot="end" class="delete">
+      <ion-button on:click={deletePlaylist}>
         <IoIosTrash/>
       </ion-button>
     </ion-buttons>
@@ -146,5 +156,9 @@
     position: relative;
     left: -3px;
     top: 4px;
+  }
+
+  .delete {
+    z-index: 101;
   }
 </style>

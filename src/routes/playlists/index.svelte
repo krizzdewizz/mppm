@@ -16,8 +16,8 @@
     updateList();
   });
 
-  function openPlaylist({ index }: Playlist) {
-    goto(`/playlist/${index}`);
+  function openPlaylist({ index }: Playlist, addTracks = false) {
+    goto(`/playlist/${index}${addTracks ? '#add-tracks' : ''}`);
   }
 
   async function addPlaylist() {
@@ -27,7 +27,7 @@
       const playlist: Playlist = { name, tracks: [], index };
       playlistService.playlists.push(playlist);
       playlistService.save();
-      openPlaylist(playlist);
+      openPlaylist(playlist, true);
     }
   }
 
