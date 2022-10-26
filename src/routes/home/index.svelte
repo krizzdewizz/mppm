@@ -18,6 +18,7 @@
   import { alertController } from '@ionic/core';
   import { openSearch } from '$services/yt-search';
   import { orderBy } from 'lodash';
+  import { playlistService } from '$services/playlist.service';
 
   let tracks: Track[] = [];
   let filter = '';
@@ -140,6 +141,8 @@
   }
 
   async function openTrack(track: Track) {
+
+    playlistService.activePlaylist.set(undefined);
 
     if (track.file) {
       await SoundtouchPlayer.getInstance();

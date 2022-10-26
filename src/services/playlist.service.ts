@@ -1,8 +1,11 @@
 import type { Playlist } from '$model/model';
 import { StoreService, storeService } from './store.service';
 import { cloneDeep } from 'lodash';
+import { writable } from 'svelte/store';
 
 export class PlaylistService {
+
+  readonly activePlaylist = writable<number>();
 
   get playlists(): Playlist[] {
     return this.storeService.mpp.playlists;

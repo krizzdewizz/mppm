@@ -59,7 +59,7 @@ export class PlayerService {
     this.player = new YT.Player(playerElement, {
       videoId: getIdFromURL(url),
       width,
-      height: '200',
+      height: '150',
       playerVars: { controls: 1, playsinline: 1 },
       events: {
         onStateChange: s => this.playerStateChange.set(s)

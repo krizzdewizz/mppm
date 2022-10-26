@@ -78,7 +78,6 @@
   <ion-list>
     {#each tracks as track}
       <ion-item on:click={() => toggleCheck(track)}>
-        <!--      <ion-item on:click={() => openPlaylist(playlist)}>-->
         <span class="check" class:checked={track.checked}>
           {#if track.checked}
             <IoIosCheckboxOutline/>

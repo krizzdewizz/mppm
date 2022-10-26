@@ -6,9 +6,9 @@
   import { goto } from '@roxi/routify';
   import type { Playlist } from '$model/model';
   import { playlistService } from '$services/playlist.service';
-  import { nameDialog } from '$services/util';
+  import { nameDialog, sleep } from '$services/util';
   import { orderBy } from 'lodash';
-  import IoIosPlay from 'svelte-icons/io/IoIosPlay.svelte'
+  import IoIosPlay from 'svelte-icons/io/IoIosPlay.svelte';
 
   let playlists: Playlist[] = [];
 
@@ -35,8 +35,11 @@
     playlists = orderBy(playlistService.playlists, t => t.name.toLowerCase());
   }
 
-  function startPlaylist(e) {
+  async function startPlaylist(e, playlist: Playlist) {
     e.cancelBubble = true;
+
+    playlistService.activePlaylist.set(playlist.index);
+    $goto('/track/[index]', { index: playlist.tracks[0] });
   }
 </script>
 
@@ -54,7 +57,10 @@
     {#each playlists as playlist}
       <ion-item on:click={() => openPlaylist(playlist)}>
         <ion-label>{playlist.name}</ion-label>
-        <ion-button on:click={startPlaylist} fill="clear" slot="end"><IoIosPlay/></ion-button>
+        <ion-button disabled={playlist.tracks.length === 0} on:click={e => startPlaylist(e, playlist)} fill="clear"
+                    slot="end">
+          <IoIosPlay/>
+        </ion-button>
       </ion-item>
     {/each}
   </ion-list>

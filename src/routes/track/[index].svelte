@@ -14,6 +14,8 @@
   import IoIosRemove from 'svelte-icons/io/IoIosRemove.svelte';
   import IoIosPlay from 'svelte-icons/io/IoIosPlay.svelte';
   import IoIosCreate from 'svelte-icons/io/IoIosCreate.svelte';
+  import IoIosArrowRoundForward from 'svelte-icons/io/IoIosArrowRoundForward.svelte';
+  import IoIosArrowRoundBack from 'svelte-icons/io/IoIosArrowRoundBack.svelte';
   import { params } from '@roxi/routify';
   import type { Marker, Track } from '$model/model';
   import { tracksService } from '$services/tracks.service';
@@ -47,6 +49,8 @@
   import XIcon from '$components/XIcon.svelte';
   import { goto } from '@roxi/routify';
   import { mppmKey } from '$directives/key';
+  import { playlistService } from '$services/playlist.service.js';
+  import { sleep } from '$services/util';
 
   let contentElement: HTMLElement;
   let settingsElement: HTMLElement;
@@ -70,8 +74,29 @@
   let isPlaying = false;
   let playPositionTimer;
   let trackIndex: number;
+  const { activePlaylist } = playlistService;
+  let previousTrack: Track;
+  let nextTrack: Track;
 
   $: noActiveMarker = activeMarker === undefined;
+
+  $: {
+    previousTrack = undefined;
+    nextTrack = undefined;
+
+    const pl = playlistService.playlists[$activePlaylist];
+    if (pl) {
+      const { tracks } = pl;
+      const currIndex = tracks.indexOf(trackIndex);
+      if (currIndex > 0) {
+        previousTrack = tracksService.tracks[tracks[currIndex - 1]];
+      }
+
+      if (currIndex < tracks.length - 1) {
+        nextTrack = tracksService.tracks[tracks[currIndex + 1]];
+      }
+    }
+  }
 
   function init() {
     const { index } = $params;
@@ -84,7 +109,7 @@
       if (track.file) {
         await playerService.openFile(track.file, track.filePath);
       } else {
-        playerService.open(track.videoUrl, ytplayer, contentElement.offsetWidth);
+        playerService.open(track.videoUrl, ytplayer, contentElement.offsetWidth - 8);
       }
       setPlayerPropsFromTrack(track);
 
@@ -182,6 +207,13 @@
   async function openMarker(marker: Marker) {
     await openMarkerDetail(track, marker);
     track = track;
+  }
+
+  async function openTrack(next: boolean) {
+    const index = (next ? nextTrack : previousTrack).index;
+    history.back();
+    await sleep(50);
+    $goto('/track/[index]', { index });
   }
 
   init();
@@ -314,7 +346,7 @@
       <MppmAudio position={playPositionNumber} on:seek={e => seekTo(e)} duration={duration}></MppmAudio>
     </div>
 
-    <div hidden={track.isFile || actionSheetVisible}>
+    <div class="yt-player" hidden={track.isFile || actionSheetVisible}>
       <div bind:this={ytplayer}></div>
     </div>
 
@@ -374,3 +406,20 @@
     </div>
   </div>
 </ion-content>
+
+{#if $activePlaylist !== undefined}
+  <ion-footer class="playlist">
+    <ion-button disabled={!previousTrack} on:click={() => openTrack(false)}>
+      <span class="image">
+        <IoIosArrowRoundBack/>
+      </span>
+      <span class="marker-title">{previousTrack?.name || ''}</span>
+    </ion-button>
+    <ion-button disabled={!nextTrack} on:click={() => openTrack(true)}>
+      <span class="image">
+        <IoIosArrowRoundForward/>
+      </span>
+      <span class="marker-title">{nextTrack?.name || ''}</span>
+    </ion-button>
+  </ion-footer>
+{/if}
