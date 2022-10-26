@@ -68,13 +68,14 @@
       <ion-button on:click={dismiss}>
         <IoIosArrowBack/>
       </ion-button>
+      <ion-title>{$_('C_ADD_TRACK')}</ion-title>
     </ion-buttons>
-    <ion-title>{$_('C_ADD_TRACK')}</ion-title>
+
+    <ion-searchbar bind:this={searchBar} placeholder={$_('C_SEARCH')} on:ionInput={onFilterChange}></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-searchbar bind:this={searchBar} placeholder={$_('C_SEARCH')} on:ionInput={onFilterChange}></ion-searchbar>
   <ion-list>
     {#each tracks as track}
       <ion-item on:click={() => toggleCheck(track)}>
@@ -108,5 +109,20 @@
 
   .checked {
     color: $accent;
+  }
+
+  ion-item {
+    --border-color: transparent;
+  }
+
+  ion-toolbar {
+    ion-buttons {
+      padding-top: 10px;
+    }
+
+    ion-button {
+      position: relative;
+      top: -2px;
+    }
   }
 </style>
