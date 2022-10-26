@@ -3,6 +3,7 @@ import App from './App.svelte';
 import { setupIonicSvelte } from '$ionic/svelte';
 import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
 import { tracksService } from '$services/tracks.service';
+import { App as IonicApp } from '@capacitor/app';
 
 function initI18n() {
   register('en', () => import('./i18n/en.json'));
@@ -17,6 +18,8 @@ function initI18n() {
 initI18n();
 
 setupIonicSvelte();
+
+IonicApp.addListener('backButton', () => history.back());
 
 tracksService.loadTracks();
 

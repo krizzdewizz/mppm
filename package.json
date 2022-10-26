@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^4.4.0",
+    "@capacitor/app": "^4.1.0",
     "@capacitor/core": "^4.4.0",
     "@capacitor/status-bar": "^4.0.1",
     "@ionic/core": "^6.1.8",
