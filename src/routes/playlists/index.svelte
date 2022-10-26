@@ -9,6 +9,7 @@
   import { nameDialog } from '$services/util';
   import { orderBy } from 'lodash';
   import IoIosPlay from 'svelte-icons/io/IoIosPlay.svelte';
+  import { tracksService } from '$services/tracks.service';
 
   let playlists: Playlist[] = [];
 
@@ -39,7 +40,7 @@
     e.cancelBubble = true;
 
     playlistService.activePlaylist.set(playlist.index);
-    goto(`/track/${playlist.tracks[0]}`);
+    tracksService.openTrack(tracksService.tracks[playlist.tracks[0]]);
   }
 </script>
 

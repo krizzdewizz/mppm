@@ -119,7 +119,7 @@
 
     setTimeout(() => {
       if (openTrack) {
-        goto(`/track/${tracksService.tracks.length - 1}`);
+        tracksService.openTrack(tracksService.tracks[tracksService.tracks.length - 1]);
       }
     }, 50);
   }

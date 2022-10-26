@@ -116,7 +116,9 @@
       {#each tracks as track}
         <ion-item mppm:index={track.index}>
           <ion-label>{track.name}</ion-label>
-          <ion-reorder slot="end"></ion-reorder>
+          <ion-reorder slot="end">
+            <ion-icon></ion-icon> <!-- no icon -->
+          </ion-reorder>
         </ion-item>
       {/each}
     </ion-reorder-group>
@@ -149,6 +151,13 @@
     height: 46px;
     width: 46px;
     max-width: 46px;
+  }
+
+  ion-reorder {
+    position: absolute;
+    left: 0;
+    margin: 0;
+    right: 0;
   }
 
   .edit {
