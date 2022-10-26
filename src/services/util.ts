@@ -123,4 +123,3 @@ export function setIndices<T extends { index: number }>(list: T[]): T[] {
     index
   }));
 }
-

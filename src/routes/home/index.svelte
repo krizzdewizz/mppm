@@ -6,15 +6,13 @@
   import { tracksService } from '$services/tracks.service';
   import { storeService } from '$services/store.service';
   import type { Track } from '$model/model';
-  import { fileDialog, filterLower, waitFor } from '$services/util';
+  import { filterLower, waitFor } from '$services/util';
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
   import IoIosMenu from 'svelte-icons/io/IoIosMenu.svelte';
   import { actionSheetController, toastController } from '$ionic/svelte';
   import { goto } from '@roxi/routify';
   import { onMount } from 'svelte';
   import { IonSearchbar } from '@ionic/core/components/ion-searchbar';
-  import { SoundtouchPlayer } from '$services/soundtouch/soundtouch-player';
-  import { fileExists } from '$services/electron';
   import { alertController } from '@ionic/core';
   import { openSearch } from '$services/yt-search';
   import { orderBy } from 'lodash';
@@ -32,12 +30,7 @@
   });
 
   function updateTracks() {
-    const all = tracksService.tracks.map((track, index) => ({
-      ...track,
-      index,
-      fileLost: tracksService.isFileLost(track)
-    }));
-
+    const all = tracksService.tracks;
     noTracks = all.length === 0;
     tracks = orderBy(filterLower(all, filter), t => t.name.toLowerCase());
   }
@@ -140,29 +133,9 @@
     $goto('/add-track/[index]', { index: trackIndex });
   }
 
-  async function openTrack(track: Track) {
-
+  function openTrack(track: Track) {
     playlistService.activePlaylist.set(undefined);
-
-    if (track.file) {
-      await SoundtouchPlayer.getInstance();
-    }
-
-    if (track.filePath && !await fileExists(track.filePath)) {
-      const toast = await toastController.create({
-        message: $_('C_FILE_DOES_NOT_EXIST'),
-        duration: 4000,
-      });
-      toast.present();
-      return;
-    }
-
-    if (track.fileLost) {
-      const files = await fileDialog({ accept: 'audio/*' });
-      tracksService.tracks[track.index].file = files[0];
-    }
-
-    $goto('/track/[index]', { index: track.index });
+    tracksService.openTrack(track);
   }
 </script>
 

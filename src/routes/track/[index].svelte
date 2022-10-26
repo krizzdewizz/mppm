@@ -210,10 +210,11 @@
   }
 
   async function openTrack(next: boolean) {
-    const index = (next ? nextTrack : previousTrack).index;
-    history.back();
-    await sleep(50);
-    $goto('/track/[index]', { index });
+    const task = next ? nextTrack : previousTrack;
+    tracksService.openTrack(task, async () => {
+      history.back();
+      await sleep(50);
+    });
   }
 
   init();

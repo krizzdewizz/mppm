@@ -1,5 +1,5 @@
 import { downloadFile, fileDialog, setIndices } from './util';
-import type { Mpp } from '$model/model';
+import type { Mpp, Track } from '$model/model';
 // import {TEST_TRACKS} from './test-tracks';
 
 const MPP = 'mpp';
@@ -8,6 +8,13 @@ const DEFAULT: Mpp = {
   // tracks: TEST_TRACKS
   tracks: []
 };
+
+export function isFileLost({ isFile, file, filePath }: Track) {
+  if (filePath) {
+    return false;
+  }
+  return isFile && file && typeof file.slice !== 'function';
+}
 
 export class StoreService {
 
@@ -68,7 +75,10 @@ export class StoreService {
     try {
       if (data) {
         const { mpp, changed } = this.convertMarkers(JSON.parse(data));
-        mpp.tracks = setIndices(mpp.tracks || []);
+        mpp.tracks = setIndices(mpp.tracks || []).map(track => ({
+          ...track,
+          fileLost: isFileLost(track)
+        }));
         mpp.playlists = setIndices(mpp.playlists || []);
         this.mpp = mpp;
         if (changed) {
