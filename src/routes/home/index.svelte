@@ -9,7 +9,7 @@
   import { filterLower, waitFor } from '$services/util';
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
   import IoIosMenu from 'svelte-icons/io/IoIosMenu.svelte';
-  import { actionSheetController, toastController } from '$ionic/svelte';
+  import { actionSheetController, isPlatform, toastController } from '$ionic/svelte';
   import { goto } from '$services/util';
   import { onMount } from 'svelte';
   import { IonSearchbar } from '@ionic/core/components/ion-searchbar';
@@ -25,8 +25,9 @@
 
   onMount(() => {
     updateTracks();
-
-    waitFor(() => searchBar).then(sb => sb?.setFocus());
+    if (isPlatform('desktop')) {
+      waitFor(() => searchBar).then(sb => sb?.setFocus());
+    }
   });
 
   function updateTracks() {
