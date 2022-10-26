@@ -77,6 +77,7 @@
 <style lang="scss">
 
   ion-fab {
-    bottom: 50px;
+    bottom: 130px;
+    right: 20px;
   }
 </style>
