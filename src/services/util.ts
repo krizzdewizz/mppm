@@ -1,6 +1,7 @@
 import { alertController } from '@ionic/core';
 import type { AlertOptions } from '@ionic/core';
 import { _ } from 'svelte-i18n';
+import type { Unsubscriber } from 'svelte/store';
 
 export function b64EncodeUnicode(str: string) {
   return btoa(
@@ -79,7 +80,7 @@ export async function nameDialog({
                                  }: { header: string, initialValue?: string, okButtonText: string }): Promise<string> {
 
   return new Promise(async resolve => {
-    let subscription;
+    let subscription: Unsubscriber;
 
     subscription = _.subscribe(async format => {
 
@@ -112,7 +113,8 @@ export async function nameDialog({
 
       const alert = await alertController.create(options);
       alert.onDidDismiss().then(() => subscription());
-      alert.present();
+      await alert.present();
+      (await waitFor<HTMLInputElement>(() => document.querySelector('ion-alert .alert-input')))?.focus();
     });
   });
 }
