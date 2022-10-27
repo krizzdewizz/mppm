@@ -102,6 +102,10 @@
     margin-left: 10px;
   }
 
+  .plt-desktop ion-toolbar ion-title {
+    top: 1px;
+  }
+
   .check {
     width: 30px;
     height: 30px;

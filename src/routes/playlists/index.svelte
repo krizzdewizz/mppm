@@ -82,4 +82,9 @@
   ion-item {
     --border-color: transparent;
   }
+
+  .plt-desktop ion-toolbar ion-title {
+    top: -1px;
+  }
+
 </style>
