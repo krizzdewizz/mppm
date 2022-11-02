@@ -4,6 +4,7 @@ import { setupIonicSvelte } from '$ionic/svelte';
 import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
 import { tracksService } from '$services/tracks.service';
 import { App as IonicApp } from '@capacitor/app';
+import { ytWakeup } from '$services/yt-download';
 
 function initI18n() {
   register('en', () => import('./i18n/en.json'));
@@ -22,6 +23,8 @@ setupIonicSvelte();
 IonicApp.addListener('backButton', () => history.back());
 
 tracksService.loadTracks();
+
+ytWakeup();
 
 // if the page was pre rendered, we want to remove the pre rendered html
 document.querySelector('[data-routify]')?.remove();

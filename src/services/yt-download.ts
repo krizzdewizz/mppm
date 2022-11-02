@@ -7,6 +7,13 @@ function ytUrl(action: string, videoId: string) {
   return `${MPPM_Q_BASE_URL}/${action}?vid=${videoId}`;
 }
 
+/**
+ * Make the backend spin up so that it is ready when the user i.e. searches for a video
+ */
+export function ytWakeup() {
+  fetch(ytUrl('ytready', 'wakeup')).catch(() => { /* ignore */ })
+}
+
 export async function initiateDownload(videoId: string, fileName: string): Promise<boolean> {
   let jobResult;
   try {
