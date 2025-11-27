@@ -1,5 +1,6 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, Event } from '@angular/router';
 import { ToastController, AlertController, ActionSheetController, IonHeader, IonToolbar, IonContent, IonSearchbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon } from '@ionic/angular/standalone';
 import { Track } from '@model/model';
 import { StoreService } from '@services/store.service';
@@ -17,7 +18,7 @@ import { LongClickDirective } from '@directives/long-click.directive';
   styleUrls: ['home.page.scss'],
   imports: [LongClickDirective, TranslatePipe, IonIcon, IonFabButton, IonFab, IonLabel, IonItem, IonList, IonSearchbar, IonHeader, IonToolbar, IonContent],
 })
-export class HomePage implements OnInit {
+export class HomePage {
 
   router = inject(Router);
   storeService = inject(StoreService);
@@ -34,12 +35,16 @@ export class HomePage implements OnInit {
   @ViewChild(IonSearchbar)
   searchBar: IonSearchbar;
 
-  ngOnInit(): void {
-    this.updateTracks();
-    if (isPlatform('desktop')) {
-      waitFor(() => this.searchBar).then(sb => sb?.setFocus());
-    }
-  };
+  constructor() {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.updateTracks();
+        if (isPlatform('desktop')) {
+          waitFor(() => this.searchBar).then(sb => sb?.setFocus());
+        }
+      }
+    });
+  }
 
   updateTracks() {
     const all = this.tracksService.tracks;
@@ -108,22 +113,20 @@ export class HomePage implements OnInit {
         },
         {
           text: x.C_IMPORT,
-          handler: () => {
-            setTimeout(async () => {
-              const ok = await this.importt();
-              if (ok === undefined) {
-                return;
-              }
-              if (ok) {
-                this.updateTracks();
-              } else {
-                const toast = await this.toastController.create({
-                  message: x.C_IMPORT_ERROR,
-                  duration: 4000,
-                });
-                toast.present();
-              }
-            });
+          handler: async () => {
+            const ok = await this.importt();
+            if (ok === undefined) {
+              return;
+            }
+            if (ok) {
+              this.updateTracks();
+            } else {
+              const toast = await this.toastController.create({
+                message: x.C_IMPORT_ERROR,
+                duration: 4000,
+              });
+              toast.present();
+            }
           }
         },
         this.noTracks ? undefined : {
