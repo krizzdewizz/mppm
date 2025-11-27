@@ -10,14 +10,14 @@
 
 <ion-content scroll-y="false">
   <div class="add-track-content">
-    <ion-input #nameInput [value]="track.name" (ionChange)="track.name = $event.detail.value" clear-input
+    <ion-input #nameInput [value]="track.name" (ionInput)="track.name = $event.detail.value" clear-input
                [placeholder]="'C_TITLE' | translate"></ion-input>
 
     <!-- <ion-button fill="clear" class="search" (click)="ytSearch()">
       <ion-icon name="search-outline"></ion-icon>
     </ion-button> -->
 
-    <ion-input class="url-input" [value]="track.videoUrl" (ionChange)="track.videoUrl = $event.detail.value"
+    <ion-input class="url-input" [value]="track.videoUrl" (ionInput)="track.videoUrl = $event.detail.value"
                clear-input
                [placeholder]="'C_YT_OR_VIDEO_ID' | translate"></ion-input>
 
