@@ -19,7 +19,7 @@
 <ion-content #contentElement mppmKey [class.show-help]="showHelp" scroll-y="false">
   <div class="main-content">
     <div class="tools">
-      <ion-button [disabled]="playerNotReady" class="play-pause player-btn" (click)="playerService.playPause()">
+      <ion-button [title]="'C_HELP_PLAY_PAUSE' | translate" [disabled]="playerNotReady" class="play-pause player-btn" (click)="playerService.playPause()">
         @if (isPlaying) {
         <ion-icon name="pause-outline"></ion-icon>
         } @else {
@@ -29,19 +29,19 @@
         <span class="help">{{'C_HELP_PLAY_PAUSE' | translate}}</span>
         <div class="play-position">{{playPosition}}</div>
       </ion-button>
-      <ion-button [disabled]="playerNotReady" class="seek-to-start player-btn" (click)="playerService.seekToStart()">
+      <ion-button [title]="'C_HELP_TO_START' | translate" [disabled]="playerNotReady" class="seek-to-start player-btn" (click)="playerService.seekToStart()">
         <ion-icon name="play-skip-back-outline"></ion-icon>
         <span class="key">return</span>
         <span class="help">{{ 'C_HELP_TO_START' | translate }}</span>
       </ion-button>
-      <ion-button [disabled]="playerNotReady" class="backward player-btn" mppmLongClick
+      <ion-button [title]="'C_HELP_BACKWARD' | translate" [disabled]="playerNotReady" class="backward player-btn" mppmLongClick
         (mppmClick)="trackService.backwardForward(true)" (mppmClickLong)="trackService.backwardForwardLong(true)"
         (mppmClickEnd)="trackService.longClickEnd()">
         <ion-icon name="play-back-outline"></ion-icon>
         <span class="key">left</span>
         <span class="help">{{'C_HELP_BACKWARD' | translate}}</span>
       </ion-button>
-      <ion-button [disabled]="playerNotReady" class="forward player-btn" mppmLongClick
+      <ion-button [title]="'C_HELP_FORWARD' | translate" [disabled]="playerNotReady" class="forward player-btn" mppmLongClick
         (mppmClick)="trackService.backwardForward(false)" (mppmClickLong)="trackService.backwardForwardLong(false)"
         (mppmClickEnd)="trackService.longClickEnd()">
         <ion-icon name="play-forward-outline"></ion-icon>
@@ -49,32 +49,32 @@
         <span class="help">{{ 'C_HELP_FORWARD' | translate }}</span>
       </ion-button>
       <div class="marker-tools">
-        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady"
+        <ion-button [title]="'C_HELP_TO_MARKER' | translate" class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady"
           (click)="trackService.seekToActiveMarker(track, activeMarker)">
           <ion-icon name="play-skip-back-outline"></ion-icon>
           <span class="key">backspace</span>
           <span class="help">{{ 'C_HELP_TO_MARKER' | translate }}</span>
         </ion-button>
-        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" (click)="mvMarker(true)">
+        <ion-button [title]="'C_HELP_PLAY_MARKER_BACKWARD' | translate" class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" (click)="mvMarker(true)">
           <ion-icon name="play-back-outline"></ion-icon>
           <span class="key">up</span>
           <span class="help">{{ 'C_HELP_PLAY_MARKER_BACKWARD' | translate }}</span>
         </ion-button>
-        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" (click)="mvMarker(false)">
+        <ion-button [title]="'C_HELP_MARKER_FORWARD' | translate" class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" (click)="mvMarker(false)">
           <ion-icon name="play-forward-outline"></ion-icon>
           <span class="key">down</span>
           <span class="help">{{ 'C_HELP_MARKER_FORWARD' | translate }}</span>
         </ion-button>
-        <ion-button class="loop-marker marker-play-btn" [class.loop-active]="loopMarker"
+        <ion-button [title]="'C_LOOP' | translate" class="loop-marker marker-play-btn" [class.loop-active]="loopMarker"
           [disabled]="noActiveMarker || playerNotReady" (click)="loopMarker = !loopMarker">
           <ion-icon name="infinite-outline"></ion-icon>
           <span class="key">L</span>
           <span class="help">{{ 'C_LOOP' | translate }}</span>
         </ion-button>
-        <ion-button [disabled]="isAtStart || playerNotReady" (click)="addMarker()">
+        <ion-button [title]="'C_HELP_ADD_MARKER' | translate" [disabled]="isAtStart || playerNotReady" (click)="addMarker()">
           <ion-icon name="add-outline"></ion-icon>
           <span class="key">a</span>
-          <span class="help">{{'C_HELP_ADD_MARKER' | translate }}</span>
+          <span class="help">{{ 'C_HELP_ADD_MARKER' | translate }}</span>
         </ion-button>
       </div>
     </div>
