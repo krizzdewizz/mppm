@@ -1,0 +1,54 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""/>
+    </ion-buttons>
+    <ion-title>{{ (trackIndex < 0 ? 'C_ADD_TRACK' : 'C_EDIT_TRACK') | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scroll-y="false">
+  <div class="add-track-content">
+    <ion-input #nameInput [value]="track.name" (ionChange)="track.name = $event.detail.value" clear-input
+               [placeholder]="'C_TITLE' | translate"></ion-input>
+
+    <!-- <ion-button fill="clear" class="search" (click)="ytSearch()">
+      <ion-icon name="search-outline"></ion-icon>
+    </ion-button> -->
+
+    <ion-input class="url-input" [value]="track.videoUrl" (ionChange)="track.videoUrl = $event.detail.value"
+               clear-input
+               [placeholder]="'C_YT_OR_VIDEO_ID' | translate"></ion-input>
+
+    <!-- <ion-button fill="clear" class="download {track.videoUrl ? '' : 'hidden'}"
+                on:click={ytDownload}>
+      <ion-icon name="download-outline"></ion-icon>
+    </ion-button> -->
+
+    <ion-progress-bar class="progress" [class.hidden]="!downloading" type="indeterminate"></ion-progress-bar>
+
+    <!--    <pre>-->
+    <!--      xxx:{track.name}:xxx-->
+    <!--      xxx:{track.videoUrl}:xxx-->
+    <!--    </pre>-->
+    <!--    {@debug track}-->
+  </div>
+
+  <div class="bottom">
+    <ion-button fill="outline" class="secondary-button" (click)="fileInput.click()">
+      {{'C_LOCAL_AUDIO_FILE' | translate}}
+    </ion-button>
+
+    <input #fileInput type="file" hidden accept="audio/*" (change)="onFileChanged($event)">
+    <ion-button class="add" [disabled]="!track.name || (!track.videoUrl && !file)" (click)="addTrack()">
+      {{ (trackIndex < 0 ? 'C_ADD' : 'C_SAVE') | translate}}</ion-button>
+
+    @if (trackIndex >= 0) {
+      <ion-button fill="outline" class="secondary-button" (click)="deleteTrack()">
+        {{'C_DELETE' | translate}}
+      </ion-button>
+    }
+  </div>
+
+</ion-content>

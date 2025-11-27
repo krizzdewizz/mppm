@@ -1,0 +1,77 @@
+@import "@ionic/angular/css/core.css";
+
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+@import '@ionic/angular/css/palettes/dark.system.css';
+
+:root {
+  --ion-background-color: white;
+
+  --ion-color-primary: #8d1b6e;
+}
+
+@media (prefers-color-scheme: dark) {
+  ion-fab {
+    color: #ffffff;
+  }
+
+  :root {
+    --ion-color-primary-contrast: #ffffff;
+
+    --ion-background-color: #222428;
+    --ion-toolbar-background: transparent !important;
+    --ion-item-background: transparent !important;
+
+    --ion-text-color: #ffffff;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  ion-app {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.marker-detail {
+  --height: 100%;
+}
+
+ion-searchbar {
+  padding: 11px !important;
+}
+
+ion-spinner {
+  color: #8d1b6e;
+  width: 100%;
+  height: 40px;
+}
+
+.secondary-button {
+  --background: transparent;
+  --border-width: 0;
+  --box-shadow: none;
+  text-transform: none;
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+.searchbar-input-container {
+  --box-shadow: none;
+}
+
+.searchbar-input-container.sc-ion-searchbar-md {
+  border-bottom: 1px solid grey;
+}
+
+.header-md {
+  box-shadow: none !important;
+}
+
+[hidden] {
+  visibility: hidden;
+}

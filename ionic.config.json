@@ -1,0 +1,7 @@
+{
+  "name": "mppm-ng",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

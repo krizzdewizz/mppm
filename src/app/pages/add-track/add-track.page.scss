@@ -1,0 +1,29 @@
+.hidden {
+  visibility: hidden;
+}
+
+.download {
+  color: var(--ion-color-primary);
+}
+
+.add-track-content {
+  padding: 16px;
+  display: grid;
+  // grid-template-columns: 85% auto;
+
+  .search {
+    color: #aaaaaa;
+  }
+}
+
+.add {
+  width: 100%;
+}
+
+.bottom {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 40px;
+}

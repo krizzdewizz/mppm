@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'C_MARKER' | translate }} {{mrkr(marker?.value)}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="marker-detail-content">
+    <ion-input [value]="title" (ionChange)="title = $event.detail.value" #titleInput
+               clear-input [placeholder]="'C_DESCRIPTION' | translate"></ion-input>
+    <ion-button class="save" (click)="save()">{{ 'C_SAVE' | translate }}</ion-button>
+
+    <ion-button fill="outline" class="secondary-button" (click)="deleteMarker()">
+      {{ 'C_DELETE' | translate }}
+    </ion-button>
+  </div>
+
+</ion-content>

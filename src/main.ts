@@ -1,37 +1,26 @@
-import App from './App.svelte';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules, withHashLocation } from '@angular/router';
+import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 
-import { setupIonicSvelte } from '$ionic/svelte';
-import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
-import { tracksService } from '$services/tracks.service';
-import { App as IonicApp } from '@capacitor/app';
-import { ytWakeup } from '$services/yt-download';
+import { routes } from './app/app.routes';
+import { AppComponent } from './app/app.component';
+import { provideHttpClient } from '@angular/common/http';
+import {provideTranslateService, TranslateService} from '@ngx-translate/core';
+import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
 
-function initI18n() {
-  register('en', () => import('./i18n/en.json'));
-  register('de', () => import('./i18n/de.json'));
-
-  init({
-    fallbackLocale: 'en',
-    initialLocale: getLocaleFromNavigator()
-  });
-}
-
-initI18n();
-
-setupIonicSvelte();
-
-IonicApp.addListener('backButton', () => history.back());
-
-tracksService.loadTracks();
-
-ytWakeup();
-
-// if the page was pre rendered, we want to remove the pre rendered html
-document.querySelector('[data-routify]')?.remove();
-const app = new App({
-  target: document.getElementById('app')
+bootstrapApplication(AppComponent, {
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideIonicAngular(),
+    provideRouter(routes, withPreloading(PreloadAllModules), withHashLocation()),
+    provideHttpClient(),
+    provideTranslateService({
+      lang: 'en',
+      fallbackLang: 'en',
+      loader: provideTranslateHttpLoader({
+        prefix: '/assets/i18n/',
+        suffix: '.json'
+      })
+    }),
+  ],
 });
-
-export default app;
-
-

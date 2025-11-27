@@ -1,57 +1,45 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compileOnSave": false,
   "compilerOptions": {
-    "types": [],
-    "target": "esnext",
-    "useDefineForClassFields": true,
-    "module": "esnext",
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "strict": false,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "es2020",
+    "lib": ["es2018", "dom"],
+    "skipLibCheck": true,
+    "useDefineForClassFields": false,
     "resolveJsonModule": true,
-    "baseUrl": ".",
-    /**
-     * Typecheck JS in `.svelte` and `.js` files by default.
-     * Disable checkJs if you'd like to use dynamic types in JS.
-     * Note that setting allowJs false does not prevent the use
-     * of JS in `.svelte` files.
-     */
-    "allowJs": true,
-    "checkJs": true,
-    "isolatedModules": true,
     "paths": {
-      "$lib/*": [
-        "src/lib/*"
+      "@model/*": ["src/app/model/*"],
+      "@services/*": [
+        "src/app/services/*"
       ],
-      "$static/*": [
-        "src/static/*"
+      "@components/*": [
+        "src/app/components/*"
       ],
-      "$routes/*": [
-        "src/routes/*"
-      ],
-      "$components/*": [
-        "src/components/*"
-      ],
-      "$directives/*": [
-        "src/directives/*"
-      ],
-      "$services/*": [
-        "src/services/*"
-      ],
-      "$model/*": [
-        "src/model/*"
-      ],
-      "$ionic/*": [
-        "src/lib/ionic/*"
+      "@directives/*": [
+        "src/app/directives/*"
       ]
-    }
+    },
+    "allowJs": true,
   },
-  "include": [
-    "src/**/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.js",
-    "src/**/*.svelte"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
 }

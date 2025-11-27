@@ -1,10 +1,9 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.o3tt3rli.mppm',
-  appName: 'Musician\'s Practicing Player',
-  webDir: 'dist/client',
-  bundledWebRuntime: false
+  appId: 'io.ionic.starter',
+  appName: 'mppm-ng',
+  webDir: 'www'
 };
 
 export default config;

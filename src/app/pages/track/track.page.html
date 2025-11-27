@@ -1,0 +1,148 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" />
+    </ion-buttons>
+    <ion-title>{{ track?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [class.settings-visible]="showSettings"
+        (click)="showSettings = !showSettings; $event.cancelBubble = true">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+      <ion-button [class.help-visible]="showHelp" (click)="showHelp = !showHelp">
+        <ion-icon name="help-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #contentElement mppmKey [class.show-help]="showHelp" scroll-y="false">
+  <div class="main-content">
+    <div class="tools">
+      <ion-button [disabled]="playerNotReady" class="play-pause player-btn" (click)="playerService.playPause()">
+        @if (isPlaying) {
+        <ion-icon name="pause-outline"></ion-icon>
+        } @else {
+        <ion-icon name="play-outline"></ion-icon>
+        }
+        <span class="key">space</span>
+        <span class="help">{{'C_HELP_PLAY_PAUSE' | translate}}</span>
+        <div class="play-position">{{playPosition}}</div>
+      </ion-button>
+      <ion-button [disabled]="playerNotReady" class="seek-to-start player-btn" (click)="playerService.seekToStart()">
+        <ion-icon name="play-skip-back-outline"></ion-icon>
+        <span class="key">return</span>
+        <span class="help">{{ 'C_HELP_TO_START' | translate }}</span>
+      </ion-button>
+      <ion-button [disabled]="playerNotReady" class="backward player-btn" mppmLongClick
+        (mppmClick)="trackService.backwardForward(true)" (mppmClickLong)="trackService.backwardForwardLong(true)"
+        (mppmClickEnd)="trackService.longClickEnd()">
+        <ion-icon name="play-back-outline"></ion-icon>
+        <span class="key">left</span>
+        <span class="help">{{'C_HELP_BACKWARD' | translate}}</span>
+      </ion-button>
+      <ion-button [disabled]="playerNotReady" class="forward player-btn" mppmLongClick
+        (mppmClick)="trackService.backwardForward(false)" (mppmClickLong)="trackService.backwardForwardLong(false)"
+        (mppmClickEnd)="trackService.longClickEnd()">
+        <ion-icon name="play-forward-outline"></ion-icon>
+        <span class="key">right</span>
+        <span class="help">{{ 'C_HELP_FORWARD' | translate }}</span>
+      </ion-button>
+      <div class="marker-tools">
+        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady"
+          (click)="trackService.seekToActiveMarker(track, activeMarker)">
+          <ion-icon name="play-skip-back-outline"></ion-icon>
+          <span class="key">backspace</span>
+          <span class="help">{{ 'C_HELP_TO_MARKER' | translate }}</span>
+        </ion-button>
+        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" (click)="mvMarker(true)">
+          <ion-icon name="play-back-outline"></ion-icon>
+          <span class="key">up</span>
+          <span class="help">{{ 'C_HELP_PLAY_MARKER_BACKWARD' | translate }}</span>
+        </ion-button>
+        <ion-button class="marker-play-btn" [disabled]="noActiveMarker || playerNotReady" (click)="mvMarker(false)">
+          <ion-icon name="play-forward-outline"></ion-icon>
+          <span class="key">down</span>
+          <span class="help">{{ 'C_HELP_MARKER_FORWARD' | translate }}</span>
+        </ion-button>
+        <ion-button class="loop-marker marker-play-btn" [class.loop-active]="loopMarker"
+          [disabled]="noActiveMarker || playerNotReady" (click)="loopMarker = !loopMarker">
+          <ion-icon name="infinite-outline"></ion-icon>
+          <span class="key">L</span>
+          <span class="help">{{ 'C_LOOP' | translate }}</span>
+        </ion-button>
+        <ion-button [disabled]="isAtStart || playerNotReady" (click)="addMarker()">
+          <ion-icon name="add-outline"></ion-icon>
+          <span class="key">a</span>
+          <span class="help">{{'C_HELP_ADD_MARKER' | translate }}</span>
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="markers">
+      @for (marker of track?.markers; track marker.value; let markerIndex = $index) {
+      <ion-button class="marker-btn" mppmLongClick (mppmClickLong)="openMarker(marker)"
+        (mppmClick)="setActiveMarker(markerIndex)" [class.marker-active]="activeMarker === markerIndex"
+        [class.loop-active]="loopMarker && (activeMarker === markerIndex || activeMarker + 1 === markerIndex)">
+        {{mrkr(marker.value)}}
+        <span class="marker-title">{{marker.title || ''}}</span>
+        <span class="key">{{markerIndex + 1}}</span>
+      </ion-button>
+      }
+    </div>
+
+    <div class="spacer"></div>
+
+    @if (playerNotReady) {
+    <ion-spinner name="dots"></ion-spinner>
+    }
+
+    <div [hidden]="!track?.isFile" class="audio-player">
+      <span>{{mrkr(playPositionNumber || 0)}} / {{mrkr(duration)}}</span>
+      <mppm-audio [position]="playPositionNumber" (seek)="this.trackService.seekTo($event)"
+        [duration]="duration"></mppm-audio>
+    </div>
+
+    <div class="yt-player" [hidden]="track?.isFile || actionSheetVisible">
+      <div #ytPlayer></div>
+    </div>
+
+    <div [hidden]="!showSettings" class="settings-backdrop" (click)="showSettings = false"></div>
+
+    <div [hidden]="!showSettings" class="settings">
+      <div class="card">
+        <label (click)="trackService.resetVolume(track)">{{ 'C_VOLUME' | translate }}</label>
+        <span>{{ nmbr(volume) }}</span>
+        <ion-button (click)="trackService.onVolume(track, volume, true)">
+          <ion-icon name="remove-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="trackService.onVolume(track, volume, false)">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+      @if (track?.isFile) {
+      <div class="card">
+        <label (click)="trackService.resetPitch(track)">Pitch</label>
+        <span>{{nmbr(pitch)}}</span>
+        <ion-button (click)="trackService.onPitch(track, pitch, true)">
+          <ion-icon name="remove-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="trackService.onPitch(track, pitch, false)">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="card">
+        <label (click)="trackService.resetTempo(track)">Tempo</label>
+        <span>{{nmbr(tempo)}}</span>
+        <ion-button (click)="trackService.onTempo(track, tempo, true)">
+          <ion-icon name="remove-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="trackService.onTempo(track, tempo, false)">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-button>
+      </div>
+      }
+    </div>
+  </div>
+</ion-content>

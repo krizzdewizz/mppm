@@ -1,0 +1,33 @@
+<ion-header [hidden]="noTracks">
+  <ion-toolbar>
+    <ion-searchbar placeholder="{{'C_SEARCH' | translate}}" (ionInput)="onFilterChange($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (noTracks) {
+    <h3 class="title">Musician's Practicing Player</h3>
+  } @else {
+    <ion-list>
+      @for (track of tracks; track $index) {
+        <ion-item mppmLongClick (mppmClick)="openTrack(track)" (mppmClickLong)="editTrack(track.index, { openSearch: false })">
+          <ion-label [class.file-lost]="track.fileLost">{{track.name}}</ion-label>
+        </ion-item>
+      }
+    </ion-list>
+  }
+
+  <ion-fab [class.with-tracks]="!noTracks" [vertical]="noTracks ? 'center' : 'bottom'"
+           [horizontal]="noTracks ? 'center' : 'end'" slot="fixed">
+    <div class="menu-container" (click)="presentMenu()">
+      <ion-icon name="menu-outline"></ion-icon>
+    </div>
+    <ion-fab-button [class.pulse]="noTracks" (click)="addTrack()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+    @if (noTracks) {
+      <div class="add-track-info pulse">{{'C_ADD_TRACK' | translate}}</div>
+    }
+  </ion-fab>
+
+</ion-content>
