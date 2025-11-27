@@ -1,12 +1,12 @@
 import { firstValueFrom } from 'rxjs';
 import { _, InterpolationParameters, TranslateService, Translation } from '@ngx-translate/core';
 
-export function b64EncodeUnicode(str: string) {
+export const b64EncodeUnicode = (str: string): string => {
   return btoa(
     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(Number(`0x${p1}`))));
 }
 
-export function downloadFile(file: string, content: string) {
+export const downloadFile = (file: string, content: string): void => {
   const a = document.createElement('a');
   a.href = `data:application/json;base64,${b64EncodeUnicode(content)}`;
   a.download = file;
@@ -14,14 +14,14 @@ export function downloadFile(file: string, content: string) {
   a.click();
 }
 
-export function downloadUrl(url: string) {
+export const downloadUrl = (url: string): void => {
   const a = document.createElement('a');
   a.href = url;
   a.click();
 }
 
 // https://github.com/alnorris/file-dialog/blob/master/index.js
-export function fileDialog({ multiple, accept }: { multiple?: boolean, accept?: string; } = {}): Promise<FileList> {
+export const fileDialog = ({ multiple, accept }: { multiple?: boolean, accept?: string; } = {}): Promise<FileList> => {
   const input = document.createElement('input');
   if (multiple) {
     input.setAttribute('multiple', '');
@@ -38,11 +38,11 @@ export function fileDialog({ multiple, accept }: { multiple?: boolean, accept?: 
   });
 }
 
-export function sleep(millis: number): Promise<void> {
+export const sleep = (millis: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, millis));
 }
 
-export function filterLower<T extends { name: string; }>(all: T[], filter: string): T[] {
+export const filterLower = <T extends { name: string; }>(all: T[], filter: string): T[] => {
   const filterLower = filter.toLowerCase().trim();
   if (filterLower) {
     return all.filter(it => it.name.toLowerCase().includes(filterLower));
@@ -50,7 +50,7 @@ export function filterLower<T extends { name: string; }>(all: T[], filter: strin
   return all;
 }
 
-export async function waitFor<T>(get: () => T, maxMillis = 3000): Promise<T> {
+export const waitFor = <T>(get: () => T, maxMillis = 3000): Promise<T> => {
   return new Promise(resolve => {
     const t1 = Date.now();
 
@@ -71,7 +71,7 @@ export async function waitFor<T>(get: () => T, maxMillis = 3000): Promise<T> {
   });
 }
 
-export function setIndices<T extends { index: number; }>(list: T[]): T[] {
+export const setIndices = <T extends { index: number; }>(list: T[]): T[] => {
   return list.map((it, index) => ({
     ...it,
     index

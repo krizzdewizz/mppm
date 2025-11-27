@@ -1,4 +1,4 @@
-export function mrkr(secs: number): string {
+export const mrkr = (secs: number): string => {
   if (secs === undefined || secs === null) {
     return secs as any;
   }
