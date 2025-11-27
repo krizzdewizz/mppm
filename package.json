@@ -1,8 +1,14 @@
 {
-  "name": "mppm-ng",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "name": "mppm",
+  "version": "2.1.0",
+  "author": "Christian Oetterli",
+  "homepage": "https://o3tt3rli.com/mppm",
+  "description": "Musician's Practicing Player",
+  "productName": "Musician's Practicing Player",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krizzdewizz/mppm"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -63,6 +69,5 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.0"
-  },
-  "description": "An Ionic project"
+  }
 }
