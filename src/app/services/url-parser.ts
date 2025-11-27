@@ -1,6 +1,12 @@
 
 export const getIdFromURL = (urlString: string): string => {
-  const url = URL.parse(urlString)
+  let url: URL;
+  
+  try {
+    url = new URL(urlString);
+  } catch {
+    // ignore
+  }
 
   if (!url) {
     return urlString;
