@@ -1,4 +1,18 @@
 # mppm
-Musician's Practicing Player Web App for Mobiles.
+Musician's Practicing Player for desktop and mobiles.
+
+## Features
+
+- Play YouTube videos and local audio files
+- Add bookmarks to positions in the track
+- Change pitch and tempo of the track
+- Keyboard shortcuts to nagivate within the track
+
+## Screenshots
+
+![Screenshot](docs/screenshot2.png)
+
+![Screenshot](docs/screenshot1.png)
 
 Try it out <a href="https://o3tt3rli.com/mppm" target="_blank">here</a>.
+
