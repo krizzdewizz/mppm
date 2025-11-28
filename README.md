@@ -10,9 +10,9 @@ Musician's Practicing Player for desktop and mobiles.
 
 ## Screenshots
 
-<img src="docs/screenshot2.png" width="200">
+<img src="docs/screenshot2.png" width="300">
 
-<img src="docs/screenshot1.png" width="200">s
+<img src="docs/screenshot1.png" width="300">
 
 Try it out <a href="https://o3tt3rli.com/mppm" target="_blank">here</a>.
 
