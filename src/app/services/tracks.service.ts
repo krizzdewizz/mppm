@@ -2,7 +2,7 @@ import type { Track } from '@model/model';
 import { StoreService } from './store.service';
 import { SoundtouchPlayer } from '@services/soundtouch/soundtouch-player';
 import { fileExists } from '@services/electron';
-import { fileDialog, xlate } from '@services/util';
+import { fileDialog, setIndices, xlate } from '@services/util';
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -41,7 +41,7 @@ export class TracksService {
   }
 
   deleteTrack(index: number) {
-    this.tracks = this.tracks.filter((it, i) => i !== index);
+    this.tracks = setIndices(this.tracks.filter((it, i) => i !== index));
     this.saveTracks();
   }
 
